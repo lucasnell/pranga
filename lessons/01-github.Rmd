@@ -1,0 +1,148 @@
+---
+title: "Day 1 - Intro and GitHub"
+author: "Lucas A. Nell"
+date: "2023-11-13"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+
+## Introduction
+
+
+## Prior to class
+
+* Install git
+
+* Get GitHub account
+
+* Sign up for GitHub Education Pack (use QR below)
+
+* Install GitKraken
+
+<img src="img/link-github-education.svg" alt="drawing" width="200"/>
+<https://education.github.com/pack>
+
+**Any issues?**
+
+
+
+## git and GitHub - Why?
+
+<div class="columns-2">
+<!-- <img src="http://phdcomics.com/comics/archive/phd101212s.gif" height="480"> -->
+<img src="http://www.phdcomics.com/comics/archive/phd052810s.gif" height="300">
+<!-- <img src="http://www.phdcomics.com/comics/archive/phd031214s.gif" height="200"> -->
+
+- Collaborating with a team
+- Sharing code with strangers
+- Tracing and avoiding horrible mistakes
+
+<!-- </div> -->
+
+
+
+## git and GitHub - Overview
+
+<img src="img/github-overview.svg" height="500">
+
+
+## GitHub forking and cloning
+
+
+<img src="https://happygitwithr.com/img/fork-and-clone.jpeg" height="500">
+
+
+
+## Using markdown to create documentation in GitHub
+
+
+````{verbatim, echo = TRUE}
+# Title of Repository
+
+by Lucas A. Nell
+
+## Heading 1
+
+### Heading 2
+
+```r
+x <- runif(10)
+```
+
+```python
+import random as rnd
+x = [rnd.random() for i in range(10)]
+```
+
+````
+
+<https://www.markdownguide.org/basic-syntax/>
+
+
+## This render as
+
+````{embed, echo = TRUE}
+# Title of Repository
+
+by Lucas A. Nell
+
+## Heading 1
+
+### Heading 2
+
+```r
+x <- runif(10)
+```
+
+```python
+import random as rnd
+x = [rnd.random() for i in range(10)]
+```
+
+````
+
+
+
+## What to include on GitHub
+
+
+
+## Let's try it!
+
+
+Fork template repo and clone to local machine:
+   <https://github.com/lucasnell/pranga-template>
+
+5. Go over Markdown format:
+   <https://www.markdownguide.org/basic-syntax/>
+6. Students edit `README.md` in their new repo, commit, and push to GitHub
+
+
+
+## Conclusion
+
+
+
+
+More info:
+
+<img src="img/link-happygitwithr.svg" alt="drawing" width="200"/>
+
+<https://happygitwithr.com/>
+
+
+7. If doing group projects have some time to make groups and chat about project, 
+   and then talk to us about the projects.
+8. If doing solitary projects - 15 minutes to hash out their ideas and talk 
+   to us about their ideas.

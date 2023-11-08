@@ -1,7 +1,8 @@
 
 # Rough lesson plans
 
-## Day 1
+
+## Week 1, Day 1
 
 Before class:
 
@@ -13,30 +14,32 @@ Before class:
 
 During class:
 
-1. Set aside some time in the beginning to finish and troubleshoot above.
-2. Go over git and GitHub basics: what are they, why useful, etc.
+1. Go over course outline and syllabus
+2. Set aside some time in the beginning to finish and troubleshoot above.
+3. Go over git and GitHub basics: what are they, why useful, etc.
   * take from the beginning of
     <https://www.lucasnell.com/resources/github-rstudio/>
   * another good source of info: <https://happygitwithr.com/>
-3. Fork template repo and clone to local machine:
+4. Fork template repo and clone to local machine:
    <https://github.com/lucasnell/pranga-template>
-4. Go over Markdown format:
+5. Go over Markdown format:
    <https://www.markdownguide.org/basic-syntax/>
-5. Students edit `README.md` in their new repo, commit, and push to GitHub
-6. If doing group projects have some time to make groups and chat about project, 
+6. Students edit `README.md` in their new repo, commit, and push to GitHub
+7. If doing group projects have some time to make groups and chat about project, 
    and then talk to us about the projects.
-7. If doing solitary projects - 15 minutes to hash out their ideas and talk 
+8. If doing solitary projects - 15 minutes to hash out their ideas and talk 
    to us about their ideas.
 
 
 
 
-## Day 2
+## Week 1, Day 2
 
 Before class:
 
 * Figure out project idea
-* Add other files (not necessarily data) to your repo
+* Finish editing top-level README
+* Add files (not data unless you have permission!) to your repo
 
 
 During class:
@@ -49,22 +52,75 @@ During class:
    [BES Guide to File Management](https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Data-Management-2019.pdf),
    and `gameofclones-data`
 
-3. R basics
-
-
-4. Intro to functional coding
-<https://www.lucasnell.com/resources/functionalr/>
-<https://adv-r.hadley.nz/fp.html>
-
-
-
-## Day 3
-
-1. More advanced functional coding, sourcing files, creating packages (just a 
-   bit on this last one)
-
 3. Creating a workflow
 
 [BES Guide to Reproducible Code](https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Reproducible-Code-2019.pdf)
 
 Figure 1 from <https://arxiv.org/pdf/2210.02593.pdf>
+
+
+For next class: Plan your workflow for your project
+
+
+
+
+## Week 1, Day 3
+
+
+From last week: Review workflows as a class
+
+
+1. Data management
+   * METADATA
+   * <https://guides.lib.unc.edu/metadata/best-practices>
+   * <https://datamanagement.hms.harvard.edu/collect-analyze/documentation-metadata>
+   * <https://datadryad.org/stash/best_practices>
+
+How can we organize your data better?
+
+Create data plans in class and go over them
+
+
+
+
+## Week 2, Day 1
+
+1. R basics
+
+2. Intro to functional coding
+<https://www.lucasnell.com/resources/functionalr/>,
+<https://adv-r.hadley.nz/fp.html>
+
+
+
+## Week 2, Day 2
+
+
+1. Sourcing files
+
+2. Creating packages
+
+How can this be incorporated into your workflow?
+
+
+
+## Week 2, Day 3
+
+Data visualization
+
+
+
+## Week 3, Day 1
+
+Creating reports using Rmarkdown
+
+
+## Week 3, Day 2
+
+Maybe leave open to help them create their reports?
+
+
+
+## Week 3, Day 3
+
+Presentations of projects from GitHub 
