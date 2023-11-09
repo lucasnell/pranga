@@ -1,5 +1,8 @@
 ---
 title: "BIOS 258"
+output:
+  html_document:
+    theme: united
 ---
 
 BIOS 258: Reproducibility through effective coding and data management

@@ -1,16 +1,29 @@
 name: "pranga: scientific reproducibility and transparency"
 output_dir: "docs"
-exclude: ["lessons"]
 navbar:
   title: "BIOS 258"
   left:
     - text: "Home"
+      icon: fa-home
       href: index.html
     - text: "Syllabus"
+      icon: fa-book-open
       href: syllabus.html
-    - text: "Class 1"
-      href: 01-github.html
-output:
-  html_document:
-    theme: cosmo
-    highlight: textmate
+    - text: "Lessons"
+      icon: fa-person-chalkboard
+      menu:
+        - text: "Week 1"
+        - text: "Class 1"
+          href: 01-github.html
+        - text: "Class 2"
+        - text: "Class 3"
+        - text: "---------"
+        - text: "Week 2"
+        - text: "Class 1"
+        - text: "Class 2"
+        - text: "Class 3"
+        - text: "---------"
+        - text: "Week 3"
+        - text: "Class 1"
+        - text: "Class 2"
+        - text: "Class 3"

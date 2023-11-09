@@ -2,25 +2,52 @@
 title: "Day 1 - Intro and GitHub"
 author: "Lucas A. Nell and Maggie L. Warren"
 date: "2023-11-13"
+output:
+  ioslides_presentation:
+    widescreen: true
+    smaller: false
 editor_options: 
   chunk_output_type: console
 ---
-
-<!-- This allows for manual column breaks: -->
-<style>
-.forceBreak { -webkit-column-break-after: always; break-after: column; }
-</style>
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-<!---
-- get GitHub usernames and their project names from everyone
-- each person gets another whose repo's README they have to provide questions, comments on
-- they provide comments/questions in the README itself (on develop branch), then do pull request
--->
+
+
+<!-- This allows for manual column breaks: -->
+<style>
+.forceBreak { -webkit-column-break-after: always; break-after: column; }
+</style>
+<!-- Footnote -->
+<style>
+div.footnotes {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 10px;
+  width: 80%;
+  font-size: 0.6em;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+  $('slide:not(.backdrop):not(.title-slide)').append('<div class=\"footnotes\">');
+
+  $('footnote').each(function(index) {
+    var text  = $(this).html();
+    var fnNum = (index+1).toString();
+    $(this).html(fnNum.sup());
+
+    var footnote   = fnNum + '. ' + text + '<br/>';
+    var oldContent = $(this).parents('slide').children('div.footnotes').html();
+    var newContent = oldContent + footnote;
+    $(this).parents('slide').children('div.footnotes').html(newContent);
+  });
+});
+</script>
+
 
 
 
@@ -79,6 +106,74 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 <img src="https://i0.wp.com/build5nines.com/wp-content/uploads/2018/01/GitHub-Flow.png" width="800">
+
+
+
+
+
+## What to include on git and GitHub<footnote>List from <https://doi.org/10.7287/peerj.preprints.3159v2></footnote> {.smaller}
+
+<div class="columns-2">
+
+### Definitely include:
+
+* Scripts (e.g., `*.R`, `*.py`)
+* Raw data (especially as plain text)
+* Configuration files (e.g., `*.Rproj`, `.gitignore`)
+
+
+### Don't include:
+
+* Files that only serve a temporary purpose
+
+
+### Maybe:
+
+* Intermediate data (e.g., `*.csv`, `*.rds`)
+* Figures (e.g., `*.pdf`, `*.png`)
+* Reports (e.g., `*.html`, *.pdf`)
+
+
+<p class="forceBreak"></p>
+
+**Avoid files by listing them in `.gitignore`**
+
+
+### Questions to ask:
+
+#### Is it useful?
+
+<p></p>
+
+#### Will it cause problems with git or GitHub?
+
+<p></p>
+
+> Generally avoid binary files (including `*.docx`, `*xlsx`, and `*.pdf`), 
+> especially those that are large and change a lot!
+
+
+
+</div>
+
+
+
+
+
+## Let's try forking and cloning
+
+### Fork `empty` repo:
+
+* Go to `https://github.com/lucasnell/empty`
+* Fork
+* Change repo name to something descriptive about your project
+* Add short description
+
+### Clone your newly forked repo:
+
+* Open GitKraken, click `File` > `Clone Repo`
+* In URL field, type `https://github.com/<user>/<repo>.git`
+* `Clone the repo!`
 
 
 
@@ -159,47 +254,60 @@ code chunk
 
 <https://www.markdownguide.org/basic-syntax/>
 
+### Create a `README.md` file:
+
+* Project title
+* Author(s)
+* Project description
+* How to use and install
+
 
 </div>
 
 
 
-## What to include on GitHub
+## Let's try committing and pushing
+
+### Make changes, commit, and push:
+
+* Edit `README.md` to properly describe your project
+* In GitKraken, stage changes
+* Add commit message and commit them locally
+* Push changes to GitHub
+
+### Verify changes:
+
+* Check out your new repo at `https://github.com/<user>/<repo>`
 
 
-Avoid files by listing them in `.gitignore`
 
 
 
 
+## For next class
 
-
-
-## Let's try it!
-
-
-Fork template repo and clone to local machine:
-   <https://github.com/lucasnell/pranga-template>
-
-5. Go over Markdown format:
-   <https://www.markdownguide.org/basic-syntax/>
-6. Students edit `README.md` in their new repo, commit, and push to GitHub
+* Email us your GitHub usernames and project repo names
+* You'll each be paired with another student whose `README.md` file you'll critique
+* In GitKraken, clone (do not fork) their repo
+* Right-click top-most commit and hit `Create branch`; name it `develop`
+* Add questions/comments as text in the `README.md` file inside square brackets (`[]`)
+* Commit, push changes
+* Go to their repo on GitHub, then hit `Pull requests`, then `New pull request`
+* Choose your newly created `develop` branch on the left and `main` on the right
+* Describe your changes and finish the pull request
 
 
 
 ## Conclusion
 
+Let's take some time to hash out your ideas
 
 
-
-More info:
+More info on git and GitHub:
 
 <img src="img/link-happygitwithr.svg" alt="drawing" width="200"/>
 
 <https://happygitwithr.com/>
 
 
-7. If doing group projects have some time to make groups and chat about project, 
-   and then talk to us about the projects.
-8. If doing solitary projects - 15 minutes to hash out their ideas and talk 
-   to us about their ideas.
+

@@ -1,5 +1,8 @@
 ---
 title: "Syllabus"
+output:
+  html_document:
+    theme: united
 ---
 
 Syllabus will go here.
