@@ -1,0 +1,9 @@
+---
+title: "BIOS 258"
+---
+
+BIOS 258: Reproducibility through effective coding and data management
+
+This repo is named for *Parambassis ranga* - a transparent fish with a high reproductive rate
+
+
