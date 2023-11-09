@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>lessons</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BIOS 258</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="syllabus.html">Syllabus</a>
+</li>
+<li>
+  <a href="01-github.html">Class 1</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="rough-lesson-plans" class="section level1">
+<h1>Rough lesson plans</h1>
+<div id="week-1-day-1" class="section level2">
+<h2>Week 1, Day 1</h2>
+<p>Before class:</p>
+<ul>
+<li>Install git</li>
+<li>Get GitHub account</li>
+<li>Sign up for <a href="https://education.github.com/pack">GitHub
+Education Pack</a></li>
+<li>Install GitKraken</li>
+</ul>
+<p>During class:</p>
+<ol style="list-style-type: decimal">
+<li>Go over course outline and syllabus</li>
+<li>Set aside some time in the beginning to finish and troubleshoot
+above.</li>
+<li>Go over git and GitHub basics: what are they, why useful, etc.</li>
+</ol>
+<ul>
+<li>take from the beginning of <a
+href="https://www.lucasnell.com/resources/github-rstudio/"
+class="uri">https://www.lucasnell.com/resources/github-rstudio/</a></li>
+<li>another good source of info: <a href="https://happygitwithr.com/"
+class="uri">https://happygitwithr.com/</a></li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Fork template repo and clone to local machine: <a
+href="https://github.com/lucasnell/pranga-template"
+class="uri">https://github.com/lucasnell/pranga-template</a></li>
+<li>Go over Markdown format: <a
+href="https://www.markdownguide.org/basic-syntax/"
+class="uri">https://www.markdownguide.org/basic-syntax/</a></li>
+<li>Students edit <code>README.md</code> in their new repo, commit, and
+push to GitHub</li>
+<li>If doing solitary projects - 15 minutes to hash out their ideas and
+talk to us about their ideas.</li>
+</ol>
+</div>
+<div id="week-1-day-2" class="section level2">
+<h2>Week 1, Day 2</h2>
+<p>Before class:</p>
+<ul>
+<li>Figure out project idea</li>
+<li>Finish editing top-level README</li>
+<li>Add files (not data unless you have permission!) to your repo</li>
+</ul>
+<p>During class:</p>
+<ol style="list-style-type: decimal">
+<li><p>Take time in the beginning to chat about projects.</p></li>
+<li><p>File management base on fig. 2 from Griffon’s paper: <a
+href="https://arxiv.org/pdf/2210.02593.pdf"
+class="uri">https://arxiv.org/pdf/2210.02593.pdf</a>, <a
+href="https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Reproducible-Code-2019.pdf">BES
+Guide to Reproducible Code</a>, <a
+href="https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Data-Management-2019.pdf">BES
+Guide to File Management</a>, and
+<code>gameofclones-data</code></p></li>
+<li><p>Creating a workflow</p></li>
+</ol>
+<p><a
+href="https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Reproducible-Code-2019.pdf">BES
+Guide to Reproducible Code</a></p>
+<p>Figure 1 from <a href="https://arxiv.org/pdf/2210.02593.pdf"
+class="uri">https://arxiv.org/pdf/2210.02593.pdf</a></p>
+<p>For next class: Plan your workflow for your project</p>
+</div>
+<div id="week-1-day-3" class="section level2">
+<h2>Week 1, Day 3</h2>
+<p>From last week: Review workflows as a class</p>
+<ol style="list-style-type: decimal">
+<li>Data management
+<ul>
+<li>METADATA</li>
+<li><a href="https://guides.lib.unc.edu/metadata/best-practices"
+class="uri">https://guides.lib.unc.edu/metadata/best-practices</a></li>
+<li><a
+href="https://datamanagement.hms.harvard.edu/collect-analyze/documentation-metadata"
+class="uri">https://datamanagement.hms.harvard.edu/collect-analyze/documentation-metadata</a></li>
+<li><a href="https://datadryad.org/stash/best_practices"
+class="uri">https://datadryad.org/stash/best_practices</a></li>
+</ul></li>
+</ol>
+<p>How can we organize your data better?</p>
+<p>Create data plans in class and go over them</p>
+</div>
+<div id="week-2-day-1" class="section level2">
+<h2>Week 2, Day 1</h2>
+<ol style="list-style-type: decimal">
+<li><p>R basics</p></li>
+<li><p>Intro to functional coding <a
+href="https://www.lucasnell.com/resources/functionalr/"
+class="uri">https://www.lucasnell.com/resources/functionalr/</a>, <a
+href="https://adv-r.hadley.nz/fp.html"
+class="uri">https://adv-r.hadley.nz/fp.html</a></p></li>
+</ol>
+</div>
+<div id="week-2-day-2" class="section level2">
+<h2>Week 2, Day 2</h2>
+<ol style="list-style-type: decimal">
+<li><p>Sourcing files</p></li>
+<li><p>Creating packages</p></li>
+</ol>
+<p>How can this be incorporated into your workflow?</p>
+</div>
+<div id="week-2-day-3" class="section level2">
+<h2>Week 2, Day 3</h2>
+<p>Data visualization</p>
+</div>
+<div id="week-3-day-1" class="section level2">
+<h2>Week 3, Day 1</h2>
+<p>Creating reports using Rmarkdown</p>
+</div>
+<div id="week-3-day-2" class="section level2">
+<h2>Week 3, Day 2</h2>
+<p>Maybe leave open to help them create their reports?</p>
+</div>
+<div id="week-3-day-3" class="section level2">
+<h2>Week 3, Day 3</h2>
+<p>Presentations of projects from GitHub</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
