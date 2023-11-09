@@ -17,9 +17,7 @@ editor_options:
 </style>
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 <!---
 - get GitHub usernames and their project names from everyone
@@ -93,7 +91,8 @@ knitr::opts_chunk$set(echo = TRUE)
 <div class="columns-2">
 
 
-````{verbatim}
+
+````default
 # Title of Repository
 
 by Lucas A. Nell
@@ -129,7 +128,8 @@ x = [rnd.random() for i in range(10)]
 <div class="columns-2">
 
 
-````{verbatim}
+
+````default
 
 # Heading
 ## Sub-heading
@@ -156,7 +156,6 @@ code chunk
 ![images](/path/to/images/image.png)
 [links](https://google.com)
 <https://google.com>
-
 
 ````
 

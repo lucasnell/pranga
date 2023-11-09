@@ -25,9 +25,7 @@ During class:
 5. Go over Markdown format:
    <https://www.markdownguide.org/basic-syntax/>
 6. Students edit `README.md` in their new repo, commit, and push to GitHub
-7. If doing group projects have some time to make groups and chat about project, 
-   and then talk to us about the projects.
-8. If doing solitary projects - 15 minutes to hash out their ideas and talk 
+7. If doing solitary projects - 15 minutes to hash out their ideas and talk 
    to us about their ideas.
 
 
