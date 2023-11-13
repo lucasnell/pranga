@@ -14,14 +14,60 @@ h2 {
 }
 </style>
 
+<!-- For responsive images: -->
+<style>
+.responsive {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
+</style>
+
+
+<!-- For columns and column breaks: -->
+<style>
+.column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.forceBreak { -webkit-column-break-after: always; break-after: column; }
+</style>
+
 
 ## Reproducibility through effective coding and data management
 
-
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Parambassis_ranga_2.jpg/640px-Parambassis_ranga_2.jpg" height="400" style="float:left; margin-right:20px;" >
-
 <br>
 
-This repo is named for *Parambassis ranga* - a transparent fish with a high reproductive rate
+<div class="row">
 
+<div class="column">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Parambassis_ranga_2.jpg/640px-Parambassis_ranga_2.jpg" class="responsive" >
+<!-- style="float:left; margin-right:20px;" -->
+</div>
+
+<div class="column">
+
+This repo and website is named for *Parambassis ranga* — a transparent fish 
+with a high reproductive rate.
+
+We thought *P. ranga* would be a great mascot because the course we're teaching
+is aimed at helping students improve their scientific reproducibility 
+and transparency.
+
+For course details, check out the [`Syllabus`](syllabus.html), and 
+as our presentations are generated for class, we'll have them under the
+`Classes` tab above.
+These presentations are for reference after each class and won't necessarily
+be finalized until the associated class starts.
+Note also that class presentations don't always behave when viewed on 
+mobile devices.
+
+</div>
+</div>

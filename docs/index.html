@@ -310,13 +310,53 @@ h2 {
    font-size: 28px;
 }
 </style>
+<!-- For responsive images: -->
+<style>
+.responsive {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
+</style>
+<!-- For columns and column breaks: -->
+<style>
+.column {
+  float: left;
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.forceBreak { -webkit-column-break-after: always; break-after: column; }
+</style>
 <div id="reproducibility-through-effective-coding-and-data-management"
 class="section level2">
 <h2>Reproducibility through effective coding and data management</h2>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Parambassis_ranga_2.jpg/640px-Parambassis_ranga_2.jpg" height="400" style="float:left; margin-right:20px;" ></p>
 <p><br></p>
-<p>This repo is named for <em>Parambassis ranga</em> - a transparent
-fish with a high reproductive rate</p>
+<div class="row">
+<div class="column">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Parambassis_ranga_2.jpg/640px-Parambassis_ranga_2.jpg" class="responsive" >
+<!-- style="float:left; margin-right:20px;" --></p>
+</div>
+<div class="column">
+<p>This repo and website is named for <em>Parambassis ranga</em> — a
+transparent fish with a high reproductive rate.</p>
+<p>We thought <em>P. ranga</em> would be a great mascot because the
+course we’re teaching is aimed at helping students improve their
+scientific reproducibility and transparency.</p>
+<p>For course details, check out the <a
+href="syllabus.html"><code>Syllabus</code></a>, and as our presentations
+are generated for class, we’ll have them under the <code>Classes</code>
+tab above. These presentations are for reference after each class and
+won’t necessarily be finalized until the associated class starts. Note
+also that class presentations don’t always behave when viewed on mobile
+devices.</p>
+</div>
+</div>
 </div>
 
 
