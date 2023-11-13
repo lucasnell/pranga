@@ -16,12 +16,6 @@ This course introduces science reproducibility through effective coding and data
 <img src="maggie.jpg" alt="Magdalena L. Warren" width="150", height="150"/>
 </p>
 
-<style>
-td, th {
-   border: none!important;
-}
-</style>
-
 | Lucas A. Nell | Magdalena L. Warren |
 | ------------- | ------------- |
 | lnell@stanford.edu | mlwarren@stanford.edu |
