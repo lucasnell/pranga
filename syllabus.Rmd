@@ -8,20 +8,25 @@ output:
 # Bios 258: Reproducibility through effective coding and data management
 
 ## Course Information
-### Course Hours: *1:30 PM - 3:20 PM MWF*
-### Course Meeting Location: *Alway Building, Room M108*
-### Credit Hours: *3 hours*
-### Prerequisites: *None*
+
+* Course Hours: **1:30 PM - 3:20 PM MWF**
+* Course Meeting Location: **Alway Building, Room M108**
+* Credit Hours: **3 hours**
+* Prerequisites: **None**
 
 ## Course Description
 This course introduces science reproducibility through effective coding and data management. Students will complete team projects on a statistical or simulation topic of their choosing and publish them on GitHub. Instructors will guide students in learning to use R, R markdown,and GitHub to collaborate with peers as they advance their project. By the end of the course, students will learn effective coding practices, data management, version control and collaboration, and sharing analytical results. The course aims to provide students with the tools and knowledge to help make their research reproducible and easily accessible. No prerequisites required.
 
 ## Course Instructors
 
+
+
 <p align="left">
-<img src="Lucas-Nell.jpg" alt="Lucas A. Nell" width="150", height="150"/> 
-<img src="maggie.jpg" alt="Magdalena L. Warren" width="150", height="150"/>
+<img src="img/Lucas-Nell.jpg" alt="Lucas A. Nell" height="150"/>
+<img src="img/maggie.jpg" alt="Magdalena L. Warren" height="150"/>
 </p>
+
+
 
 | Lucas A. Nell | Magdalena L. Warren |
 | ------------- | ------------- |
@@ -30,7 +35,7 @@ This course introduces science reproducibility through effective coding and data
 
 Biology Department / 216 Bass Biology Building
 
-Emails will be responded to within 24 to 48 hours.
+Emails will be responded to within 24 to 48 business hours.
 
 
 ## Learning Objectives
