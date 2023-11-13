@@ -5,8 +5,21 @@ output:
     theme: united
 ---
 
-BIOS 258: Reproducibility through effective coding and data management
+<style type="text/css">
+body, td {
+   font-size: 20px;
+}
+h2 {
+   font-size: 28px;
+}
+</style>
+
+
+## Reproducibility through effective coding and data management
+
+
 
 This repo is named for *Parambassis ranga* - a transparent fish with a high reproductive rate
 
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Parambassis_ranga_2.jpg/640px-Parambassis_ranga_2.jpg" height="400" >
 

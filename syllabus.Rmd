@@ -5,7 +5,15 @@ output:
     theme: united
 ---
 
-# Bios 258: Reproducibility through effective coding and data management
+<style>
+td, th {
+   border: none!important;
+}
+</style>
+
+
+BIOS 258: Reproducibility through effective coding and data management
+----------
 
 ## Course Information
 
@@ -21,15 +29,10 @@ This course introduces science reproducibility through effective coding and data
 
 
 
-<p align="left">
-<img src="img/Lucas-Nell.jpg" alt="Lucas A. Nell" height="150"/>
-<img src="img/maggie.jpg" alt="Magdalena L. Warren" height="150"/>
-</p>
-
-
 
 | Lucas A. Nell | Magdalena L. Warren |
-| ------------- | ------------- |
+|:-----|:--------------|
+| <img style="float: center;" src="img/Lucas-Nell.jpg" height="150"> | <img style="float: center;" src="img/maggie.jpg" height="150"> |
 | lnell@stanford.edu | mlwarren@stanford.edu |
 
 
@@ -57,7 +60,7 @@ At the completion of this course, students will be able to:
 Course materials and resources will be linked at our class website: https://lucasnell.github.io/pranga/. Here's an overview of what we will be covering over our three weeks together.
 
 | Date    | Topic   |
-| ------- | ------- |
+|:--------|:--------|
 | 11/13/2023 | Git and Github | 
 | 11/15/2023 | File management and workflow | 
 | 11/17/2023 | Data management | 
