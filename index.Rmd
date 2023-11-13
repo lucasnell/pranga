@@ -19,7 +19,9 @@ h2 {
 
 
 
-This repo is named for *Parambassis ranga* - a transparent fish with a high reproductive rate
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Parambassis_ranga_2.jpg/640px-Parambassis_ranga_2.jpg" height="400" style="float:left; margin-right:20px;" >
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Parambassis_ranga_2.jpg/640px-Parambassis_ranga_2.jpg" height="400" >
+<br>
+
+This repo is named for *Parambassis ranga* - a transparent fish with a high reproductive rate
 

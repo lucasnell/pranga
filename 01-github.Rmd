@@ -86,6 +86,15 @@ $(document).ready(function() {
 - Sharing code with strangers
 - Tracing and avoiding horrible mistakes
 
+<br>
+<br>
+<br>
+
+<font size="6"> 
+**We'll be using it throughout the class**
+</font>
+
+
 </div>
 
 
@@ -136,22 +145,29 @@ $(document).ready(function() {
 
 <p class="forceBreak"></p>
 
-**Avoid files by listing them in `.gitignore`**
+<span style="font-size:20pt; line-height:1.25">
+Avoid files by listing them in `.gitignore` (by full file name 
+or by extension (e.g., \*.pdf)
+</span>
+
 
 
 ### Questions to ask:
 
-#### Is it useful?
+<p></p>
+
+#### 1. Is it useful?
 
 <p></p>
 
-#### Will it cause problems with git or GitHub?
+#### 2. Will it cause problems with git or GitHub?
 
-<p></p>
+<br>
 
-> Generally avoid binary files (including `*.docx`, `*xlsx`, and `*.pdf`), 
-> especially those that are large and change a lot!
-
+<span style="font-size:18pt; line-height:1.25">
+Generally avoid binary files (including `*.docx`, `*xlsx`, and `*.pdf`), 
+especially those that are large and change a lot!
+</span>
 
 
 </div>
@@ -214,7 +230,7 @@ x = [rnd.random() for i in range(10)]
 
 
 
-## Basics of markdown {.smaller}
+## Let's create a `README.md` file {.smaller}
 
 <div class="columns-2">
 
@@ -223,7 +239,6 @@ x = [rnd.random() for i in range(10)]
 
 # Heading
 ## Sub-heading
-### Sub-sub-heading
 ...
 
 1. Numbered list
@@ -234,7 +249,7 @@ x = [rnd.random() for i in range(10)]
 * ...
 
 **bold text**
-**italic text**
+*italic text*
 `inline code`
 
 ```language
@@ -250,11 +265,11 @@ code chunk
 
 ````
 
+
 <p class="forceBreak"></p>
 
-<https://www.markdownguide.org/basic-syntax/>
 
-### Create a `README.md` file:
+### Details to include:
 
 * Project title
 * Author(s)
@@ -262,7 +277,21 @@ code chunk
 * How to use and install
 
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+### More markdown syntax:
+
+<https://www.markdownguide.org/basic-syntax/>
+
+
 </div>
+
 
 
 
@@ -284,10 +313,15 @@ code chunk
 
 
 
-## For next class
+## Providing feedback on `README.md` files
 
-* Email us your GitHub usernames and project repo names
-* You'll each be paired with another student whose `README.md` file you'll critique
+* Exchange your GitHub usernames and project repo names with someone else
+* You'll each provide feedback on the other's `README.md` file
+* Go to their repo on GitHub, look over their `README.md` and write down questions and constructive feedback
+* On GitHub, click "Issues", then "New issue"
+* Put in your feedback with a title
+
+<!---
 * In GitKraken, clone (do not fork) their repo
 * Right-click top-most commit and hit `Create branch`; name it `develop`
 * Add questions/comments as text in the `README.md` file inside square brackets (`[]`)
@@ -295,12 +329,12 @@ code chunk
 * Go to their repo on GitHub, then hit `Pull requests`, then `New pull request`
 * Choose your newly created `develop` branch on the left and `main` on the right
 * Describe your changes and finish the pull request
-
+-->
 
 
 ## Conclusion
 
-Let's take some time to hash out your ideas
+Let's take some time to hash out your project ideas
 
 
 More info on git and GitHub:
