@@ -315,7 +315,7 @@ $(document).ready(function() {
 <p><span style="font-size:18pt; line-height:1.25">
  Generally avoid binary files (including <code>*.docx</code>, <code>*xlsx</code>, and <code>*.pdf</code>), especially those that are large and change a lot! </span></p></div>
 
-</article></slide><slide class=""><hgroup><h2>Let’s try forking and cloning</h2></hgroup><article  id="lets-try-forking-and-cloning">
+</article></slide><slide class=""><hgroup><h2>Let’s try forking and cloning</h2></hgroup><article  id="lets-try-forking-and-cloning" class="smaller">
 
 <h3>Fork <code>empty</code> repo:</h3>
 
@@ -333,6 +333,11 @@ $(document).ready(function() {
 <li>In URL field, type <code>https://github.com/&lt;user&gt;/&lt;repo&gt;.git</code></li>
 <li><code>Clone the repo!</code></li>
 </ul>
+
+<p>Alternatively, from the command line:</p>
+
+<pre class = 'prettyprint lang-bash'>cd PARENT-DIRECTORY
+git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git</pre>
 
 </article></slide><slide class=""><hgroup><h2>Using markdown to create documentation</h2></hgroup><article  id="using-markdown-to-create-documentation" class="smaller">
 
@@ -423,11 +428,14 @@ code chunk
 <li>Push changes to GitHub</li>
 </ul>
 
-<h3>Verify changes:</h3>
+<p>Alternatively:</p>
 
-<ul>
-<li>Check out your new repo at <code>https://github.com/&lt;user&gt;/&lt;repo&gt;</code></li>
-</ul>
+<pre class = 'prettyprint lang-bash'>cd DIRECTORY
+git add README.md
+git commit -m &quot;Added README.md...&quot;
+git push</pre>
+
+<h3>Verify changes at <code>https://github.com/&lt;user&gt;/&lt;repo&gt;</code></h3>
 
 </article></slide><slide class=""><hgroup><h2>Providing feedback on <code>README.md</code> files</h2></hgroup><article  id="providing-feedback-on-readme.md-files">
 

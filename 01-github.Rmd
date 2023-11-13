@@ -176,7 +176,7 @@ especially those that are large and change a lot!
 
 
 
-## Let's try forking and cloning
+## Let's try forking and cloning {.smaller}
 
 ### Fork `empty` repo:
 
@@ -191,6 +191,11 @@ especially those that are large and change a lot!
 * In URL field, type `https://github.com/<user>/<repo>.git`
 * `Clone the repo!`
 
+Alternatively, from the command line:
+```bash
+cd PARENT-DIRECTORY
+git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
+```
 
 
 ## Using markdown to create documentation {.smaller}
@@ -304,9 +309,16 @@ code chunk
 * Add commit message and commit them locally
 * Push changes to GitHub
 
-### Verify changes:
+Alternatively:
 
-* Check out your new repo at `https://github.com/<user>/<repo>`
+```bash
+cd DIRECTORY
+git add README.md
+git commit -m "Added README.md..."
+git push
+```
+
+### Verify changes at `https://github.com/<user>/<repo>`
 
 
 
