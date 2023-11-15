@@ -1,5 +1,6 @@
 name: "pranga: scientific reproducibility and transparency"
 output_dir: "docs"
+exclude: [".DS_Store"]
 navbar:
   title: "BIOS 258"
   left:
