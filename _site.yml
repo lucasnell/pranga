@@ -16,6 +16,7 @@ navbar:
         - text: "Class 1"
           href: 01-github.html
         - text: "Class 2"
+          href: 02-file_management_and_workflow.html
         - text: "Class 3"
         - text: "---------"
         - text: "Week 2"
