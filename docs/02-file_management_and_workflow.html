@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Day 2 - File Management and Workflow</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2023-11-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Day 2 - File Management and Workflow',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Maggie L. Warren and Lucas A. Nell' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="site_libs/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    summary {
+      display: list-item;
+    }
+
+    details > summary > p:only-child {
+      display: inline;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
+
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+            
+  </style>
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2023-11-15</p>
+          </hgroup>
+  </slide>
+
+<!-- This allows for manual column breaks: -->
+
+<style>
+.forceBreak { -webkit-column-break-after: always; break-after: column; }
+</style>
+
+<!-- This allows for smaller figure captions: -->
+
+<style>
+.figure_caption {
+font-size: 40%;
+text-align: center;
+}
+</style>
+
+<!-- This allows for top aligned images: -->
+
+<style>
+figure{
+    display: inline-block;
+    vertical-align: baseline;
+    margin:0;
+}
+</style>
+
+<!-- Footnote -->
+
+<style>
+div.footnotes {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 10px;
+  width: 80%;
+  font-size: 0.6em;
+}
+</style>
+
+<style>
+.footnote-number {
+  font-size: 16px; 
+}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('slide:not(.backdrop):not(.title-slide)').append('<div class=\"footnotes\">');
+
+  $('footnote').each(function(index) {
+    var text  = $(this).html();
+    var fnNum = (index+1).toString();
+    $(this).html('<sup class="footnote-number">  ' + fnNum + '</sup>');
+
+    var footnote   = fnNum + '. ' + text + '<br/>';
+    var oldContent = $(this).parents('slide').children('div.footnotes').html();
+    var newContent = oldContent + footnote;
+    $(this).parents('slide').children('div.footnotes').html(newContent);
+  });
+});
+</script>
+
+<slide class=""><hgroup><h2>Review: Overview of git and GitHub</h2></hgroup><article  id="review-overview-of-git-and-github" class="centered">
+
+<p><img src="img/github-overview.svg" height="500"></p>
+
+</article></slide><slide class=""><hgroup><h2>Forking and cloning</h2></hgroup><article  id="forking-and-cloning" class="centered">
+
+<p><img src="https://happygitwithr.com/img/fork-and-clone.jpeg" height="500"></p>
+
+</article></slide><slide class=""><hgroup><h2>Branching, merging, and GitHub Flow</h2></hgroup><article  id="branching-merging-and-github-flow" class="centered">
+
+<p><img src="https://i0.wp.com/build5nines.com/wp-content/uploads/2018/01/GitHub-Flow.png" width="800"></p>
+
+</article></slide><slide class=""><hgroup><h2>Activity: Providing feedback on <code>README.md</code> files</h2></hgroup><article  id="activity-providing-feedback-on-readme.md-files">
+
+<ul class = 'build'>
+<li>Exchange your GitHub usernames and project repo names with someone else</li>
+<li>You’ll each provide feedback on the other’s <code>README.md</code> file</li>
+<li>Go to their repo on GitHub, look over their <code>README.md</code> and write down questions and constructive feedback</li>
+<li>On GitHub, click &ldquo;Issues&rdquo;, then &ldquo;New issue&rdquo;</li>
+<li>Put in your feedback with a title</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Assigned readings jigsaw</h2></hgroup><article  id="assigned-readings-jigsaw">
+
+<ul class = 'build'>
+<li>05 mins: With expert group discuss main points of your reading</li>
+<li>15 mins: As the expert, share what you learned</li>
+<li>15 mins: Class discussion</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Break time!</h2></hgroup><article  id="break-time" class="centered">
+
+<p><img src="img/break_time.jpeg" height="500"></p>
+
+</article></slide><slide class=""><hgroup><h2>Why do file management and workflow matter?</h2></hgroup><article  id="why-do-file-management-and-workflow-matter">
+
+<ul class = 'build'>
+<li><p>If you quit today and dropped your project, could a someone pick take over your project and work with your data without talking to you?</p></li>
+<li><p>Do you think you could come back to this project in 15 years and reproduce your analysis?</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>What makes up a &ldquo;good analysis workflow&rdquo;</h2></hgroup><article  id="what-makes-up-a-good-analysis-workflow">
+
+<ul class = 'build'>
+<li>Analysis starts from copies of the raw data
+
+<ul class = 'build'>
+<li>Deny your permission to write on the raw data files</li>
+</ul></li>
+<li>Do all data wrangling with scripts - no point-and-click</li>
+<li>Separate your scripts into what they do
+
+<ul class = 'build'>
+<li>Loading, cleaning, and wrangling the data</li>
+<li>Data analysis</li>
+<li>Create visualizations, tables, statistics</li>
+</ul></li>
+<li>Intermediary files are kept seperate from the raw data</li>
+<li>WET vs. DRY
+
+<ul class = 'build'>
+<li>&ldquo;Write everything twice&rdquo;</li>
+<li>&ldquo;Don’t repeat yourself&rdquo;</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Draft your workflow</h2></hgroup><article  id="draft-your-workflow" class="centered">
+
+<img src="img/griffin_fig1_Modern-scientific-process.jpg" height="400">
+
+<figcaption class="figure_caption">
+
+Image from <a href='https://arxiv.org/pdf/2210.02593.pdf' title=''>https://arxiv.org/pdf/2210.02593.pdf</a>
+
+</figcaption>
+
+</article></slide><slide class=""><hgroup><h2>Draft your workflow</h2></hgroup><article  id="draft-your-workflow-1">
+
+<ul class = 'build'>
+<li>This is a living structure</li>
+<li>How is the data generated?
+
+<ul class = 'build'>
+<li>Primary vs. secondary data</li>
+<li>Type of data
+
+<ul class = 'build'>
+<li><code>*.xlsx</code>, <code>*.csv</code>, <code>*.fastq</code>, <code>*.gff</code>, <code>*.tsv</code>, images, etc.</li>
+</ul></li>
+<li>Track materials, instrument(s), software, etc.</li>
+</ul></li>
+<li>How big is the data? Where will it be stored?</li>
+<li>How is the raw data manipulated?</li>
+<li>Where is the protocol and any changes made documented?</li>
+<li>How will the data be presented/visualized?</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Answer these questions for your project</h2></hgroup><article  id="answer-these-questions-for-your-project" class="centered">
+
+<img src="img/griffin_fig2A.jpg" width="450">
+
+<figcaption class="figure_caption">
+
+Image from <a href='https://arxiv.org/pdf/2210.02593.pdf' title=''>https://arxiv.org/pdf/2210.02593.pdf</a>
+
+</figcaption>
+
+</article></slide><slide class=""><hgroup><h2>Example of a basic structure for a project directory<footnote>List from <a href='https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Reproducible-Code-2019.pdf' title=''>https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Reproducible-Code-2019.pdf</a></footnote></h2></hgroup><article  id="example-of-a-basic-structure-for-a-project-directorylist-from-httpswww.britishecologicalsociety.orgwp-contentuploads201906bes-guide-reproducible-code-2019.pdf" class="smaller">
+
+<ul class = 'build'>
+<li><p>The <strong>data</strong> folder contains all input data (and metadat) used in the analysis.</p></li>
+<li><p>The <strong>doc</strong> folder contains the manuscript</p></li>
+<li><p>The <strong>figs</strong> directory contains figures generated by the analysis</p></li>
+<li><p>The <strong>output</strong> folder contains any type of intermediate or output files (e.g. simulation outputs, models, processed datasets, etc.). You might separate this and also have a <strong>cleaned-data</strong> folder.</p></li>
+<li><p>The R directory contains R scripts with function definitions.</p></li>
+<li><p>The <strong>reports</strong> folder contains RMarkdown files that document the analysis or report on results.</p></li>
+<li><p>The scripts that actually do things are stored in the root directory, but if your project has many scripts, you might want to organise them in a directory of their own.</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Example project directory</h2></hgroup><article  id="example-project-directory" class="centered">
+
+<figure>
+
+<img src="img/griffin_fig2-B_file-organization.jpg" alt="missing" width="35%" align="left"> <img src="img/directory_structure-BES.jpg" alt="missing" width="40%" align="right">
+
+</figure>
+
+<figcaption class="figure_caption">
+
+Images from <a href='https://arxiv.org/pdf/2210.02593.pdf' title=''>https://arxiv.org/pdf/2210.02593.pdf</a> and <a href='https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Reproducible-Code-2019.pdf' title=''>https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Reproducible-Code-2019.pdf</a>
+
+</figcaption>
+
+</article></slide><slide class=""><hgroup><h2>Folder structure</h2></hgroup><article  id="folder-structure">
+
+<ul class = 'build'>
+<li><p>Have a consistent naming scheme</p></li>
+<li><p>Arrange folders in hierarchical structure</p></li>
+<li><p>Have a README file that describes the project as well as a basic tour of your folder structure</p></li>
+<li><p>Include README files in subfolders for files that aren’t described or commented easily</p>
+
+<ul class = 'build'>
+<li>Include description of file contents, content source(s), relevant papers, etc.</li>
+</ul></li>
+<li><p>Include an appropriate license</p></li>
+<li><p>Seperate in progress and completed work</p></li>
+<li><p>Keep track of ideas, notes, discussions and next steps with GitHub Issues</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>File naming<footnote>List from <a href='https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Reproducible-Code-2019.pdf' title=''>https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Reproducible-Code-2019.pdf</a></footnote></h2></hgroup><article  id="file-naminglist-from-httpswww.britishecologicalsociety.orgwp-contentuploads201906bes-guide-reproducible-code-2019.pdf" class="smaller">
+
+<ul class = 'build'>
+<li><strong>Machine readable</strong>
+
+<ul class = 'build'>
+<li>Avoid spaces, punctuation, accented characters and case sensitivity.
+
+<ul class = 'build'>
+<li>More specifically, stick to <strong>&ldquo;a-zA-Z0- 9_&rdquo;</strong> characters.</li>
+</ul></li>
+<li>Use periods/full stops for file type only (i.e. <code>*.csv</code>).</li>
+<li>Use delimiters to separate and make important metadata information (for example parameter values used in an analysis) retrievable further down the line. Use delimiters consistently, i.e. “_” to separate metadata to be extracted as strings later on and &ldquo;-&rdquo; instead of spaces or vice versa but do not mix. This makes names easy to match and search programmatically and easy to analyse.</li>
+</ul></li>
+<li><strong>Human readable</strong>
+
+<ul class = 'build'>
+<li>Ensure file names also include informative description of file contents.</li>
+<li>Adapt the concept of the slug to link outputs with the scripts in which they are generated.</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>File naming<footnote>List from <a href='https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Reproducible-Code-2019.pdf' title=''>https://www.britishecologicalsociety.org/wp-content/uploads/2019/06/BES-Guide-Reproducible-Code-2019.pdf</a></footnote></h2></hgroup><article  id="file-naminglist-from-httpswww.britishecologicalsociety.orgwp-contentuploads201906bes-guide-reproducible-code-2019.pdf-1" class="smaller">
+
+<ul class = 'build'>
+<li><strong>Easy to order by default </strong>
+
+<ul class = 'build'>
+<li>Starting file names with a number helps.</li>
+<li>For data, this might be a date allowing chronological ordering.</li>
+<li>Make sure to use ISO 8601 format <strong>(YYYY-MM-DD)</strong> to avoid confusion between differing local dating conventions.</li>
+<li>For scripts, you could use a number indicating the position of the scripts in the analysis sequence e.g. 01_download-data.R</li>
+</ul></li>
+<li><strong>Make sure you left-pad single digit numbers with a zero or you will end up with this:</strong>
+
+<ul class = 'build'>
+<li>10_final-figs-for-publication.R</li>
+<li>1_data-cleaning.R</li>
+<li>2_fit-model.R</li>
+</ul></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Using Griffin Chure’s workflow template</h2></hgroup><article  id="using-griffin-chures-workflow-template">
+
+<ul class = 'build'>
+<li><p>Navigate to <a href='https://github.com/gchure/reproducible_research' title=''>https://github.com/gchure/reproducible_research</a></p></li>
+<li><p>Click on green &ldquo;Use this template&rdquo;</p></li>
+<li><p>Select &ldquo;Create a new repository&rdquo;</p></li>
+<li><p>Clone the new repository to your local machine</p></li>
+<li><p>Copy and paste the folders into your project repository</p></li>
+<li><p>Play with the structure, folders, naming to fit your own project</p></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Conclusion</h2></hgroup><article  id="conclusion">
+
+<ul class = 'build'>
+<li><p>File management incorporates naming and structure</p></li>
+<li><p>Workflow helps you organize your projects and make it easier for others to reproduce your work</p></li>
+</ul></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+    if (window.Shiny) {
+      // Initialize slides when this script appears on the page, since it
+      // indicates that the <slides> markup has been fully loaded.
+      window.loadDeck();
+    }
+  })();
+</script>
+
+</body>
+</html>
