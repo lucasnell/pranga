@@ -63,7 +63,7 @@ and transparency.
 
 For course details, check out the [`Syllabus`](syllabus.html), and 
 as our presentations are generated for class, we'll have them under the
-`Classes` tab above.
+`Lessons` tab above.
 These presentations are for reference after each class and won't necessarily
 be finalized until the associated class starts.
 Note also that class presentations don't always behave when viewed on 
