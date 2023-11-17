@@ -19,6 +19,7 @@ navbar:
         - text: "Class 2"
           href: 02-file_management_and_workflow.html
         - text: "Class 3"
+          href: 03-metadata.html
         - text: "---------"
         - text: "Week 2"
         - text: "Class 1"
