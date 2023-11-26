@@ -22,12 +22,12 @@ navbar:
           href: 03-metadata.html
         - text: "---------"
         - text: "Week 2"
-        - text: "Class 1"
+        - text: "Class 4"
           href: 04-R-functional.html
-        - text: "Class 2"
-        - text: "Class 3"
+        - text: "Class 5"
+        - text: "Class 6"
         - text: "---------"
         - text: "Week 3"
-        - text: "Class 1"
-        - text: "Class 2"
-        - text: "Class 3"
+        - text: "Class 7"
+        - text: "Class 8"
+        - text: "Class 9"

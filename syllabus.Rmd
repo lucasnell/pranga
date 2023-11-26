@@ -9,6 +9,10 @@ output:
 td, th {
    border: none!important;
 }
+.instructorText {
+  display: inline-block;
+  vertical-align: middle;
+}
 </style>
 
 
@@ -25,18 +29,34 @@ BIOS 258: Reproducibility through effective coding and data management
 ## Course Description
 This course introduces science reproducibility through effective coding and data management. Students will complete team projects on a statistical or simulation topic of their choosing and publish them on GitHub. Instructors will guide students in learning to use R, R markdown,and GitHub to collaborate with peers as they advance their project. By the end of the course, students will learn effective coding practices, data management, version control and collaboration, and sharing analytical results. The course aims to provide students with the tools and knowledge to help make their research reproducible and easily accessible. No prerequisites required.
 
+
 ## Course Instructors
 
+<div class="container">
+  <img src="img/Lucas-Nell.jpg" width="150" border="1px">
+  <p class="instructorText">
+    Lucas A. Nell<br>
+    Biology Department<br>
+    216 Bass Biology Building<br>
+    <span id="obf_lan"><script type="text/javascript">document.getElementById("obf_lan").innerHTML="<n uers=\"znvygb:yaryy@fgnasbeq.rqh?fhowrpg=OVBF 258\" gnetrg=\"_oynax\">rznvy</n>".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);});document.body.appendChild(eo);</script>
+<noscript><span style="unicode-bidi:bidi-override;direction:rtl;">ude.drofnats@llenl</span></noscript></span>
+  </p>
+</div>
 
+<br>
 
+<div class="container">
+  <img src="img/maggie.jpg" width="150" border="1px">
+  <p class="instructorText">
+    Magdalena L. Warren<br>
+    Biology Department<br>
+    216 Bass Biology Building<br>
+    <span id="obf_mlw"><script type="text/javascript">document.getElementById("obf_mlw").innerHTML="<n uers=\"znvygb:zyjneera@fgnasbeq.rqh?fhowrpg=OVBF 258\" gnetrg=\"_oynax\">rznvy</n>".replace(/[a-zA-Z]/g,function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);});document.body.appendChild(eo);</script>
+<noscript><span style="unicode-bidi:bidi-override;direction:rtl;">ude.drofnats@nerrawlm</span></noscript></span>
+  </p>
+</div>
 
-| Lucas A. Nell | Magdalena L. Warren |
-|:-----|:--------------|
-| <img style="float: center;" src="img/Lucas-Nell.jpg" height="150"> | <img style="float: center;" src="img/maggie.jpg" height="150"> |
-| lnell@stanford.edu | mlwarren@stanford.edu |
-
-
-Biology Department / 216 Bass Biology Building
+<br>
 
 Emails will be responded to within 24 to 48 business hours.
 
