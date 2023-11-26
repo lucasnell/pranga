@@ -1,0 +1,37 @@
+---
+title: "Day 4 - R basics and functional coding"
+author: "Lucas A. Nell and Maggie L. Warren"
+date: "2023-11-27"
+output:
+  ioslides_presentation:
+    incremental: false
+    widescreen: true
+    smaller: false
+    css: classes-styles.css
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r source-html, results="asis", echo = FALSE}
+# Sourcing file that includes extra html for our class lectures:
+cat(readLines("class-preamble.html"), sep = "\n")
+```
+
+
+
+## Practice making tidy data
+
+* In your group discuss what is wrong with the format of your data
+* Create a repository for your metadata project
+* Clone the repository to your local git
+* Delegate jobs to group members:
+    * write readme describing the data
+    * reshape the data into a tidy form and change to csv
+    * read the data into R making sure it is in the right form
+* Each role will push changes to a new branch of the main branch
+* As a group pull the changes merging the branches to the main branch
+    
+
