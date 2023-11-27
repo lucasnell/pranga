@@ -1,0 +1,40 @@
+
+
+/* This allows for manual column breaks: */
+.forceBreak { -webkit-column-break-after: always; break-after: column; }
+
+/* Footnotes: */
+div.footnotes {
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 10px;
+  width: 80%;
+  font-size: 0.6em;
+}
+.footnote-number {
+  font-size: 16px;
+}
+
+/* This allows for smaller figure captions: */
+.figure_caption {
+font-size: 40%;
+text-align: center;
+}
+
+/* This allows for top aligned images: */
+figure{
+    display: inline-block;
+    vertical-align: baseline;
+    margin:0;
+}
+
+/* To make just code smaller */
+.smallcode pre {
+    font-size: 16px;
+    line-height: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+

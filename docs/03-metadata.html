@@ -100,6 +100,7 @@ slide:not(.current) .plotly.html-widget{
             
   </style>
 
+  <link rel="stylesheet" href="classes-styles.css" type="text/css" />
 
 </head>
 
@@ -117,47 +118,7 @@ slide:not(.current) .plotly.html-widget{
           </hgroup>
   </slide>
 
-<!-- This allows for manual column breaks: -->
-
-<style>
-    .forceBreak { -webkit-column-break-after: always; break-after: column; }
-
-<!-- This allows for smaller figure captions: -->
-
-    .figure_caption {
-        font-size: 40%;
-        text-align: center;
-    }
-
-<!-- This allows for top aligned images: -->
-
-    figure{
-        display: inline-block;
-        vertical-align: baseline;
-        margin:0;
-    }
-
-<!-- Footnote -->
-
-    div.footnotes {
-        position: absolute;
-        bottom: 0;
-        margin-bottom: 10px;
-        width: 80%;
-        font-size: 0.6em;
-    }
-
-    .footnote-number {
-        font-size: 16px; 
-    }
-    
-    .center {
-    display: block; 
-    margin-left: auto; 
-    margin-right: auto; 
-    width: 50%; 
-    }
-</style>
+<!-- This is required for footnotes: -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
@@ -177,6 +138,17 @@ $(document).ready(function() {
   });
 });
 </script>
+
+<!-- Centering specific to this lesson -->
+
+<style>
+    .center {
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto; 
+    width: 50%; 
+    }
+</style>
 
 <slide class=""><hgroup><h2>What is metadata?</h2></hgroup><article  id="what-is-metadata">
 
