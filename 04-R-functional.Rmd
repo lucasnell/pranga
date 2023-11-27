@@ -542,7 +542,15 @@ clean_df(file_names)
 
 
 
+## More information
 
+* T Mailund (2017). *Functional Programming in R*. <https://doi.org/10.1007/978-1-4842-2746-6>
+* Iteration (in *R for Data Science*) <https://r4ds.hadley.nz/iteration.html>
+* Functional Programming (in *Advanced R*) <https://adv-r.hadley.nz/fp.html>
+* Functionals (in *Advanced R*) <https://adv-r.hadley.nz/functionals.html>
+
+
+### Online, this lecture also contains info on `map` alternatives
 
 
 <!---
@@ -553,7 +561,7 @@ clean_df(file_names)
 -->
 
 
-# Appendices
+# `map` alternatives
 
 
 
@@ -601,120 +609,4 @@ tibble(t = 1:100, x = x) |>
 
 
 
-## Example #2: Fitting lots of models
 
-
-```{r n_slides_ex2, echo = FALSE}
-n_slides <- 5
-```
-
-How can we simplify this?
-
-```{r lotsa_models_bad, eval = FALSE}
-lm(mpg ~ cyl + disp + hp + drat, mtcars)
-lm(mpg ~ cyl + disp + hp + wt, mtcars)
-lm(mpg ~ cyl + disp + drat + wt, mtcars)
-lm(mpg ~ cyl + hp + drat + wt, mtcars)
-lm(mpg ~ disp + hp + drat + wt, mtcars)
-lm(disp ~ mpg + cyl + hp + drat, mtcars)
-lm(disp ~ mpg + cyl + hp + wt, mtcars)
-lm(disp ~ mpg + cyl + drat + wt, mtcars)
-lm(disp ~ mpg + hp + drat + wt, mtcars)
-lm(disp ~ cyl + hp + drat + wt, mtcars)
-lm(hp ~ mpg + cyl + disp + drat, mtcars)
-lm(hp ~ mpg + cyl + disp + wt, mtcars)
-lm(hp ~ mpg + cyl + drat + wt, mtcars)
-lm(hp ~ mpg + disp + drat + wt, mtcars)
-lm(hp ~ cyl + disp + drat + wt, mtcars)
-```
-
-
-## Fitting lots of models (2/`r n_slides`)
-
-
-### Problems:
-
-1. Create all necessary formulas for each of the multiple Ys.
-2. Fit `lm` based on each of the created formulas.
-
-### Input information:
-
-1. Vector of Y variables (`Ys`)
-2. Vector of possible X variables (`Xs`)
-3. Number of X variables to include in each model (`n_Xs`)
-
-```{r lotsa_models_info}
-Ys <- c("mpg", "disp", "hp")
-Xs <- c("mpg", "cyl", "disp", "hp", "drat", "wt")
-n_Xs <- 4
-```
-
-
-
-## Fitting lots of models (3/`r n_slides`) {.smallcode}
-
-
-Make vector of all necessary formulas:
-
-```{r lotsa_models}
-make_forms <- function(y, Xs, n_Xs) {
-  poss_Xs <- Xs[Xs != y]
-  n_poss_Xs <- length(poss_Xs)
-  # All possible combinations:
-  combs <- combn(n_poss_Xs, n_Xs, simplify = FALSE)
-  # Change to names:
-  names_ <- map(combs, function(x) poss_Xs[x])
-  # Combine each set to single RHS of formula:
-  rhs <- sapply(names_, paste, collapse = " + ")
-  # Whole formulas as strings:
-  form_strings <- paste(y, "~", rhs)
-  # Convert to formulas:
-  forms <- sapply(form_strings, as.formula,
-                  USE.NAMES = FALSE)
-  return(forms)
-}
-```
-
-
-## Fitting lots of models (4/`r n_slides`) 
-
-Fit `lm()` based on a single formula:
-
-```{r lotsa_models2}
-single_mod <- function(form) {
-  # Fit lm:
-  mod <- lm(form, mtcars)
-  # Make model print prettier:
-  mod$call$formula <- as.formula(mod$terms)
-  return(mod)
-}
-```
-
-
-## Fitting lots of models (5/`r n_slides`) {.smaller}
-
-Put both steps together:
-
-```{r lotsa_models3}
-fit_models <- function(Ys, Xs, n_Xs) {
-  forms <- map(Ys, make_forms,
-                  Xs = Xs, n_Xs = n_Xs)
-  forms <- c(forms, recursive = TRUE)
-  lms <- map(forms, single_mod)
-  return(lms)
-}
-model_fits <- fit_models(Ys, Xs, n_Xs)
-model_fits[[1]]
-```
-
-
-
-
-
-
-## More information
-
-* T Mailund (2017). *Functional Programming in R*. <https://doi.org/10.1007/978-1-4842-2746-6>
-* Iteration (in *R for Data Science*) <https://r4ds.hadley.nz/iteration.html>
-* Functional Programming (in *Advanced R*) <https://adv-r.hadley.nz/fp.html>
-* Functionals (in *Advanced R*) <https://adv-r.hadley.nz/functionals.html>
