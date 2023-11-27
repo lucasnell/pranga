@@ -1,6 +1,6 @@
 name: "pranga: scientific reproducibility and transparency"
 output_dir: "docs"
-exclude: [".DS_Store"]
+exclude: [".DS_Store", "weird-files"]
 navbar:
   title: "BIOS 258"
   left:

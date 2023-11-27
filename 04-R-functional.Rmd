@@ -1,5 +1,5 @@
 ---
-title: "Day 4 - R basics and functional coding"
+title: "Day 4 - Functional coding in R"
 author: "Lucas A. Nell and Maggie L. Warren"
 date: "2023-11-27"
 output:
@@ -13,7 +13,16 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, comment = "")
+suppressPackageStartupMessages({
+    library(tidyverse)
+})
+theme_set(theme_minimal() +
+    theme(axis.line = element_line(linewidth = 1), 
+          panel.grid = element_blank(), 
+          axis.title = element_text(size = 14),
+          axis.text = element_text(size = 12),
+          axis.ticks = element_line(color = "black")))
 ```
 ```{r source-html, results="asis", echo = FALSE}
 # Sourcing file that includes extra html for our class lectures:
@@ -22,10 +31,11 @@ cat(readLines("class-preamble.html"), sep = "\n")
 
 
 
-## Practice making tidy data
+## From last time: Practice making tidy data
 
 * In your group discuss what is wrong with the format of your data
 * Create a repository for your metadata project
+    * *ADD ALL MEMBERS AS COLLABORATORS*
 * Clone the repository to your local git
 * Delegate jobs to group members:
     * write readme describing the data
@@ -35,3 +45,676 @@ cat(readLines("class-preamble.html"), sep = "\n")
 * As a group pull the changes merging the branches to the main branch
     
 
+
+## What do I mean by functional coding?
+
+> - "... a style of problem solving centred on 
+> functions."<footnote>https://adv-r.hadley.nz/fp.html</footnote>
+> - R is better suited for this style, while in other languages
+>  (e.g., python, C++) *object*-oriented might work better
+> - The overall thinking is the same: solve small sub-problems with individual
+>   functions (or object methods) and build up to larger problems
+
+
+
+## Why and when
+
+### Why use functions?
+
+<!-- Compared to copying and pasting: -->
+
+> 1. Create fewer errors
+> 2. Improve readability of code
+
+
+### When to use functions?
+
+> - Simple: when you're doing the same thing multiple times
+
+
+
+
+
+## Small errors are easy to make and can be annoying to find
+
+
+```{r show_errors, error=TRUE}
+lm_mpg <- lm(mpg ~ factor(cyll), mtcars)
+```
+```{r show_errors2, error=TRUE}
+lm_hp <- lm(hp ~ factor(cyl), mrcars)
+```
+```{r show_errors3, error=TRUE}
+lm_disp <- lm(mpg ~ factor(cyl), mtcars)
+```
+
+
+## The problem is even worse when you have lots of copying {.smaller}
+
+
+```{r show_many_models, eval=FALSE}
+lm(mpg ~ cyl + disp + hp + drat, mtcars)
+lm(mpg ~ cyl + disp + hp + wt, mtcars)
+lm(mpg ~ cyl + disp + drat + wt, mtcars)
+lm(mpg ~ cyl + hp + drat + wt, mtcars)
+lm(mpg ~ disp + hp + drat + wt, mtcars)
+lm(disp ~ mpg + cyl + hp + drat, mtcars)
+lm(disp ~ mpg + cyl + hp + wt, mtcars)
+lm(disp ~ mpg + cyl + drat + wt, mtcars)
+lm(disp ~ mpg + hp + drat + wt, mtcars)
+lm(disp ~ cyl + hp + drat + wt, mtcars)
+lm(hp ~ mpg + cyl + disp + drat, mtcars)
+lm(hp ~ mpg + cyl + disp + wt, mtcars)
+lm(hp ~ mpg + cyl + drat + wt, mtcars)
+lm(hp ~ mpg + disp + drat + wt, mtcars)
+lm(hp ~ cyl + disp + drat + wt, mtcars)
+```
+
+
+## Compare these two approaches {.smaller}
+
+
+```{r fixed_errors_fxn, echo=FALSE}
+cyl_model <- function(y) {
+  form <- as.formula(paste(y, "~ factor(cyl)"))
+  mod <- lm(form, mtcars)
+  mod$call$formula <- as.formula(mod$terms)
+  return(mod)
+}
+```
+
+```{r non_fixed_errors, eval = FALSE}
+lm_mpg <- lm(mpg ~ factor(cyl), mtcars)
+lm_disp <- lm(disp ~ factor(cyl), mtcars)
+lm_hp <- lm(hp ~ factor(cyl), mtcars)
+lm_drat <- lm(drat ~ factor(cyl), mtcars)
+lm_wt <- lm(wt ~ factor(cyl), mtcars)
+lm_qsec <- lm(qsec ~ factor(cyl), mtcars)
+lm_vs <- lm(vs ~ factor(cyl), mtcars)
+lm_am <- lm(am ~ factor(cyl), mtcars)
+lm_gear <- lm(gear ~ factor(cyl), mtcars)
+lm_carb <- lm(carb ~ factor(cyl), mtcars)
+```
+
+versus
+
+```{r fixed_errors}
+y_pars <- c("mpg", "disp", "hp", "drat",
+            "wt", "qsec", "vs", "am",
+            "gear", "carb")
+all_lm <- map(y_pars, cyl_model)
+```
+
+
+
+
+## Basics of functions in R {.build .smallcode}
+
+```{r fxn_intro}
+subtract <- function(x, y = 1) {
+  z <- x - y
+  return(z)
+}
+```
+
+```{r fxn_intro_runs}
+subtract(1)
+subtract(x = 1)
+subtract(1, 2)
+subtract(y = 1, x = 2)
+```
+
+
+## R function environments {.build .smallcode}
+
+```{r fxn-environ}
+subtract <- function(x, y = 1) {
+  z <- x - y
+  return(z)
+}
+```
+
+```{r fxn-environ-runs}
+x <- 465
+z <- 7
+subtract(x = z)
+```
+
+```{r fxn-environ-runs2, error=TRUE}
+x
+z
+subtract()
+```
+
+## Vectorization in R
+
+R can often operate on vectors with no extra effort
+
+```{r vectorization}
+x <- 1:5
+y <- 9:13
+x + y
+x^y
+subtract(x, y)
+```
+
+
+
+## Flexibility of lists {.smaller .build}
+
+```{r lists_are_great, error=TRUE}
+x <- numeric(2)
+x[[1]] <- matrix(0, 0, 0)
+```
+
+```{r lists_are_great2}
+x <- as.list(numeric(3))
+x[[1]] <- matrix(0, 0, 0)
+x[[2]] <- data.frame()
+x[[3]] <- runif(3)
+x
+```
+
+
+
+## The `map` function<footnote>`map` images from <https://adv-r.hadley.nz/functionals.html></footnote> {.build}
+
+- Allows you to apply a function to multiple inputs
+- From the `purrr` package (which is loaded with `tidyverse`)
+
+<div class="columns-2">
+
+<!-- basic map -->
+<img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/map.png?raw=true" height="250">
+
+<!-- map with list of vectors -->
+<img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/map-list.png?raw=true" height="250">
+
+
+</div>
+
+
+## `map` with 2+ vectors
+
+<div class="columns-2">
+
+<!-- map2 basic -->
+<img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/map2.png?raw=true" height="250">
+
+<!-- pmap basic -->
+<!-- <img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/pmap.png?raw=true" height="250"> -->
+
+<!-- pmap 3 args -->
+<img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/pmap-3.png?raw=true" height="250">
+
+</div>
+
+
+## `map` with extra argument(s)
+
+<div class="columns-2">
+
+<!-- map with extra arg -->
+<img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/map-arg.png?raw=true" height="250">
+
+<p class="forceBreak"></p>
+
+<!-- map2 with extra arg -->
+<img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/map2-arg.png?raw=true" height="200">
+
+<!-- pmap with extra arg -->
+<img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/pmap-arg.png?raw=true" height="200">
+
+</cioidiv>
+
+
+## Types of `map` functions {.smallcode .smaller .build}
+
+`map` returns a list
+
+```{r map_ex}
+map(4:5, function(i) 1:i)
+```
+
+`map_lgl(),` `map_int(),` `map_dbl()` and `map_chr()` return a vector of 
+indicated type
+
+```{r map_ex2}
+map_lgl(4:5, function(i) 4 < i)
+map_dbl(4:5, function(i) 1 + i)
+map2_chr(4:5, 5:4, function(i, j) paste(i, j))
+```
+
+
+
+## General process to "functionalize" code
+
+1. Break problem into smaller sub-problems.
+2. For each sub-problem, write a function and test it.
+3. For writing each function...
+    1. The main function code will include the commonalities between all situations.
+    2. Features that aren't common should be input to the function as arguments.
+4. If necessary, use smaller functions inside a higher-level function
+
+
+
+## How would you do this? {.build .smallcode .smaller}
+
+```{r fixed_errors2, eval = FALSE}
+y_pars <- c("mpg", "disp", "hp", "drat",
+            "wt", "qsec", "vs", "am",
+            "gear", "carb")
+all_lm <- map(y_pars, cyl_model)
+## instead of a series of these:
+lm_mpg <- lm(mpg ~ factor(cyl), mtcars)
+lm_disp <- lm(disp ~ factor(cyl), mtcars)
+# etc.
+```
+
+> - Necessary output from function `cyl_model`: `lm` object
+> - Commonalities: `lm(__ ~ factor(cyl), mtcars)`
+> - Difference: response variable
+
+
+
+
+## What problems do we need to solve?
+
+```{r problems, eval = FALSE}
+## given this:
+"mpg"
+## create this:
+lm(mpg ~ factor(cyl), mtcars)
+```
+
+> 1. Combine parts of formula
+> 2. Convert string to formula
+> 3. Insert formula into `lm`
+> 4. Make output more readable (you'll see what I mean)
+
+
+## Combine parts of formula {.build}
+
+```{r combine-form-parts}
+y <- "mpg"
+## to "mpg ~ factor(cyl)"
+```
+
+```{r combine-form-parts2}
+form_str <- paste(y, "~ factor(cyl)")
+form_str
+```
+
+
+## Convert string to formula<footnote>this step is not necessary for `lm`, but can be for other functions</footnote> {.build}
+
+```{r str-to-form}
+form_str <- paste(y, "~ factor(cyl)")
+class(form_str)
+```
+
+For converting, look for functions starting with `as.`
+
+```{r str-to-form2}
+form <- as.formula(form_str)
+form
+class(form)
+```
+
+
+## Insert formula into `lm` {.smallcode .build}
+
+```{r form-into-lm}
+form
+# create object equivalent to
+lm(mpg ~ factor(cyl), mtcars)
+```
+
+
+```{r form-into-lm2}
+mod <- lm(form, mtcars)
+mod
+```
+
+
+
+
+## Make output more readable {.build .smallcode .smaller}
+
+```{r lm-more-readable}
+mod
+mod$call
+```
+
+**Not very informative!**
+
+```{r lm-more-readable2}
+mod$call$formula <- form
+mod
+```
+
+
+
+## This is what it looks like together
+
+
+```{r fixed_errors_fxn2}
+cyl_model <- function(y) {
+  form_str <- paste(y, "~ factor(cyl)")
+  form <- as.formula(form_str)
+  mod <- lm(form, mtcars)
+  mod$call$formula <- form
+  return(mod)
+}
+```
+
+
+## This is what it creates {.smallcode .smaller}
+
+```{r fixed_errors_fxn3}
+all_lm <- map(y_pars, cyl_model)
+all_lm[1:2]
+```
+
+
+
+## How could we alow X variable(s) to change while keeping our previous code working?
+
+
+
+## How could we alow X variable(s) to change while keeping our previous code working?
+
+
+```{r fixed_errors_fxn4, eval = FALSE}
+cyl_model <- function(y, x = "factor(cyl)") {
+  form_str <- paste(y, "~", x)
+  form <- as.formula(form_str)
+  mod <- lm(form, mtcars)
+  mod$call$formula <- form
+  return(mod)
+}
+```
+
+
+
+
+
+## Activity: Cleaning weird files
+
+We have a folder full of output files like this:
+
+```{r n_slides_ex1, echo = FALSE}
+n_slides <- 4
+file_names <- paste0("weird-files/", c("file1.out", "file2.out"))
+cat(read_lines(file_names[1]), sep = "\n")
+```
+
+
+```{r weirddata_data, echo = FALSE, eval=FALSE}
+# I used this to create the files
+files <- c("## Data provided by X
+
+Ozone,Solar.R,Wind,Temp,Month,Day
+41,190,7.4,67,5,1
+NA,NA,14.3,56,5,5
+--- instrument error
+28,NA,14.9,66,5,6
+23,299,8.6,65,5,7
+--- instrument error
+NA,194,8.6,69,5,10
+
+## Year observed: 1990",
+"## Data provided by Y
+
+Ozone,Solar.R,Wind,Temp,Month,Day
+7,NA,6.9,74,5,11
+--- instrument error
+11,290,9.2,66,5,13
+14,274,10.9,68,5,14
+18,65,13.2,58,5,15
+--- instrument error
+--- instrument error
+6,78,18.4,57,5,18
+30,322,11.5,68,5,19
+11,44,9.7,62,5,20
+
+## Year observed: 1991
+")
+```
+
+
+## Cleaning weird files (2/`r n_slides`)
+
+### Problems:
+
+1. Remove unnecessary lines from each file.
+2. Create a single data frame from multiple cleaned files.
+
+### Input information:
+
+1. Vector of file names (`file_names`)
+
+```{r weirddata_info, eval=FALSE}
+file_names <- c("file1.out", "file2.out")
+```
+
+
+### Get the files themselves from...
+
+- Canvas (Files > 04_functionalR)
+- <https://github.com/lucasnell/pranga/tree/main/weird-files>
+
+
+
+## Cleaning weird files (3/`r n_slides`)
+
+Clean a single CSV file to a string:
+
+```{r weirddata3}
+clean_str <- function(file_name) {
+  lines <- read_lines(file_name)
+  lines <- lines[!str_detect(lines, "^\\#\\#|^--")]
+  lines <- lines[lines != ""]
+  cleaned_str <- paste(lines, collapse = "\n")
+  return(cleaned_str)
+}
+```
+
+
+
+## Cleaning weird files (4/`r n_slides`)
+
+
+Clean multiple files then combine them into a single data frame:
+
+```{r weirddata4}
+clean_df <- function(file_names) {
+  cleaned_strs <- map(file_names, clean_str)
+  data_frames <- map(cleaned_strs, read_csv, col_types = cols())
+  combined_df <- bind_rows(data_frames)
+  return(combined_df)
+}
+clean_df(file_names)
+```
+
+
+
+
+
+
+
+
+
+<!---
+==============================================================================
+==============================================================================
+==============================================================================
+==============================================================================
+-->
+
+
+# Appendices
+
+
+
+
+
+## `map` alternatives (1/2): `apply` functions {.smallcode .smaller}
+
+- Similar to `map` functions, but in base R
+- `lapply` outputs a list
+- `sapply` coerces to an array
+- `vapply` coerces to a specified type
+- `apply` moves across indices of an array
+
+```{r lapply_ex}
+lapply(4:5, function(i) 1:i)
+sapply(4:5, function(i) 1 + i)
+vapply(4:5, function(i) 1 + i, 1.0)
+apply(matrix(1:6, 2), 1, sum)
+```
+
+
+
+## `map` alternatives (2/2): `for` loops {.smaller}
+
+* Especially useful when one iteration's result depends on the previous iteration.
+* Changes existing object(s).
+
+```{r for_loops, echo = FALSE}
+set.seed(3)
+```
+```{r for_loops2}
+x <- numeric(100)
+x[1] <- 10
+for (t in 2:length(x)) {
+  x[t] <- x[t-1] + rnorm(1)
+}
+```
+```{r for_loops3, echo = FALSE, fig.width=8, fig.height=3}
+tibble(t = 1:100, x = x) |> 
+    ggplot(aes(t, x)) +
+    geom_line(color = "dodgerblue", linewidth = 0.75)
+```
+
+
+
+
+
+## Example #2: Fitting lots of models
+
+
+```{r n_slides_ex2, echo = FALSE}
+n_slides <- 5
+```
+
+How can we simplify this?
+
+```{r lotsa_models_bad, eval = FALSE}
+lm(mpg ~ cyl + disp + hp + drat, mtcars)
+lm(mpg ~ cyl + disp + hp + wt, mtcars)
+lm(mpg ~ cyl + disp + drat + wt, mtcars)
+lm(mpg ~ cyl + hp + drat + wt, mtcars)
+lm(mpg ~ disp + hp + drat + wt, mtcars)
+lm(disp ~ mpg + cyl + hp + drat, mtcars)
+lm(disp ~ mpg + cyl + hp + wt, mtcars)
+lm(disp ~ mpg + cyl + drat + wt, mtcars)
+lm(disp ~ mpg + hp + drat + wt, mtcars)
+lm(disp ~ cyl + hp + drat + wt, mtcars)
+lm(hp ~ mpg + cyl + disp + drat, mtcars)
+lm(hp ~ mpg + cyl + disp + wt, mtcars)
+lm(hp ~ mpg + cyl + drat + wt, mtcars)
+lm(hp ~ mpg + disp + drat + wt, mtcars)
+lm(hp ~ cyl + disp + drat + wt, mtcars)
+```
+
+
+## Fitting lots of models (2/`r n_slides`)
+
+
+### Problems:
+
+1. Create all necessary formulas for each of the multiple Ys.
+2. Fit `lm` based on each of the created formulas.
+
+### Input information:
+
+1. Vector of Y variables (`Ys`)
+2. Vector of possible X variables (`Xs`)
+3. Number of X variables to include in each model (`n_Xs`)
+
+```{r lotsa_models_info}
+Ys <- c("mpg", "disp", "hp")
+Xs <- c("mpg", "cyl", "disp", "hp", "drat", "wt")
+n_Xs <- 4
+```
+
+
+
+## Fitting lots of models (3/`r n_slides`) {.smallcode}
+
+
+Make vector of all necessary formulas:
+
+```{r lotsa_models}
+make_forms <- function(y, Xs, n_Xs) {
+  poss_Xs <- Xs[Xs != y]
+  n_poss_Xs <- length(poss_Xs)
+  # All possible combinations:
+  combs <- combn(n_poss_Xs, n_Xs, simplify = FALSE)
+  # Change to names:
+  names_ <- map(combs, function(x) poss_Xs[x])
+  # Combine each set to single RHS of formula:
+  rhs <- sapply(names_, paste, collapse = " + ")
+  # Whole formulas as strings:
+  form_strings <- paste(y, "~", rhs)
+  # Convert to formulas:
+  forms <- sapply(form_strings, as.formula,
+                  USE.NAMES = FALSE)
+  return(forms)
+}
+```
+
+
+## Fitting lots of models (4/`r n_slides`) 
+
+Fit `lm()` based on a single formula:
+
+```{r lotsa_models2}
+single_mod <- function(form) {
+  # Fit lm:
+  mod <- lm(form, mtcars)
+  # Make model print prettier:
+  mod$call$formula <- as.formula(mod$terms)
+  return(mod)
+}
+```
+
+
+## Fitting lots of models (5/`r n_slides`) {.smaller}
+
+Put both steps together:
+
+```{r lotsa_models3}
+fit_models <- function(Ys, Xs, n_Xs) {
+  forms <- map(Ys, make_forms,
+                  Xs = Xs, n_Xs = n_Xs)
+  forms <- c(forms, recursive = TRUE)
+  lms <- map(forms, single_mod)
+  return(lms)
+}
+model_fits <- fit_models(Ys, Xs, n_Xs)
+model_fits[[1]]
+```
+
+
+
+
+
+
+## More information
+
+* T Mailund (2017). *Functional Programming in R*. <https://doi.org/10.1007/978-1-4842-2746-6>
+* Iteration (in *R for Data Science*) <https://r4ds.hadley.nz/iteration.html>
+* Functional Programming (in *Advanced R*) <https://adv-r.hadley.nz/fp.html>
+* Functionals (in *Advanced R*) <https://adv-r.hadley.nz/functionals.html>
