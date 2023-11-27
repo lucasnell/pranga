@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Day 4 - Functional coding in R</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2023-11-27" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Day 4 - Functional coding in R',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Lucas A. Nell and Maggie L. Warren' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="site_libs/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    summary {
+      display: list-item;
+    }
+
+    details > summary > p:only-child {
+      display: inline;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
+
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+            pre > code.sourceCode { white-space: pre; position: relative; }
+            pre > code.sourceCode > span { line-height: 1.25; }
+            pre > code.sourceCode > span:empty { height: 1.2em; }
+            .sourceCode { overflow: visible; }
+            code.sourceCode > span { color: inherit; text-decoration: inherit; }
+            div.sourceCode { margin: 1em 0; }
+            pre.sourceCode { margin: 0; }
+            @media screen {
+            div.sourceCode { overflow: auto; }
+            }
+            @media print {
+            pre > code.sourceCode { white-space: pre-wrap; }
+            pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+            }
+            pre.numberSource code
+              { counter-reset: source-line 0; }
+            pre.numberSource code > span
+              { position: relative; left: -4em; counter-increment: source-line; }
+            pre.numberSource code > span > a:first-child::before
+              { content: counter(source-line);
+                position: relative; left: -1em; text-align: right; vertical-align: baseline;
+                border: none; display: inline-block;
+                -webkit-touch-callout: none; -webkit-user-select: none;
+                -khtml-user-select: none; -moz-user-select: none;
+                -ms-user-select: none; user-select: none;
+                padding: 0 4px; width: 4em;
+                color: #aaaaaa;
+              }
+            pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+            div.sourceCode
+              {   }
+            @media screen {
+            pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+            }
+            code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+            code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+            code span.at { color: #7d9029; } /* Attribute */
+            code span.bn { color: #40a070; } /* BaseN */
+            code span.bu { color: #008000; } /* BuiltIn */
+            code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+            code span.ch { color: #4070a0; } /* Char */
+            code span.cn { color: #880000; } /* Constant */
+            code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+            code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+            code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+            code span.dt { color: #902000; } /* DataType */
+            code span.dv { color: #40a070; } /* DecVal */
+            code span.er { color: #ff0000; font-weight: bold; } /* Error */
+            code span.ex { } /* Extension */
+            code span.fl { color: #40a070; } /* Float */
+            code span.fu { color: #06287e; } /* Function */
+            code span.im { color: #008000; font-weight: bold; } /* Import */
+            code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+            code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+            code span.op { color: #666666; } /* Operator */
+            code span.ot { color: #007020; } /* Other */
+            code span.pp { color: #bc7a00; } /* Preprocessor */
+            code span.sc { color: #4070a0; } /* SpecialChar */
+            code span.ss { color: #bb6688; } /* SpecialString */
+            code span.st { color: #4070a0; } /* String */
+            code span.va { color: #19177c; } /* Variable */
+            code span.vs { color: #4070a0; } /* VerbatimString */
+            code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+        
+  </style>
+
+  <link rel="stylesheet" href="classes-styles.css" type="text/css" />
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2023-11-27</p>
+          </hgroup>
+  </slide>
+
+<!-- This is required for footnotes: -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('slide:not(.backdrop):not(.title-slide)').append('<div class=\"footnotes\">');
+
+  $('footnote').each(function(index) {
+    var text  = $(this).html();
+    var fnNum = (index+1).toString();
+    $(this).html('<sup class="footnote-number">  ' + fnNum + '</sup>');
+
+    var footnote   = fnNum + '. ' + text + '<br/>';
+    var oldContent = $(this).parents('slide').children('div.footnotes').html();
+    var newContent = oldContent + footnote;
+    $(this).parents('slide').children('div.footnotes').html(newContent);
+  });
+});
+</script>
+
+<slide class=""><hgroup><h2>From last time: Practice making tidy data</h2></hgroup><article  id="from-last-time-practice-making-tidy-data">
+
+<ul>
+<li>In your group discuss what is wrong with the format of your data</li>
+<li>Create a repository for your metadata project
+
+<ul>
+<li><em>ADD ALL MEMBERS AS COLLABORATORS</em></li>
+</ul></li>
+<li>Clone the repository to your local git</li>
+<li>Delegate jobs to group members:
+
+<ul>
+<li>write readme describing the data</li>
+<li>reshape the data into a tidy form and change to csv</li>
+<li>read the data into R making sure it is in the right form</li>
+</ul></li>
+<li>Each role will push changes to a new branch of the main branch</li>
+<li>As a group pull the changes merging the branches to the main branch</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>What do I mean by functional coding?</h2></hgroup><article  id="what-do-i-mean-by-functional-coding">
+
+<ul class = 'build'>
+<li>&ldquo;… a style of problem solving centred on functions.&rdquo;<footnote><a href='https://adv-r.hadley.nz/fp.html' title=''>https://adv-r.hadley.nz/fp.html</a></footnote></li>
+<li>R is better suited for this style, while in other languages (e.g., python, C++) <em>object</em>-oriented might work better</li>
+<li>The overall thinking is the same: solve small sub-problems with individual functions (or object methods) and build up to larger problems</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Why and when</h2></hgroup><article  id="why-and-when">
+
+<h3>Why use functions?</h3>
+
+<!-- Compared to copying and pasting: -->
+
+<ol class = 'build'>
+<li>Create fewer errors</li>
+<li>Improve readability of code</li>
+</ol>
+
+<h3>When to use functions?</h3>
+
+<ul class = 'build'>
+<li>Simple: when you’re doing the same thing multiple times</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Small errors are easy to make and can be annoying to find</h2></hgroup><article  id="small-errors-are-easy-to-make-and-can-be-annoying-to-find">
+
+<pre class = 'prettyprint lang-r'>lm_mpg &lt;- lm(mpg ~ factor(cyll), mtcars)</pre>
+
+<pre >Error in eval(predvars, data, env): object &#39;cyll&#39; not found</pre>
+
+<pre class = 'prettyprint lang-r'>lm_hp &lt;- lm(hp ~ factor(cyl), mrcars)</pre>
+
+<pre >Error in eval(mf, parent.frame()): object &#39;mrcars&#39; not found</pre>
+
+<pre class = 'prettyprint lang-r'>lm_disp &lt;- lm(mpg ~ factor(cyl), mtcars)</pre>
+
+</article></slide><slide class=""><hgroup><h2>The problem is even worse when you have lots of copying</h2></hgroup><article  id="the-problem-is-even-worse-when-you-have-lots-of-copying" class="smaller">
+
+<pre class = 'prettyprint lang-r'>lm(mpg ~ cyl + disp + hp + drat, mtcars)
+lm(mpg ~ cyl + disp + hp + wt, mtcars)
+lm(mpg ~ cyl + disp + drat + wt, mtcars)
+lm(mpg ~ cyl + hp + drat + wt, mtcars)
+lm(mpg ~ disp + hp + drat + wt, mtcars)
+lm(disp ~ mpg + cyl + hp + drat, mtcars)
+lm(disp ~ mpg + cyl + hp + wt, mtcars)
+lm(disp ~ mpg + cyl + drat + wt, mtcars)
+lm(disp ~ mpg + hp + drat + wt, mtcars)
+lm(disp ~ cyl + hp + drat + wt, mtcars)
+lm(hp ~ mpg + cyl + disp + drat, mtcars)
+lm(hp ~ mpg + cyl + disp + wt, mtcars)
+lm(hp ~ mpg + cyl + drat + wt, mtcars)
+lm(hp ~ mpg + disp + drat + wt, mtcars)
+lm(hp ~ cyl + disp + drat + wt, mtcars)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Compare these two approaches</h2></hgroup><article  id="compare-these-two-approaches" class="smaller">
+
+<pre class = 'prettyprint lang-r'>lm_mpg &lt;- lm(mpg ~ factor(cyl), mtcars)
+lm_disp &lt;- lm(disp ~ factor(cyl), mtcars)
+lm_hp &lt;- lm(hp ~ factor(cyl), mtcars)
+lm_drat &lt;- lm(drat ~ factor(cyl), mtcars)
+lm_wt &lt;- lm(wt ~ factor(cyl), mtcars)
+lm_qsec &lt;- lm(qsec ~ factor(cyl), mtcars)
+lm_vs &lt;- lm(vs ~ factor(cyl), mtcars)
+lm_am &lt;- lm(am ~ factor(cyl), mtcars)
+lm_gear &lt;- lm(gear ~ factor(cyl), mtcars)
+lm_carb &lt;- lm(carb ~ factor(cyl), mtcars)</pre>
+
+<p>versus</p>
+
+<pre class = 'prettyprint lang-r'>y_pars &lt;- c(&quot;mpg&quot;, &quot;disp&quot;, &quot;hp&quot;, &quot;drat&quot;,
+            &quot;wt&quot;, &quot;qsec&quot;, &quot;vs&quot;, &quot;am&quot;,
+            &quot;gear&quot;, &quot;carb&quot;)
+all_lm &lt;- map(y_pars, cyl_model)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Basics of functions in R</h2></hgroup><article  id="basics-of-functions-in-r" class="build smallcode">
+
+<pre class = 'prettyprint lang-r'>subtract &lt;- function(x, y = 1) {
+  z &lt;- x - y
+  return(z)
+}</pre>
+
+<pre class = 'prettyprint lang-r'>subtract(1)</pre>
+
+<pre >[1] 0</pre>
+
+<pre class = 'prettyprint lang-r'>subtract(x = 1)</pre>
+
+<pre >[1] 0</pre>
+
+<pre class = 'prettyprint lang-r'>subtract(1, 2)</pre>
+
+<pre >[1] -1</pre>
+
+<pre class = 'prettyprint lang-r'>subtract(y = 1, x = 2)</pre>
+
+<pre >[1] 1</pre>
+
+</article></slide><slide class=""><hgroup><h2>R function environments</h2></hgroup><article  id="r-function-environments" class="build smallcode">
+
+<pre class = 'prettyprint lang-r'>subtract &lt;- function(x, y = 1) {
+  z &lt;- x - y
+  return(z)
+}</pre>
+
+<pre class = 'prettyprint lang-r'>x &lt;- 465
+z &lt;- 7
+subtract(x = z)</pre>
+
+<pre >[1] 6</pre>
+
+<pre class = 'prettyprint lang-r'>x</pre>
+
+<pre >[1] 465</pre>
+
+<pre class = 'prettyprint lang-r'>z</pre>
+
+<pre >[1] 7</pre>
+
+<pre class = 'prettyprint lang-r'>subtract()</pre>
+
+<pre >Error in subtract(): argument &quot;x&quot; is missing, with no default</pre>
+
+</article></slide><slide class=""><hgroup><h2>Vectorization in R</h2></hgroup><article  id="vectorization-in-r">
+
+<p>R can often operate on vectors with no extra effort</p>
+
+<pre class = 'prettyprint lang-r'>x &lt;- 1:5
+y &lt;- 9:13
+x + y</pre>
+
+<pre >[1] 10 12 14 16 18</pre>
+
+<pre class = 'prettyprint lang-r'>x^y</pre>
+
+<pre >[1]          1       1024     177147   16777216 1220703125</pre>
+
+<pre class = 'prettyprint lang-r'>subtract(x, y)</pre>
+
+<pre >[1] -8 -8 -8 -8 -8</pre>
+
+</article></slide><slide class=""><hgroup><h2>Flexibility of lists</h2></hgroup><article  id="flexibility-of-lists" class="smaller build">
+
+<pre class = 'prettyprint lang-r'>x &lt;- numeric(2)
+x[[1]] &lt;- matrix(0, 0, 0)</pre>
+
+<pre >Error in x[[1]] &lt;- matrix(0, 0, 0): replacement has length zero</pre>
+
+<pre class = 'prettyprint lang-r'>x &lt;- as.list(numeric(3))
+x[[1]] &lt;- matrix(0, 0, 0)
+x[[2]] &lt;- data.frame()
+x[[3]] &lt;- runif(3)
+x</pre>
+
+<pre >[[1]]
+&lt;0 x 0 matrix&gt;
+
+[[2]]
+data frame with 0 columns and 0 rows
+
+[[3]]
+[1] 0.477358013 0.715430007 0.007979764</pre>
+
+</article></slide><slide class=""><hgroup><h2>The <code>map</code> function<footnote><code>map</code> images from <a href='https://adv-r.hadley.nz/functionals.html' title=''>https://adv-r.hadley.nz/functionals.html</a></footnote></h2></hgroup><article  id="the-map-functionmap-images-from-httpsadv-r.hadley.nzfunctionals.html" class="build">
+
+<ul>
+<li>Allows you to apply a function to multiple inputs</li>
+<li>From the <code>purrr</code> package (which is loaded with <code>tidyverse</code>)</li>
+</ul>
+
+<div class="columns-2">
+<!-- basic map -->
+
+<p><img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/map.png?raw=true" height="250"></p>
+
+<!-- map with list of vectors -->
+
+<p><img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/map-list.png?raw=true" height="250"></p></div>
+
+</article></slide><slide class=""><hgroup><h2><code>map</code> with 2+ vectors</h2></hgroup><article  id="map-with-2-vectors">
+
+<div class="columns-2">
+<!-- map2 basic -->
+
+<p><img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/map2.png?raw=true" height="250"></p>
+
+<!-- pmap basic -->
+
+<!-- <img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/pmap.png?raw=true" height="250"> -->
+
+<!-- pmap 3 args -->
+
+<p><img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/pmap-3.png?raw=true" height="250"></p></div>
+
+</article></slide><slide class=""><hgroup><h2><code>map</code> with extra argument(s)</h2></hgroup><article  id="map-with-extra-arguments">
+
+<div class="columns-2">
+
+
+<!-- map with extra arg -->
+
+<p><img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/map-arg.png?raw=true" height="250"></p>
+
+<p class="forceBreak">
+
+</p>
+
+<!-- map2 with extra arg -->
+
+<p><img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/map2-arg.png?raw=true" height="200"></p>
+
+<!-- pmap with extra arg -->
+
+<p><img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/pmap-arg.png?raw=true" height="200"></p>
+
+<p></cioidiv></p>
+
+</article></slide><slide class=""><hgroup><h2>Types of <code>map</code> functions</h2></hgroup><article  id="types-of-map-functions" class="smallcode smaller build">
+
+<p><code>map</code> returns a list</p>
+
+<pre class = 'prettyprint lang-r'>map(4:5, function(i) 1:i)</pre>
+
+<pre >[[1]]
+[1] 1 2 3 4
+
+[[2]]
+[1] 1 2 3 4 5</pre>
+
+<p><code>map_lgl(),</code> <code>map_int(),</code> <code>map_dbl()</code> and <code>map_chr()</code> return a vector of indicated type</p>
+
+<pre class = 'prettyprint lang-r'>map_lgl(4:5, function(i) 4 &lt; i)</pre>
+
+<pre >[1] FALSE  TRUE</pre>
+
+<pre class = 'prettyprint lang-r'>map_dbl(4:5, function(i) 1 + i)</pre>
+
+<pre >[1] 5 6</pre>
+
+<pre class = 'prettyprint lang-r'>map2_chr(4:5, 5:4, function(i, j) paste(i, j))</pre>
+
+<pre >[1] &quot;4 5&quot; &quot;5 4&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>General process to &ldquo;functionalize&rdquo; code</h2></hgroup><article  id="general-process-to-functionalize-code">
+
+<ol>
+<li>Break problem into smaller sub-problems.</li>
+<li>For each sub-problem, write a function and test it.</li>
+<li>For writing each function…
+
+<ol>
+<li>The main function code will include the commonalities between all situations.</li>
+<li>Features that aren’t common should be input to the function as arguments.</li>
+</ol></li>
+<li>If necessary, use smaller functions inside a higher-level function</li>
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>How would you do this?</h2></hgroup><article  id="how-would-you-do-this" class="build smallcode smaller">
+
+<pre class = 'prettyprint lang-r'>y_pars &lt;- c(&quot;mpg&quot;, &quot;disp&quot;, &quot;hp&quot;, &quot;drat&quot;,
+            &quot;wt&quot;, &quot;qsec&quot;, &quot;vs&quot;, &quot;am&quot;,
+            &quot;gear&quot;, &quot;carb&quot;)
+all_lm &lt;- map(y_pars, cyl_model)
+## instead of a series of these:
+lm_mpg &lt;- lm(mpg ~ factor(cyl), mtcars)
+lm_disp &lt;- lm(disp ~ factor(cyl), mtcars)
+# etc.</pre>
+
+<ul class = 'build'>
+<li>Necessary output from function <code>cyl_model</code>: <code>lm</code> object</li>
+<li>Commonalities: <code>lm(__ ~ factor(cyl), mtcars)</code></li>
+<li>Difference: response variable</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>What problems do we need to solve?</h2></hgroup><article  id="what-problems-do-we-need-to-solve">
+
+<pre class = 'prettyprint lang-r'>## given this:
+&quot;mpg&quot;
+## create this:
+lm(mpg ~ factor(cyl), mtcars)</pre>
+
+<ol class = 'build'>
+<li>Combine parts of formula</li>
+<li>Convert string to formula</li>
+<li>Insert formula into <code>lm</code></li>
+<li>Make output more readable (you’ll see what I mean)</li>
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>Combine parts of formula</h2></hgroup><article  id="combine-parts-of-formula" class="build">
+
+<pre class = 'prettyprint lang-r'>y &lt;- &quot;mpg&quot;
+## to &quot;mpg ~ factor(cyl)&quot;</pre>
+
+<pre class = 'prettyprint lang-r'>form_str &lt;- paste(y, &quot;~ factor(cyl)&quot;)
+form_str</pre>
+
+<pre >[1] &quot;mpg ~ factor(cyl)&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Convert string to formula<footnote>this step is not necessary for <code>lm</code>, but can be for other functions</footnote></h2></hgroup><article  id="convert-string-to-formulathis-step-is-not-necessary-for-lm-but-can-be-for-other-functions" class="build">
+
+<pre class = 'prettyprint lang-r'>form_str &lt;- paste(y, &quot;~ factor(cyl)&quot;)
+class(form_str)</pre>
+
+<pre >[1] &quot;character&quot;</pre>
+
+<p>For converting, look for functions starting with <code>as.</code></p>
+
+<pre class = 'prettyprint lang-r'>form &lt;- as.formula(form_str)
+form</pre>
+
+<pre >mpg ~ factor(cyl)</pre>
+
+<pre class = 'prettyprint lang-r'>class(form)</pre>
+
+<pre >[1] &quot;formula&quot;</pre>
+
+</article></slide><slide class=""><hgroup><h2>Insert formula into <code>lm</code></h2></hgroup><article  id="insert-formula-into-lm" class="smallcode build">
+
+<pre class = 'prettyprint lang-r'>form</pre>
+
+<pre >mpg ~ factor(cyl)</pre>
+
+<pre class = 'prettyprint lang-r'># create object equivalent to
+lm(mpg ~ factor(cyl), mtcars)</pre>
+
+<pre >
+Call:
+lm(formula = mpg ~ factor(cyl), data = mtcars)
+
+Coefficients:
+ (Intercept)  factor(cyl)6  factor(cyl)8  
+      26.664        -6.921       -11.564  </pre>
+
+<pre class = 'prettyprint lang-r'>mod &lt;- lm(form, mtcars)
+mod</pre>
+
+<pre >
+Call:
+lm(formula = form, data = mtcars)
+
+Coefficients:
+ (Intercept)  factor(cyl)6  factor(cyl)8  
+      26.664        -6.921       -11.564  </pre>
+
+</article></slide><slide class=""><hgroup><h2>Make output more readable</h2></hgroup><article  id="make-output-more-readable" class="build smallcode smaller">
+
+<pre class = 'prettyprint lang-r'>mod</pre>
+
+<pre >
+Call:
+lm(formula = form, data = mtcars)
+
+Coefficients:
+ (Intercept)  factor(cyl)6  factor(cyl)8  
+      26.664        -6.921       -11.564  </pre>
+
+<pre class = 'prettyprint lang-r'>mod$call</pre>
+
+<pre >lm(formula = form, data = mtcars)</pre>
+
+<p><strong>Not very informative!</strong></p>
+
+<pre class = 'prettyprint lang-r'>mod$call$formula &lt;- form
+mod</pre>
+
+<pre >
+Call:
+lm(formula = mpg ~ factor(cyl), data = mtcars)
+
+Coefficients:
+ (Intercept)  factor(cyl)6  factor(cyl)8  
+      26.664        -6.921       -11.564  </pre>
+
+</article></slide><slide class=""><hgroup><h2>This is what it looks like together</h2></hgroup><article  id="this-is-what-it-looks-like-together">
+
+<pre class = 'prettyprint lang-r'>cyl_model &lt;- function(y) {
+  form_str &lt;- paste(y, &quot;~ factor(cyl)&quot;)
+  form &lt;- as.formula(form_str)
+  mod &lt;- lm(form, mtcars)
+  mod$call$formula &lt;- form
+  return(mod)
+}</pre>
+
+</article></slide><slide class=""><hgroup><h2>This is what it creates</h2></hgroup><article  id="this-is-what-it-creates" class="smallcode smaller">
+
+<pre class = 'prettyprint lang-r'>all_lm &lt;- map(y_pars, cyl_model)
+all_lm[1:2]</pre>
+
+<pre >[[1]]
+
+Call:
+lm(formula = mpg ~ factor(cyl), data = mtcars)
+
+Coefficients:
+ (Intercept)  factor(cyl)6  factor(cyl)8  
+      26.664        -6.921       -11.564  
+
+
+[[2]]
+
+Call:
+lm(formula = disp ~ factor(cyl), data = mtcars)
+
+Coefficients:
+ (Intercept)  factor(cyl)6  factor(cyl)8  
+      105.14         78.18        247.96  </pre>
+
+</article></slide><slide class=""><hgroup><h2>How could we alow X variable(s) to change while keeping our previous code working?</h2></hgroup><article  id="how-could-we-alow-x-variables-to-change-while-keeping-our-previous-code-working">
+
+</article></slide><slide class=""><hgroup><h2>How could we alow X variable(s) to change while keeping our previous code working?</h2></hgroup><article  id="how-could-we-alow-x-variables-to-change-while-keeping-our-previous-code-working-1">
+
+<pre class = 'prettyprint lang-r'>cyl_model &lt;- function(y, x = &quot;factor(cyl)&quot;) {
+  form_str &lt;- paste(y, &quot;~&quot;, x)
+  form &lt;- as.formula(form_str)
+  mod &lt;- lm(form, mtcars)
+  mod$call$formula &lt;- form
+  return(mod)
+}</pre>
+
+</article></slide><slide class=""><hgroup><h2>Activity: Cleaning weird files</h2></hgroup><article  id="activity-cleaning-weird-files">
+
+<p>We have a folder full of output files like this:</p>
+
+<pre >## Data provided by X
+
+Ozone,Solar.R,Wind,Temp,Month,Day
+41,190,7.4,67,5,1
+NA,NA,14.3,56,5,5
+--- instrument error
+28,NA,14.9,66,5,6
+23,299,8.6,65,5,7
+--- instrument error
+NA,194,8.6,69,5,10
+
+## Year observed: 1990</pre>
+
+</article></slide><slide class=""><hgroup><h2>Cleaning weird files (2/4)</h2></hgroup><article  id="cleaning-weird-files-24">
+
+<h3>Problems:</h3>
+
+<ol>
+<li>Remove unnecessary lines from each file.</li>
+<li>Create a single data frame from multiple cleaned files.</li>
+</ol>
+
+<h3>Input information:</h3>
+
+<ol>
+<li>Vector of file names (<code>file_names</code>)</li>
+</ol>
+
+<pre class = 'prettyprint lang-r'>file_names &lt;- c(&quot;file1.out&quot;, &quot;file2.out&quot;)</pre>
+
+<h3>Get the files themselves from…</h3>
+
+<ul>
+<li>Canvas (Files &gt; 04_functionalR)</li>
+<li><a href='https://github.com/lucasnell/pranga/tree/main/weird-files' title=''>https://github.com/lucasnell/pranga/tree/main/weird-files</a></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Cleaning weird files (3/4)</h2></hgroup><article  id="cleaning-weird-files-34">
+
+<p>Clean a single CSV file to a string:</p>
+
+<pre class = 'prettyprint lang-r'>clean_str &lt;- function(file_name) {
+  lines &lt;- read_lines(file_name)
+  lines &lt;- lines[!str_detect(lines, &quot;^\\#\\#|^--&quot;)]
+  lines &lt;- lines[lines != &quot;&quot;]
+  cleaned_str &lt;- paste(lines, collapse = &quot;\n&quot;)
+  return(cleaned_str)
+}</pre>
+
+</article></slide><slide class=""><hgroup><h2>Cleaning weird files (4/4)</h2></hgroup><article  id="cleaning-weird-files-44">
+
+<p>Clean multiple files then combine them into a single data frame:</p>
+
+<pre class = 'prettyprint lang-r'>clean_df &lt;- function(file_names) {
+  cleaned_strs &lt;- map(file_names, clean_str)
+  data_frames &lt;- map(cleaned_strs, read_csv, col_types = cols())
+  combined_df &lt;- bind_rows(data_frames)
+  return(combined_df)
+}
+clean_df(file_names)</pre>
+
+<pre ># A tibble: 12 × 6
+   Ozone Solar.R  Wind  Temp Month   Day
+   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1    41     190   7.4    67     5     1
+ 2    NA      NA  14.3    56     5     5
+ 3    28      NA  14.9    66     5     6
+ 4    23     299   8.6    65     5     7
+ 5    NA     194   8.6    69     5    10
+ 6     7      NA   6.9    74     5    11
+ 7    11     290   9.2    66     5    13
+ 8    14     274  10.9    68     5    14
+ 9    18      65  13.2    58     5    15
+10     6      78  18.4    57     5    18
+11    30     322  11.5    68     5    19
+12    11      44   9.7    62     5    20</pre>
+
+</article></slide><slide class=""><hgroup><h2>More information</h2></hgroup><article  id="more-information">
+
+<ul>
+<li>T Mailund (2017). <em>Functional Programming in R</em>. <a href='https://doi.org/10.1007/978-1-4842-2746-6' title=''>https://doi.org/10.1007/978-1-4842-2746-6</a></li>
+<li>Iteration (in <em>R for Data Science</em>) <a href='https://r4ds.hadley.nz/iteration.html' title=''>https://r4ds.hadley.nz/iteration.html</a></li>
+<li>Functional Programming (in <em>Advanced R</em>) <a href='https://adv-r.hadley.nz/fp.html' title=''>https://adv-r.hadley.nz/fp.html</a></li>
+<li>Functionals (in <em>Advanced R</em>) <a href='https://adv-r.hadley.nz/functionals.html' title=''>https://adv-r.hadley.nz/functionals.html</a></li>
+</ul>
+
+<h3>Online, this lecture also contains info on <code>map</code> alternatives</h3>
+
+<!---
+==============================================================================
+==============================================================================
+==============================================================================
+==============================================================================
+-->
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2><code>map</code> alternatives</h2></hgroup><article  id="map-alternatives">
+
+</article></slide><slide class=""><hgroup><h2><code>map</code> alternatives (1/2): <code>apply</code> functions</h2></hgroup><article  id="map-alternatives-12-apply-functions" class="smallcode smaller">
+
+<ul>
+<li>Similar to <code>map</code> functions, but in base R</li>
+<li><code>lapply</code> outputs a list</li>
+<li><code>sapply</code> coerces to an array</li>
+<li><code>vapply</code> coerces to a specified type</li>
+<li><code>apply</code> moves across indices of an array</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>lapply(4:5, function(i) 1:i)</pre>
+
+<pre >[[1]]
+[1] 1 2 3 4
+
+[[2]]
+[1] 1 2 3 4 5</pre>
+
+<pre class = 'prettyprint lang-r'>sapply(4:5, function(i) 1 + i)</pre>
+
+<pre >[1] 5 6</pre>
+
+<pre class = 'prettyprint lang-r'>vapply(4:5, function(i) 1 + i, 1.0)</pre>
+
+<pre >[1] 5 6</pre>
+
+<pre class = 'prettyprint lang-r'>apply(matrix(1:6, 2), 1, sum)</pre>
+
+<pre >[1]  9 12</pre>
+
+</article></slide><slide class=""><hgroup><h2><code>map</code> alternatives (2/2): <code>for</code> loops</h2></hgroup><article  id="map-alternatives-22-for-loops" class="smaller">
+
+<ul>
+<li>Especially useful when one iteration’s result depends on the previous iteration.</li>
+<li>Changes existing object(s).</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>x &lt;- numeric(100)
+x[1] &lt;- 10
+for (t in 2:length(x)) {
+  x[t] &lt;- x[t-1] + rnorm(1)
+}</pre>
+
+<p><img src="04-R-functional_files/figure-html/for_loops3-1.png" width="768" /></p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+    if (window.Shiny) {
+      // Initialize slides when this script appears on the page, since it
+      // indicates that the <slides> markup has been fully loaded.
+      window.loadDeck();
+    }
+  })();
+</script>
+
+</body>
+</html>

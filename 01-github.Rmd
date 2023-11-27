@@ -6,6 +6,7 @@ output:
   ioslides_presentation:
     widescreen: true
     smaller: false
+    css: classes-styles.css
 editor_options: 
   chunk_output_type: console
 ---
@@ -13,40 +14,10 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-
-
-<!-- This allows for manual column breaks: -->
-<style>
-.forceBreak { -webkit-column-break-after: always; break-after: column; }
-</style>
-<!-- Footnote -->
-<style>
-div.footnotes {
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 10px;
-  width: 80%;
-  font-size: 0.6em;
-}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script>
-$(document).ready(function() {
-  $('slide:not(.backdrop):not(.title-slide)').append('<div class=\"footnotes\">');
-
-  $('footnote').each(function(index) {
-    var text  = $(this).html();
-    var fnNum = (index+1).toString();
-    $(this).html(fnNum.sup());
-
-    var footnote   = fnNum + '. ' + text + '<br/>';
-    var oldContent = $(this).parents('slide').children('div.footnotes').html();
-    var newContent = oldContent + footnote;
-    $(this).parents('slide').children('div.footnotes').html(newContent);
-  });
-});
-</script>
+```{r source-html, results="asis", echo = FALSE}
+# Sourcing file that includes extra html for our class lectures:
+cat(readLines("class-preamble.html"), sep = "\n")
+```
 
 
 

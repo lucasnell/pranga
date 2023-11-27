@@ -1,0 +1,16 @@
+## Data provided by Y
+
+Ozone,Solar.R,Wind,Temp,Month,Day
+7,NA,6.9,74,5,11
+--- instrument error
+11,290,9.2,66,5,13
+14,274,10.9,68,5,14
+18,65,13.2,58,5,15
+--- instrument error
+--- instrument error
+6,78,18.4,57,5,18
+30,322,11.5,68,5,19
+11,44,9.7,62,5,20
+
+## Year observed: 1991
+

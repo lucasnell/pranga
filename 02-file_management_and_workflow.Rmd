@@ -7,6 +7,7 @@ output:
     incremental: true
     widescreen: true
     smaller: false
+    css: classes-styles.css
 editor_options: 
   chunk_output_type: console
 ---
@@ -14,61 +15,11 @@ editor_options:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+```{r source-html, results="asis", echo = FALSE}
+# Sourcing file that includes extra html for our class lectures:
+cat(readLines("class-preamble.html"), sep = "\n")
+```
 
-
-
-
-<!-- This allows for manual column breaks: -->
-<style>
-.forceBreak { -webkit-column-break-after: always; break-after: column; }
-</style>
-<!-- This allows for smaller figure captions: -->
-<style>
-.figure_caption {
-font-size: 40%;
-text-align: center;
-}
-</style>
-<!-- This allows for top aligned images: -->
-<style>
-figure{
-    display: inline-block;
-    vertical-align: baseline;
-    margin:0;
-}
-</style>
-<!-- Footnote -->
-<style>
-div.footnotes {
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 10px;
-  width: 80%;
-  font-size: 0.6em;
-}
-</style>
-<style>
-.footnote-number {
-  font-size: 16px; 
-}
-</style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script>
-$(document).ready(function() {
-  $('slide:not(.backdrop):not(.title-slide)').append('<div class=\"footnotes\">');
-
-  $('footnote').each(function(index) {
-    var text  = $(this).html();
-    var fnNum = (index+1).toString();
-    $(this).html('<sup class="footnote-number">  ' + fnNum + '</sup>');
-
-    var footnote   = fnNum + '. ' + text + '<br/>';
-    var oldContent = $(this).parents('slide').children('div.footnotes').html();
-    var newContent = oldContent + footnote;
-    $(this).parents('slide').children('div.footnotes').html(newContent);
-  });
-});
-</script>
 
 
 
