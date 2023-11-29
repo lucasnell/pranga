@@ -39,7 +39,6 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-
 # translation temp files
 po/*~
 

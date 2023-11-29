@@ -1,0 +1,605 @@
+---
+title: "Day 5 - Super functional coding"
+author: "Lucas A. Nell and Maggie L. Warren"
+date: "2023-11-29"
+output:
+  ioslides_presentation:
+    incremental: false
+    widescreen: true
+    smaller: false
+    css: classes-styles.css
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = "")
+suppressPackageStartupMessages({
+    library(tidyverse)
+})
+set.seed(1)
+theme_set(theme_minimal() +
+    theme(axis.line = element_line(linewidth = 1), 
+          panel.grid = element_blank(), 
+          axis.title = element_text(size = 14),
+          axis.text = element_text(size = 12),
+          axis.ticks = element_line(color = "black")))
+```
+```{r source-html, results="asis", echo = FALSE}
+# Sourcing file that includes extra html for our class lectures:
+cat(readLines("class-preamble.html"), sep = "\n")
+```
+
+
+
+## From last time: Cleaning weird files
+
+We have a folder full of output files like this:
+
+```{r n_slides_ex1, echo = FALSE}
+n_slides <- 4
+file_names <- paste0("weird-files/", c("file1.out", "file2.out"))
+cat(read_lines(file_names[1]), sep = "\n")
+```
+
+
+```{r weirddata_data, echo = FALSE, eval=FALSE}
+# I used this to create the files
+files <- c("## Data provided by X
+
+Ozone,Solar.R,Wind,Temp,Month,Day
+41,190,7.4,67,5,1
+NA,NA,14.3,56,5,5
+--- instrument error
+28,NA,14.9,66,5,6
+23,299,8.6,65,5,7
+--- instrument error
+NA,194,8.6,69,5,10
+
+## Year observed: 1990",
+"## Data provided by Y
+
+Ozone,Solar.R,Wind,Temp,Month,Day
+7,NA,6.9,74,5,11
+--- instrument error
+11,290,9.2,66,5,13
+14,274,10.9,68,5,14
+18,65,13.2,58,5,15
+--- instrument error
+--- instrument error
+6,78,18.4,57,5,18
+30,322,11.5,68,5,19
+11,44,9.7,62,5,20
+
+## Year observed: 1991
+")
+```
+
+
+## Cleaning weird files (2/`r n_slides`)
+
+### Problems:
+
+1. Remove unnecessary lines from each file.
+2. Create a single data frame from multiple cleaned files.
+
+### Input information:
+
+1. Vector of file names (`file_names`)
+
+```{r weirddata_info, eval=FALSE}
+file_names <- c("file1.out", "file2.out")
+```
+
+
+### Get the files themselves from...
+
+- Canvas (Files > 04_functionalR)
+- <https://github.com/lucasnell/pranga/tree/main/weird-files>
+
+
+
+## Cleaning weird files (3/`r n_slides`)
+
+Clean a single CSV file to a string:
+
+```{r weirddata3}
+clean_str <- function(file_name) {
+  lines <- read_lines(file_name)
+  lines <- lines[!str_detect(lines, "^\\#\\#|^--")]
+  lines <- lines[lines != ""]
+  cleaned_str <- paste(lines, collapse = "\n")
+  return(cleaned_str)
+}
+```
+
+
+
+## Cleaning weird files (4/`r n_slides`)
+
+
+Clean multiple files then combine them into a single data frame:
+
+```{r weirddata4}
+clean_df <- function(file_names) {
+  cleaned_strs <- map(file_names, clean_str)
+  data_frames <- map(cleaned_strs, read_csv, col_types = cols())
+  combined_df <- bind_rows(data_frames)
+  return(combined_df)
+}
+clean_df(file_names)
+```
+
+
+
+# Before we proceed...
+
+## Let's create a global `.gitignore` file!<footnote>https://stackoverflow.com/a/7335487</footnote> {.smaller .smallcode}
+
+### Mac, Linux, or Windows git bash:
+
+```bash
+git config --global core.excludesFile ~/.gitignore
+```
+
+### Windows cmd:
+
+```bash
+git config --global core.excludesFile "%USERPROFILE%\.gitignore"
+```
+
+### Windows Powershell:
+```bash
+git config --global core.excludesFile "$Env:USERPROFILE\.gitignore"
+```
+
+### Confirm the location:
+
+```bash
+git config --global core.excludesFile
+```
+
+
+## Add file with things to ignore
+
+### Mac, Linux, or (maybe) Windows git bash:
+
+```bash
+touch ~/.gitignore
+open ~/.gitignore
+```
+
+Otherwise, just open a file in a text editor and save it as `~/.gitignore`
+
+Paste in the following contents to file:
+
+<https://shorturl.at/jlLT9>
+
+or Canvas > Files > 05_super-functional > gitignore.txt
+
+Then save!
+
+
+
+# Now back to functional coding
+
+
+## Defensive programming {.build}
+
+> "Defensive programming is a technique to ensure that code fails with
+> well-defined errors, i.e. where you know it shouldn’t work.
+> The key here is to 'fail fast' and ensure that the code throws an error as 
+> soon as something unexpected happens.
+> This creates a little more work for the programmer, but makes debugging 
+> code a lot easier at a later date." <footnote>*Reproducible Code*, p 14 found at <https://www.britishecologicalsociety.org/publications/better-science/></footnote>
+
+
+- Protect others that want to use your code (including your PI) from themselves
+- Protect yourself from future you
+
+
+## How to program defensively
+
+```{r defensive-code1, error = TRUE}
+subtract <- function(x, y) {
+  z <- x - y
+  return(z)
+}
+subtract("x", 6)
+```
+
+<br>
+**Not very useful for debugging**
+
+
+
+## How can we make this error message more useful? {.build}
+
+Think about the necessary properties of your arguments
+
+```{r defensive-code2, error = TRUE}
+subtract <- function(x, y) {
+  if (!is.numeric(x) || !is.numeric(y)) {
+    stop("both x and y must be numeric")
+  }
+  z <- x - y
+  return(z)
+}
+subtract("x", 6)
+```
+
+## An example of insidious R helpfulness {.build}
+
+Sometimes R is just too helpful for its own good
+
+What if we want to subtract `6:1` from `1:6`, but accidentally typed 
+`6:5` instead of `6:1`?
+
+```{r defensive-code3}
+subtract(1:6, 6:5)
+```
+
+<br>
+**What extra check do we need?**
+
+## That extra check
+
+```{r defensive-code4, error = TRUE}
+subtract <- function(x, y) {
+  if (!is.numeric(x) || !is.numeric(y)) {
+    stop("both x and y must be numeric")
+  }
+  if (length(x) != length(y)) {
+    stop("x and y must have the same length")
+  }
+  z <- x - y
+  return(z)
+}
+subtract(1:6, 6:5)
+```
+
+
+
+
+## Sourcing files {.smaller .smallcode}
+
+- `source("file.R")` runs all the code inside `file.R`
+- It's pretty simple, but it can help a lot with coding organization
+and staying DRY
+
+<br>
+Let's say we have a file `plot.R`:
+
+```{r source-example1, eval = FALSE}
+library(tidyverse)
+my_df <- ChickWeight |> 
+  as_tibble() |> 
+  mutate(log_weight = log(weight))
+my_df |> 
+  ggplot(aes(Time, log_weight)) +
+  ...
+```
+
+<br>
+and another file `analyze.R`:
+
+```{r source-example2, eval = FALSE}
+library(tidyverse)
+my_df <- ChickWeight |> 
+  as_tibble() |> 
+  mutate(log_weight = log(weight))
+mod <- lm(log_weight ~ Time * Diet, my_df)
+```
+
+
+## Sourcing helps us avoid repeating code {.smaller .smallcode}
+
+We can instead have three files:
+
+
+<br>
+`read-data.R`:
+
+```{r source-example3, eval = FALSE}
+library(tidyverse)
+my_df <- ChickWeight |> 
+  as_tibble() |> 
+  mutate(log_weight = log(weight))
+```
+
+<br>
+`plot.R`:
+
+```{r source-example4, eval = FALSE}
+source("read-data.R")
+my_df |> 
+  ggplot(aes(Time, weight)) +
+  ...
+```
+
+<br>
+`analyze.R`:
+
+```{r source-example5, eval = FALSE}
+source("read-data.R")
+mod <- lm(log_weight ~ Time * Diet, my_df)
+```
+
+## Example of using `source()`
+
+`scripts` folder inside
+<https://github.com/lucasnell/gameofclones-data>
+
+
+## How could you use this in your projects?
+
+
+
+## Building R packages
+
+First run this in R to get some useful packages:
+
+```{r pkg-packages, eval = FALSE}
+install.packages(c("devtools", "roxygen2", "testthat", "knitr"))
+```
+
+### Next, let's make a test package from scratch:
+
+In R, run:
+
+```{r create-pkg, eval = FALSE}
+usethis::create_package("<path>/<pkg-name>")
+```
+where `<pkg-name>` should only contain letters, numbers, and periods
+
+It should open up in RStudio
+
+
+
+## Structure of our package
+
+
+- `.Rbuildignore`: specifies files to avoid incorporating into the package.
+  Use `usethis::use_build_ignore()` to add more files to it.
+- `DESCRIPTION`: metadata about your package.
+- `NAMESPACE`: contains exports from your package and imports from other 
+  packages to yours. You shouldn't typically have to edit this.
+- `R`: contains all the R code you're using for your package, and we'll use
+  this to create our documentation, too. This is the main folder you'll work in.
+
+
+## Hotkeys from RStudio
+
+
+| Description               | Windows/Linux     | Mac                |
+|:--------------------------|:------------------|:-------------------|
+| Build and Reload	        | Ctrl+Shift+B      | Cmd+Shift+B        |
+| Document Package	        | Ctrl+Shift+D      | Cmd+Shift+D        |
+| Insert Roxygen Skeleton	  | Ctrl+Alt+Shift+R  | Cmd+Option+Shift+R |
+| Test Package	            | Ctrl+Shift+T      | Cmd+Shift+T        |
+| Check Package	            | Ctrl+Shift+E      | Cmd+Shift+E        |
+
+## `DESCRIPTION`
+
+Yours should look like this:
+
+```
+Package: testPkg
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+```
+
+## `DESCRIPTION` - What does your package do?
+
+### `Title`
+
+Short (<65 chars) and title case, does not end in period
+
+### `Description`
+
+Short paragraph with greater description, each line < 80 characters wide 
+with lines after the first indented by 4 spaces.
+
+From `ggplot2`:
+
+```
+Title: Create Elegant Data Visualisations Using the Grammar of Graphics
+Description: A system for 'declaratively' creating graphics,
+    based on "The Grammar of Graphics". You provide the data, tell 'ggplot2'
+    how to map variables to aesthetics, what graphical primitives to use,
+    and it takes care of the details.
+```
+
+
+## `DESCRIPTION` - `Version` field
+
+Typically I make mine as `<major>.<minor>.<patch>`
+
+1. The major version is only incremented when
+   there are huge changes that likely affect most users.
+2. The minor version is incremented for bug fixes and
+   new features that are backward compatible.
+3. The patch version fixes small bugs that have little change overall to the user.
+
+
+- I add another integer and a `"."` if it's a development version
+  (e.g., `"1.0.1.9000"`)
+
+
+## `DESCRIPTION` - `License` field
+
+
+This is from <https://r-pkgs.org/license.html>:
+
+- If you want a permissive license so people can use your code with minimal
+  restrictions, choose the MIT license with `use_mit_license()`.
+- If you want a copyleft license so that all derivatives and bundles of 
+  your code are also open source, choose the GPLv3 license with 
+  `use_gpl_license()`.
+- If your package primarily contains data, not code, and you want minimal 
+  restrictions, choose the CC0 license with `use_cc0_license()`. 
+  Or if you want to require attribution when your data is used, choose the 
+  CC BY license by calling `use_ccby_license()`.
+
+
+
+## `DESCRIPTION` - Who are you?
+
+```
+Authors@R:  c(
+    person(c("Lucas", "A."), "Nell", email = "lucas@email.com", role = "cre",
+           comment = c(ORCID = "LUCAS-ORCID-ID")),
+    person(c("Magdalena", "L."), "Warren", email = "maggie@email.com", 
+           role = "aut", comment = c(ORCID = "MAGGIE-ORCID-ID")))
+```
+
+`role` is typically one or more of the following:
+
+- `"cre"`: creator and maintainer of the package
+- `"aut"`: author who made significant contributions
+- `"ctb"`: contributor who made relatively small contributions
+
+
+## `DESCRIPTION` - What does your package need?
+
+### `Imports`
+
+Indicates packages that your package needs to run.
+
+Almost always use `Imports` instead of `Depends` because `Depends` does equivalent
+to calling `library()` on all packages listed there.
+This clogs up your environment.
+
+```{r use_package, eval = FALSE}
+usethis::use_package("<package>")
+```
+
+
+### `Suggests`
+
+Packages that your package can use but are not required.
+
+```{r use_package_Suggests, eval = FALSE}
+usethis::use_package("<package>", "Suggests")
+```
+
+
+
+
+
+## Adding a function
+
+Add a new R file to the `R` directory, and write a function inside it.
+
+### **What functions could be useful to you in your work?**
+
+<br> 
+
+Here's my toy example:
+
+```{r hello-fxn, eval = FALSE}
+hello <- function(x) {
+    paste("Hello, ", x, "!", sep = "")
+}
+```
+
+## Writing documentation {.smaller .smallcode}
+
+- In RStudio, put your cursor in your function somewhere, then add
+  a start to your docs using `Ctrl+Alt+Shift+R`, 
+  `Cmd+Option+Shift+R`, or `Code` > `Insert Roxygen Skeleton`.
+- After writing your documentation, build your package (`Ctrl+Shift+B` or
+  `Cmd+Shift+B`) and try using your function.
+
+
+```{r hello-fxn-doc, eval = FALSE}
+#' Say hello to stuff
+#'
+#' @param x Single character indicating what you should say hello to.
+#'
+#' @return A single character saying hello.
+#' 
+#' @export
+#'
+#' @examples
+#' hello("world")
+#' my_hello <- hello("Lucas")
+#' 
+hello <- function(x) {
+    paste("Hello, ", x, "!", sep = "")
+}
+```
+
+<br>
+
+Any issues? If so, try looking at your `NAMESPACE` file.
+
+
+## Generating the documentation
+
+
+> - Our `NAMESPACE` file shows us that our function isn't exported, plus we 
+>   don't have aything in our `man` folder that's supposed to contain our docs!
+> - We have to generate the documentation for our package! (`Ctrl+Shift+D` or
+>   `Cmd+Shift+D`)
+> - Document, re-build package, and try your function again.
+> - Also try `?<function-name>`
+
+
+
+## Adding data
+
+Typically if you create a dataset you want to include with your package...
+
+```{r add-data, eval = FALSE}
+cool_data <- data.frame(x = 1:5, y = runif(5))
+usethis::use_data(cool_data)
+```
+
+Even better is to document how you created the data:
+
+```{r add-data2, eval = FALSE}
+usethis::use_data_raw("cool_data")
+# Then, inside the newly created `data-raw/cool_data.R`, write:
+cool_data <- data.frame(x = 1:5, y = runif(5))
+usethis::use_data(cool_data)
+```
+
+Also document your datasets! (see <https://r-pkgs.org/data.html>)
+
+
+## Testing your package
+
+Automated testing makes your package much more robust and helps you avoid
+introducing errors as you develop your package.
+
+I highly recommend using the package `testthat` to manage your tests
+(see <https://r-pkgs.org/testing-basics.html> and
+<https://testthat.r-lib.org/> for more info)
+
+
+
+## Example of using a package for a paper
+
+<https://github.com/lucasnell/sauron>
+
+
+## How could you use this in your projects?
+
+
+## More info
+
+More on defensive programming and organizing projects in 
+the British Ecological Society's *Reproducible Code* found at <https://www.britishecologicalsociety.org/publications/better-science/>
+
+Lots of info on R packages at <https://r-pkgs.org/>
+

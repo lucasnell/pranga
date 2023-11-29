@@ -25,6 +25,7 @@ navbar:
         - text: "Class 4"
           href: 04-R-functional.html
         - text: "Class 5"
+          href: 05-super-functional.html
         - text: "Class 6"
         - text: "---------"
         - text: "Week 3"
