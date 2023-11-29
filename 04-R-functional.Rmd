@@ -17,6 +17,7 @@ knitr::opts_chunk$set(echo = TRUE, comment = "")
 suppressPackageStartupMessages({
     library(tidyverse)
 })
+set.seed(1)
 theme_set(theme_minimal() +
     theme(axis.line = element_line(linewidth = 1), 
           panel.grid = element_blank(), 

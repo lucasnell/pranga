@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Day 5 - Super functional coding</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2023-11-29" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Day 5 - Super functional coding',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Lucas A. Nell and Maggie L. Warren' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="site_libs/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    summary {
+      display: list-item;
+    }
+
+    details > summary > p:only-child {
+      display: inline;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
+
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+            pre > code.sourceCode { white-space: pre; position: relative; }
+            pre > code.sourceCode > span { line-height: 1.25; }
+            pre > code.sourceCode > span:empty { height: 1.2em; }
+            .sourceCode { overflow: visible; }
+            code.sourceCode > span { color: inherit; text-decoration: inherit; }
+            div.sourceCode { margin: 1em 0; }
+            pre.sourceCode { margin: 0; }
+            @media screen {
+            div.sourceCode { overflow: auto; }
+            }
+            @media print {
+            pre > code.sourceCode { white-space: pre-wrap; }
+            pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+            }
+            pre.numberSource code
+              { counter-reset: source-line 0; }
+            pre.numberSource code > span
+              { position: relative; left: -4em; counter-increment: source-line; }
+            pre.numberSource code > span > a:first-child::before
+              { content: counter(source-line);
+                position: relative; left: -1em; text-align: right; vertical-align: baseline;
+                border: none; display: inline-block;
+                -webkit-touch-callout: none; -webkit-user-select: none;
+                -khtml-user-select: none; -moz-user-select: none;
+                -ms-user-select: none; user-select: none;
+                padding: 0 4px; width: 4em;
+                color: #aaaaaa;
+              }
+            pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+            div.sourceCode
+              {   }
+            @media screen {
+            pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+            }
+            code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+            code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+            code span.at { color: #7d9029; } /* Attribute */
+            code span.bn { color: #40a070; } /* BaseN */
+            code span.bu { color: #008000; } /* BuiltIn */
+            code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+            code span.ch { color: #4070a0; } /* Char */
+            code span.cn { color: #880000; } /* Constant */
+            code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+            code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+            code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+            code span.dt { color: #902000; } /* DataType */
+            code span.dv { color: #40a070; } /* DecVal */
+            code span.er { color: #ff0000; font-weight: bold; } /* Error */
+            code span.ex { } /* Extension */
+            code span.fl { color: #40a070; } /* Float */
+            code span.fu { color: #06287e; } /* Function */
+            code span.im { color: #008000; font-weight: bold; } /* Import */
+            code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+            code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+            code span.op { color: #666666; } /* Operator */
+            code span.ot { color: #007020; } /* Other */
+            code span.pp { color: #bc7a00; } /* Preprocessor */
+            code span.sc { color: #4070a0; } /* SpecialChar */
+            code span.ss { color: #bb6688; } /* SpecialString */
+            code span.st { color: #4070a0; } /* String */
+            code span.va { color: #19177c; } /* Variable */
+            code span.vs { color: #4070a0; } /* VerbatimString */
+            code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+        
+  </style>
+
+  <link rel="stylesheet" href="classes-styles.css" type="text/css" />
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2023-11-29</p>
+          </hgroup>
+  </slide>
+
+<!-- This is required for footnotes: -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('slide:not(.backdrop):not(.title-slide)').append('<div class=\"footnotes\">');
+
+  $('footnote').each(function(index) {
+    var text  = $(this).html();
+    var fnNum = (index+1).toString();
+    $(this).html('<sup class="footnote-number">  ' + fnNum + '</sup>');
+
+    var footnote   = fnNum + '. ' + text + '<br/>';
+    var oldContent = $(this).parents('slide').children('div.footnotes').html();
+    var newContent = oldContent + footnote;
+    $(this).parents('slide').children('div.footnotes').html(newContent);
+  });
+});
+</script>
+
+<slide class=""><hgroup><h2>From last time: Cleaning weird files</h2></hgroup><article  id="from-last-time-cleaning-weird-files">
+
+<p>We have a folder full of output files like this:</p>
+
+<pre >## Data provided by X
+
+Ozone,Solar.R,Wind,Temp,Month,Day
+41,190,7.4,67,5,1
+NA,NA,14.3,56,5,5
+--- instrument error
+28,NA,14.9,66,5,6
+23,299,8.6,65,5,7
+--- instrument error
+NA,194,8.6,69,5,10
+
+## Year observed: 1990</pre>
+
+</article></slide><slide class=""><hgroup><h2>Cleaning weird files (2/4)</h2></hgroup><article  id="cleaning-weird-files-24">
+
+<h3>Problems:</h3>
+
+<ol>
+<li>Remove unnecessary lines from each file.</li>
+<li>Create a single data frame from multiple cleaned files.</li>
+</ol>
+
+<h3>Input information:</h3>
+
+<ol>
+<li>Vector of file names (<code>file_names</code>)</li>
+</ol>
+
+<pre class = 'prettyprint lang-r'>file_names &lt;- c(&quot;file1.out&quot;, &quot;file2.out&quot;)</pre>
+
+<h3>Get the files themselves from…</h3>
+
+<ul>
+<li>Canvas (Files &gt; 04_functionalR)</li>
+<li><a href='https://github.com/lucasnell/pranga/tree/main/weird-files' title=''>https://github.com/lucasnell/pranga/tree/main/weird-files</a></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Cleaning weird files (3/4)</h2></hgroup><article  id="cleaning-weird-files-34">
+
+<p>Clean a single CSV file to a string:</p>
+
+<pre class = 'prettyprint lang-r'>clean_str &lt;- function(file_name) {
+  lines &lt;- read_lines(file_name)
+  lines &lt;- lines[!str_detect(lines, &quot;^\\#\\#|^--&quot;)]
+  lines &lt;- lines[lines != &quot;&quot;]
+  cleaned_str &lt;- paste(lines, collapse = &quot;\n&quot;)
+  return(cleaned_str)
+}</pre>
+
+</article></slide><slide class=""><hgroup><h2>Cleaning weird files (4/4)</h2></hgroup><article  id="cleaning-weird-files-44">
+
+<p>Clean multiple files then combine them into a single data frame:</p>
+
+<pre class = 'prettyprint lang-r'>clean_df &lt;- function(file_names) {
+  cleaned_strs &lt;- map(file_names, clean_str)
+  data_frames &lt;- map(cleaned_strs, read_csv, col_types = cols())
+  combined_df &lt;- bind_rows(data_frames)
+  return(combined_df)
+}
+clean_df(file_names)</pre>
+
+<pre ># A tibble: 12 × 6
+   Ozone Solar.R  Wind  Temp Month   Day
+   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1    41     190   7.4    67     5     1
+ 2    NA      NA  14.3    56     5     5
+ 3    28      NA  14.9    66     5     6
+ 4    23     299   8.6    65     5     7
+ 5    NA     194   8.6    69     5    10
+ 6     7      NA   6.9    74     5    11
+ 7    11     290   9.2    66     5    13
+ 8    14     274  10.9    68     5    14
+ 9    18      65  13.2    58     5    15
+10     6      78  18.4    57     5    18
+11    30     322  11.5    68     5    19
+12    11      44   9.7    62     5    20</pre>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Before we proceed…</h2></hgroup><article  id="before-we-proceed">
+
+</article></slide><slide class=""><hgroup><h2>Let’s create a global <code>.gitignore</code> file!<footnote><a href='https://stackoverflow.com/a/7335487' title=''>https://stackoverflow.com/a/7335487</a></footnote></h2></hgroup><article  id="lets-create-a-global-.gitignore-filehttpsstackoverflow.coma7335487" class="smaller smallcode">
+
+<h3>Mac, Linux, or Windows git bash:</h3>
+
+<pre class = 'prettyprint lang-bash'>git config --global core.excludesFile ~/.gitignore</pre>
+
+<h3>Windows cmd:</h3>
+
+<pre class = 'prettyprint lang-bash'>git config --global core.excludesFile &quot;%USERPROFILE%\.gitignore&quot;</pre>
+
+<h3>Windows Powershell:</h3>
+
+<pre class = 'prettyprint lang-bash'>git config --global core.excludesFile &quot;$Env:USERPROFILE\.gitignore&quot;</pre>
+
+<h3>Confirm the location:</h3>
+
+<pre class = 'prettyprint lang-bash'>git config --global core.excludesFile</pre>
+
+</article></slide><slide class=""><hgroup><h2>Add file with things to ignore</h2></hgroup><article  id="add-file-with-things-to-ignore">
+
+<h3>Mac, Linux, or (maybe) Windows git bash:</h3>
+
+<pre class = 'prettyprint lang-bash'>touch ~/.gitignore
+open ~/.gitignore</pre>
+
+<p>Otherwise, just open a file in a text editor and save it as <code>~/.gitignore</code></p>
+
+<p>Paste in the following contents to file:</p>
+
+<p><a href='https://shorturl.at/jlLT9' title=''>https://shorturl.at/jlLT9</a></p>
+
+<p>or Canvas &gt; Files &gt; 05_super-functional &gt; gitignore.txt</p>
+
+<p>Then save!</p>
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Now back to functional coding</h2></hgroup><article  id="now-back-to-functional-coding">
+
+</article></slide><slide class=""><hgroup><h2>Defensive programming</h2></hgroup><article  id="defensive-programming" class="build">
+
+<blockquote>
+<p>&ldquo;Defensive programming is a technique to ensure that code fails with well-defined errors, i.e. where you know it shouldn’t work. The key here is to &lsquo;fail fast&rsquo; and ensure that the code throws an error as soon as something unexpected happens. This creates a little more work for the programmer, but makes debugging code a lot easier at a later date.&rdquo; <footnote><em>Reproducible Code</em>, p 14 found at <a href='https://www.britishecologicalsociety.org/publications/better-science/' title=''>https://www.britishecologicalsociety.org/publications/better-science/</a></footnote></p>
+</blockquote>
+
+<ul>
+<li>Protect others that want to use your code (including your PI) from themselves</li>
+<li>Protect yourself from future you</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>How to program defensively</h2></hgroup><article  id="how-to-program-defensively">
+
+<pre class = 'prettyprint lang-r'>subtract &lt;- function(x, y) {
+  z &lt;- x - y
+  return(z)
+}
+subtract(&quot;x&quot;, 6)</pre>
+
+<pre >Error in x - y: non-numeric argument to binary operator</pre>
+
+<p><br> <strong>Not very useful for debugging</strong></p>
+
+</article></slide><slide class=""><hgroup><h2>How can we make this error message more useful?</h2></hgroup><article  id="how-can-we-make-this-error-message-more-useful" class="build">
+
+<p>Think about the necessary properties of your arguments</p>
+
+<pre class = 'prettyprint lang-r'>subtract &lt;- function(x, y) {
+  if (!is.numeric(x) || !is.numeric(y)) {
+    stop(&quot;both x and y must be numeric&quot;)
+  }
+  z &lt;- x - y
+  return(z)
+}
+subtract(&quot;x&quot;, 6)</pre>
+
+<pre >Error in subtract(&quot;x&quot;, 6): both x and y must be numeric</pre>
+
+</article></slide><slide class=""><hgroup><h2>An example of insidious R helpfulness</h2></hgroup><article  id="an-example-of-insidious-r-helpfulness" class="build">
+
+<p>Sometimes R is just too helpful for its own good</p>
+
+<p>What if we want to subtract <code>6:1</code> from <code>1:6</code>, but accidentally typed <code>6:5</code> instead of <code>6:1</code>?</p>
+
+<pre class = 'prettyprint lang-r'>subtract(1:6, 6:5)</pre>
+
+<pre >[1] -5 -3 -3 -1 -1  1</pre>
+
+<p><br> <strong>What extra check do we need?</strong></p>
+
+</article></slide><slide class=""><hgroup><h2>That extra check</h2></hgroup><article  id="that-extra-check">
+
+<pre class = 'prettyprint lang-r'>subtract &lt;- function(x, y) {
+  if (!is.numeric(x) || !is.numeric(y)) {
+    stop(&quot;both x and y must be numeric&quot;)
+  }
+  if (length(x) != length(y)) {
+    stop(&quot;x and y must have the same length&quot;)
+  }
+  z &lt;- x - y
+  return(z)
+}
+subtract(1:6, 6:5)</pre>
+
+<pre >Error in subtract(1:6, 6:5): x and y must have the same length</pre>
+
+</article></slide><slide class=""><hgroup><h2>Sourcing files</h2></hgroup><article  id="sourcing-files" class="smaller smallcode">
+
+<ul>
+<li><code>source(&quot;file.R&quot;)</code> runs all the code inside <code>file.R</code></li>
+<li>It’s pretty simple, but it can help a lot with coding organization and staying DRY</li>
+</ul>
+
+<p><br> Let’s say we have a file <code>plot.R</code>:</p>
+
+<pre class = 'prettyprint lang-r'>library(tidyverse)
+my_df &lt;- ChickWeight |&gt; 
+  as_tibble() |&gt; 
+  mutate(log_weight = log(weight))
+my_df |&gt; 
+  ggplot(aes(Time, log_weight)) +
+  ...</pre>
+
+<p><br> and another file <code>analyze.R</code>:</p>
+
+<pre class = 'prettyprint lang-r'>library(tidyverse)
+my_df &lt;- ChickWeight |&gt; 
+  as_tibble() |&gt; 
+  mutate(log_weight = log(weight))
+mod &lt;- lm(log_weight ~ Time * Diet, my_df)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Sourcing helps us avoid repeating code</h2></hgroup><article  id="sourcing-helps-us-avoid-repeating-code" class="smaller smallcode">
+
+<p>We can instead have three files:</p>
+
+<p><br> <code>read-data.R</code>:</p>
+
+<pre class = 'prettyprint lang-r'>library(tidyverse)
+my_df &lt;- ChickWeight |&gt; 
+  as_tibble() |&gt; 
+  mutate(log_weight = log(weight))</pre>
+
+<p><br> <code>plot.R</code>:</p>
+
+<pre class = 'prettyprint lang-r'>source(&quot;read-data.R&quot;)
+my_df |&gt; 
+  ggplot(aes(Time, weight)) +
+  ...</pre>
+
+<p><br> <code>analyze.R</code>:</p>
+
+<pre class = 'prettyprint lang-r'>source(&quot;read-data.R&quot;)
+mod &lt;- lm(log_weight ~ Time * Diet, my_df)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Example of using <code>source()</code></h2></hgroup><article  id="example-of-using-source">
+
+<p><code>scripts</code> folder inside <a href='https://github.com/lucasnell/gameofclones-data' title=''>https://github.com/lucasnell/gameofclones-data</a></p>
+
+</article></slide><slide class=""><hgroup><h2>How could you use this in your projects?</h2></hgroup><article  id="how-could-you-use-this-in-your-projects">
+
+</article></slide><slide class=""><hgroup><h2>Building R packages</h2></hgroup><article  id="building-r-packages">
+
+<p>First run this in R to get some useful packages:</p>
+
+<pre class = 'prettyprint lang-r'>install.packages(c(&quot;devtools&quot;, &quot;roxygen2&quot;, &quot;testthat&quot;, &quot;knitr&quot;))</pre>
+
+<h3>Next, let’s make a test package from scratch:</h3>
+
+<p>In R, run:</p>
+
+<pre class = 'prettyprint lang-r'>usethis::create_package(&quot;&lt;path&gt;/&lt;pkg-name&gt;&quot;)</pre>
+
+<p>where <code>&lt;pkg-name&gt;</code> should only contain letters, numbers, and periods</p>
+
+<p>It should open up in RStudio</p>
+
+</article></slide><slide class=""><hgroup><h2>Structure of our package</h2></hgroup><article  id="structure-of-our-package">
+
+<ul>
+<li><code>.Rbuildignore</code>: specifies files to avoid incorporating into the package. Use <code>usethis::use_build_ignore()</code> to add more files to it.</li>
+<li><code>DESCRIPTION</code>: metadata about your package.</li>
+<li><code>NAMESPACE</code>: contains exports from your package and imports from other packages to yours. You shouldn’t typically have to edit this.</li>
+<li><code>R</code>: contains all the R code you’re using for your package, and we’ll use this to create our documentation, too. This is the main folder you’ll work in.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Hotkeys from RStudio</h2></hgroup><article  id="hotkeys-from-rstudio">
+
+<table class = 'rmdtable'>
+<tr class="header">
+<th align="left">Description</th>
+<th align="left">Windows/Linux</th>
+<th align="left">Mac</th>
+</tr>
+<tr class="odd">
+<td align="left">Build and Reload</td>
+<td align="left">Ctrl+Shift+B</td>
+<td align="left">Cmd+Shift+B</td>
+</tr>
+<tr class="even">
+<td align="left">Document Package</td>
+<td align="left">Ctrl+Shift+D</td>
+<td align="left">Cmd+Shift+D</td>
+</tr>
+<tr class="odd">
+<td align="left">Insert Roxygen Skeleton</td>
+<td align="left">Ctrl+Alt+Shift+R</td>
+<td align="left">Cmd+Option+Shift+R</td>
+</tr>
+<tr class="even">
+<td align="left">Test Package</td>
+<td align="left">Ctrl+Shift+T</td>
+<td align="left">Cmd+Shift+T</td>
+</tr>
+<tr class="odd">
+<td align="left">Check Package</td>
+<td align="left">Ctrl+Shift+E</td>
+<td align="left">Cmd+Shift+E</td>
+</tr>
+</table>
+
+</article></slide><slide class=""><hgroup><h2><code>DESCRIPTION</code></h2></hgroup><article  id="description">
+
+<p>Yours should look like this:</p>
+
+<pre >Package: testPkg
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(&quot;First&quot;, &quot;Last&quot;, , &quot;first.last@example.com&quot;, role = c(&quot;aut&quot;, &quot;cre&quot;),
+           comment = c(ORCID = &quot;YOUR-ORCID-ID&quot;))
+Description: What the package does (one paragraph).
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3</pre>
+
+</article></slide><slide class=""><hgroup><h2><code>DESCRIPTION</code> - What does your package do?</h2></hgroup><article  id="description---what-does-your-package-do">
+
+<h3><code>Title</code></h3>
+
+<p>Short (&lt;65 chars) and title case, does not end in period</p>
+
+<h3><code>Description</code></h3>
+
+<p>Short paragraph with greater description, each line &lt; 80 characters wide with lines after the first indented by 4 spaces.</p>
+
+<p>From <code>ggplot2</code>:</p>
+
+<pre >Title: Create Elegant Data Visualisations Using the Grammar of Graphics
+Description: A system for &#39;declaratively&#39; creating graphics,
+    based on &quot;The Grammar of Graphics&quot;. You provide the data, tell &#39;ggplot2&#39;
+    how to map variables to aesthetics, what graphical primitives to use,
+    and it takes care of the details.</pre>
+
+</article></slide><slide class=""><hgroup><h2><code>DESCRIPTION</code> - <code>Version</code> field</h2></hgroup><article  id="description---version-field">
+
+<p>Typically I make mine as <code>&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;</code></p>
+
+<ol>
+<li>The major version is only incremented when there are huge changes that likely affect most users.</li>
+<li>The minor version is incremented for bug fixes and new features that are backward compatible.</li>
+<li>The patch version fixes small bugs that have little change overall to the user.</li>
+</ol>
+
+<ul>
+<li>I add another integer and a <code>&quot;.&quot;</code> if it’s a development version (e.g., <code>&quot;1.0.1.9000&quot;</code>)</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2><code>DESCRIPTION</code> - <code>License</code> field</h2></hgroup><article  id="description---license-field">
+
+<p>This is from <a href='https://r-pkgs.org/license.html' title=''>https://r-pkgs.org/license.html</a>:</p>
+
+<ul>
+<li>If you want a permissive license so people can use your code with minimal restrictions, choose the MIT license with <code>use_mit_license()</code>.</li>
+<li>If you want a copyleft license so that all derivatives and bundles of your code are also open source, choose the GPLv3 license with <code>use_gpl_license()</code>.</li>
+<li>If your package primarily contains data, not code, and you want minimal restrictions, choose the CC0 license with <code>use_cc0_license()</code>. Or if you want to require attribution when your data is used, choose the CC BY license by calling <code>use_ccby_license()</code>.</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2><code>DESCRIPTION</code> - Who are you?</h2></hgroup><article  id="description---who-are-you">
+
+<pre >Authors@R:  c(
+    person(c(&quot;Lucas&quot;, &quot;A.&quot;), &quot;Nell&quot;, email = &quot;lucas@email.com&quot;, role = &quot;cre&quot;,
+           comment = c(ORCID = &quot;LUCAS-ORCID-ID&quot;)),
+    person(c(&quot;Magdalena&quot;, &quot;L.&quot;), &quot;Warren&quot;, email = &quot;maggie@email.com&quot;, 
+           role = &quot;aut&quot;, comment = c(ORCID = &quot;MAGGIE-ORCID-ID&quot;)))</pre>
+
+<p><code>role</code> is typically one or more of the following:</p>
+
+<ul>
+<li><code>&quot;cre&quot;</code>: creator and maintainer of the package</li>
+<li><code>&quot;aut&quot;</code>: author who made significant contributions</li>
+<li><code>&quot;ctb&quot;</code>: contributor who made relatively small contributions</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2><code>DESCRIPTION</code> - What does your package need?</h2></hgroup><article  id="description---what-does-your-package-need">
+
+<h3><code>Imports</code></h3>
+
+<p>Indicates packages that your package needs to run.</p>
+
+<p>Almost always use <code>Imports</code> instead of <code>Depends</code> because <code>Depends</code> does equivalent to calling <code>library()</code> on all packages listed there. This clogs up your environment.</p>
+
+<pre class = 'prettyprint lang-r'>usethis::use_package(&quot;&lt;package&gt;&quot;)</pre>
+
+<h3><code>Suggests</code></h3>
+
+<p>Packages that your package can use but are not required.</p>
+
+<pre class = 'prettyprint lang-r'>usethis::use_package(&quot;&lt;package&gt;&quot;, &quot;Suggests&quot;)</pre>
+
+</article></slide><slide class=""><hgroup><h2>Adding a function</h2></hgroup><article  id="adding-a-function">
+
+<p>Add a new R file to the <code>R</code> directory, and write a function inside it.</p>
+
+<h3><strong>What functions could be useful to you in your work?</strong></h3>
+
+<p><br></p>
+
+<p>Here’s my toy example:</p>
+
+<pre class = 'prettyprint lang-r'>hello &lt;- function(x) {
+    paste(&quot;Hello, &quot;, x, &quot;!&quot;, sep = &quot;&quot;)
+}</pre>
+
+</article></slide><slide class=""><hgroup><h2>Writing documentation</h2></hgroup><article  id="writing-documentation" class="smaller smallcode">
+
+<ul>
+<li>In RStudio, put your cursor in your function somewhere, then add a start to your docs using <code>Ctrl+Alt+Shift+R</code>, <code>Cmd+Option+Shift+R</code>, or <code>Code</code> &gt; <code>Insert Roxygen Skeleton</code>.</li>
+<li>After writing your documentation, build your package (<code>Ctrl+Shift+B</code> or <code>Cmd+Shift+B</code>) and try using your function.</li>
+</ul>
+
+<pre class = 'prettyprint lang-r'>#&#39; Say hello to stuff
+#&#39;
+#&#39; @param x Single character indicating what you should say hello to.
+#&#39;
+#&#39; @return A single character saying hello.
+#&#39; 
+#&#39; @export
+#&#39;
+#&#39; @examples
+#&#39; hello(&quot;world&quot;)
+#&#39; my_hello &lt;- hello(&quot;Lucas&quot;)
+#&#39; 
+hello &lt;- function(x) {
+    paste(&quot;Hello, &quot;, x, &quot;!&quot;, sep = &quot;&quot;)
+}</pre>
+
+<p><br></p>
+
+<p>Any issues? If so, try looking at your <code>NAMESPACE</code> file.</p>
+
+</article></slide><slide class=""><hgroup><h2>Generating the documentation</h2></hgroup><article  id="generating-the-documentation">
+
+<ul class = 'build'>
+<li>Our <code>NAMESPACE</code> file shows us that our function isn’t exported, plus we don’t have aything in our <code>man</code> folder that’s supposed to contain our docs!</li>
+<li>We have to generate the documentation for our package! (<code>Ctrl+Shift+D</code> or <code>Cmd+Shift+D</code>)</li>
+<li>Document, re-build package, and try your function again.</li>
+<li>Also try <code>?&lt;function-name&gt;</code></li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Adding data</h2></hgroup><article  id="adding-data">
+
+<p>Typically if you create a dataset you want to include with your package…</p>
+
+<pre class = 'prettyprint lang-r'>cool_data &lt;- data.frame(x = 1:5, y = runif(5))
+usethis::use_data(cool_data)</pre>
+
+<p>Even better is to document how you created the data:</p>
+
+<pre class = 'prettyprint lang-r'>usethis::use_data_raw(&quot;cool_data&quot;)
+# Then, inside the newly created `data-raw/cool_data.R`, write:
+cool_data &lt;- data.frame(x = 1:5, y = runif(5))
+usethis::use_data(cool_data)</pre>
+
+<p>Also document your datasets! (see <a href='https://r-pkgs.org/data.html' title=''>https://r-pkgs.org/data.html</a>)</p>
+
+</article></slide><slide class=""><hgroup><h2>Testing your package</h2></hgroup><article  id="testing-your-package">
+
+<p>Automated testing makes your package much more robust and helps you avoid introducing errors as you develop your package.</p>
+
+<p>I highly recommend using the package <code>testthat</code> to manage your tests (see <a href='https://r-pkgs.org/testing-basics.html' title=''>https://r-pkgs.org/testing-basics.html</a> and <a href='https://testthat.r-lib.org/' title=''>https://testthat.r-lib.org/</a> for more info)</p>
+
+</article></slide><slide class=""><hgroup><h2>Example of using a package for a paper</h2></hgroup><article  id="example-of-using-a-package-for-a-paper">
+
+<p><a href='https://github.com/lucasnell/sauron' title=''>https://github.com/lucasnell/sauron</a></p>
+
+</article></slide><slide class=""><hgroup><h2>How could you use this in your projects?</h2></hgroup><article  id="how-could-you-use-this-in-your-projects-1">
+
+</article></slide><slide class=""><hgroup><h2>More info</h2></hgroup><article  id="more-info">
+
+<p>More on defensive programming and organizing projects in the British Ecological Society’s <em>Reproducible Code</em> found at <a href='https://www.britishecologicalsociety.org/publications/better-science/' title=''>https://www.britishecologicalsociety.org/publications/better-science/</a></p>
+
+<p>Lots of info on R packages at <a href='https://r-pkgs.org/' title=''>https://r-pkgs.org/</a></p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+    if (window.Shiny) {
+      // Initialize slides when this script appears on the page, since it
+      // indicates that the <slides> markup has been fully loaded.
+      window.loadDeck();
+    }
+  })();
+</script>
+
+</body>
+</html>

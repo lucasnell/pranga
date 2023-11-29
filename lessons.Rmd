@@ -99,10 +99,12 @@ Create data plans in class and go over them
 
 ## Week 2, Day 2
 
+1 Defensive programming
 
-1. Sourcing files
+2. Sourcing files
 
-2. Creating packages
+3. Creating packages
+
 
 How can this be incorporated into your workflow?
 
@@ -117,6 +119,8 @@ Data visualization
 ## Week 3, Day 1
 
 Creating reports using Rmarkdown
+
+Sharing environment and version numbers
 
 
 ## Week 3, Day 2
