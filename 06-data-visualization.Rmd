@@ -788,7 +788,7 @@ What are the different parts?
 
 ## Visualization function {.smallcode}
 Data wrangling
-```{r dataWrang, eval=FALSE}
+```{r dataWrang, fig.height=2}
 parameterFactoring = function(dataset, parameters, ...) {
   new_data = dataset
   for(param in parameters) {
@@ -805,15 +805,15 @@ str(iris2)
 
 
 ## Visualization function {.smallcode}
-``` {r figurePlot, eval=FALSE}
-baseFig = function(dataset, parameters, x_param, y_param, z_param = NULL, color_list, ...) {
+``` {r figurePlot, fig.height=2}
+baseFig = function(dataset, x_param, y_param, z_param = NULL, color_list, ...) {
   p = dataset |> 
         ggplot(aes(x = get(x_param), y = get(y_param))) +
         geom_violin(aes(color = get(x_param), trim = FALSE, show.legend = FALSE)) +
         scale_color_manual(values = color_list)
   return(p)
 }
-f2 = baseFig(iris2, "Species", "Sepal.Length", "Petal.Length", 
+f2 = baseFig(dataset = iris2, x_param = "param", y_param = "Sepal.Length", z_param = "Petal.Length", 
        color_list = c("setosa" = "#06d6a0", "versicolor" = "#118ab2", 
                                 "virginica" = "#073b4c"))
 f2
@@ -822,7 +822,7 @@ f2
 
 
 ## Visualization function {.smallcode}
-``` {r dataLayer, eval=FALSE}
+``` {r dataLayer, fig.height=2}
 pointsOverlay = function(plot, z_param = NULL, ...) {
   if(!is.null(z_param)) {
     p = plot + geom_jitter(aes(fill = get(z_param)), ...) + 
@@ -832,13 +832,14 @@ pointsOverlay = function(plot, z_param = NULL, ...) {
   }
   return(p)
 }
-f3 = pointsOverlay(f2, z_param = "Petal.Length", shape = 21, size = 3, alpha = 0.8)
+f3 = pointsOverlay(plot = f2, z_param = "Petal.Length", shape = 21, size = 3, alpha = 0.8)
+f3
 ```
 
 
 
 ## Visualization function {.smallcode}
-``` {r addStats, eval=FALSE}
+``` {r addStats, fig.height=2}
 addStats = function(plot, dataset, comparisons) {
   minY = max(layer_scales(plot)$y$range$range)
   yPositions = rep(minY, 3) + c(0.3, 0.6, 0.9)
@@ -849,7 +850,7 @@ addStats = function(plot, dataset, comparisons) {
                 tip_length = 0)
 }
 
-f4 = addStats(f3, iris2, comparisons = list(c("Setosa", "Versicolor"), 
+f4 = addStats(plot = f3, dataset = iris2, comparisons = list(c("Setosa", "Versicolor"), 
                                  c("Versicolor", "Virginica"), 
                                  c("Setosa", "Virginica")))
 f4
