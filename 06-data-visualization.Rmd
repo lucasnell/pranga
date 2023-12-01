@@ -1,0 +1,499 @@
+---
+title: "Day 6 - Data Visualization"
+author: "Maggie L. Warren and Lucas A. Nell"
+date: "2023-12-01"
+output:
+  ioslides_presentation:
+    incremental: false
+    widescreen: true
+    smaller: false
+    css: classes-styles.css
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = "", warning = FALSE, message = FALSE)
+suppressPackageStartupMessages({
+    library(tidyverse)
+    library(GGally)
+    library(ggsignif)
+    library(ggpubr)
+    library(viridis)
+    library(scales)
+    library(survival)
+    library(survminer)
+
+})
+```
+```{r source-html, results="asis", echo = FALSE}
+# Sourcing file that includes extra html for our class lectures:
+cat(readLines("class-preamble.html"), sep = "\n")
+```
+
+## Data Visualization packages to install
+Install the GGally, ggpubr, and ggsignif packages
+```{r pckgs, eval=FALSE}
+install.packages(c("GGally", "ggpubr", "ggsignif", "viridis", "scales", "viridisLite"))
+library(GGally)
+library(ggpubr)
+library(ggsignif)
+library(viridis)
+library(scales)
+library(viridisLite)
+```
+
+
+
+## Exploring the data
+```{r ggpairs, fig.width=10, eval=FALSE}
+ggpairs(iris, aes(color = Species, fill = Species), progress = F)
+```
+
+
+
+## Anatomy of a ggplot figure {.centered}
+
+<img src="img/gglayers.png" height="400">
+<figcaption class="figure_caption">Image from <https://r.qcbs.ca/workshop03/book-en/the-basics-of-visualizing-data.html#working-through-layers></figcaption>
+
+
+## Anatomy of a ggplot figure 
+```{r eval=FALSE}
+ggplot(data = <DATA>) + 
+  <GEOM_FUNCTION>(
+     mapping = aes(<MAPPINGS>),
+     stat = <STAT>, 
+     position = <POSITION>
+  ) +
+  <COORDINATE_FUNCTION> +
+  <FACET_FUNCTION>
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+Let's use the iris dataset.
+```{r basicFig1}
+head(iris)
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+Now we can add the aesthetics. 
+```{r basicFig2.1, eval=FALSE, size='footnotesize'}
+iris |> 
+  ggplot(aes(x = Species, y = Sepal.Length))
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+Now we can add the aesthetics. 
+```{r basicFig2.2, echo=FALSE}
+iris |> 
+  ggplot(aes(x = Species, y = Sepal.Length))
+```
+
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+We can visualize the distribution with a violin plot
+```{r basicFig3.1, eval=FALSE}
+iris |> 
+  ggplot(aes(x = Species, y = Sepal.Length)) + 
+  geom_violin(trim = FALSE)
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+We can visualize the distribution with a violin plot
+```{r basicFig3.2, echo=FALSE}
+iris |> 
+  ggplot(aes(x = Species, y = Sepal.Length)) + 
+  geom_violin(trim = FALSE)
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+Lets add the data on top
+```{r basicFig4.1, eval=FALSE}
+iris |> 
+  ggplot(aes(x = Species, y = Sepal.Length)) +
+  geom_violin(trim = FALSE) + 
+  geom_jitter()
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+```{r basicFig4.2, echo=FALSE}
+iris |> 
+  ggplot(aes(x = Species, y = Sepal.Length)) +
+  geom_violin(trim = FALSE) + 
+  geom_jitter()
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+Add some statistics
+```{r basicFig5.1, eval=FALSE}
+iris |> 
+  ggplot(aes(x = Species, y = Sepal.Length)) +
+  geom_violin(trim = FALSE) + 
+  geom_jitter() + 
+  geom_signif(comparisons = list(c("setosa", "versicolor"), 
+                                 c("versicolor", "virginica"), 
+                                 c("setosa", "virginica")), 
+              map_signif_level = T, 
+              y_position = c(7.8, 8.5, 9), 
+              tip_length = 0)
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+```{r basicFig5.2, echo=FALSE}
+iris |> 
+  ggplot(aes(x = Species, y = Sepal.Length)) +
+  geom_violin(trim = FALSE) + 
+  geom_jitter() + 
+  geom_signif(comparisons = list(c("setosa", "versicolor"), 
+                                 c("versicolor", "virginica"), 
+                                 c("setosa", "virginica")), 
+              map_signif_level = T, 
+              y_position = c(7.8, 8.5, 9), 
+              tip_length = 0)
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+Let's make it more aesthetically pleasing. 
+Change the y label and add color to violin plot and data
+```{r basicFig6.1, eval=FALSE}
+iris |> 
+  ggplot(aes(x = Species, y = Sepal.Length)) +
+  geom_violin(aes(color = Species), trim = FALSE, alpha = 0.8) + 
+  geom_jitter(aes(fill = Petal.Length), shape = 21) + 
+  geom_signif(comparisons = list(c("setosa", "versicolor"), 
+                                 c("versicolor", "virginica"), 
+                                 c("setosa", "virginica")), 
+              map_signif_level = T, 
+              y_position = c(7.8, 8.5, 9), 
+              tip_length = 0) +
+  ylab("Sepal length")
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+Let's make it more aesthetically pleasing. 
+Change the y label and add color to violin plot and data
+```{r basicFig6.2, echo=FALSE}
+iris |> 
+  ggplot(aes(x = Species, y = Sepal.Length)) +
+  geom_violin(aes(color = Species), trim = FALSE, alpha = 0.8) + 
+  geom_jitter(aes(fill = Petal.Length), shape = 21) + 
+  geom_signif(comparisons = list(c("setosa", "versicolor"), 
+                                 c("versicolor", "virginica"), 
+                                 c("setosa", "virginica")), 
+              map_signif_level = T, 
+              y_position = c(7.8, 8.5, 9), 
+              tip_length = 0) +
+  ylab("Sepal length")
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+Now we'll removed the violin plot legend, change the color palette, labels
+```{r basicFig7.1, eval=FALSE}
+iris |> 
+  mutate(Species = factor(Species, levels = c("setosa", "versicolor", "virginica"), 
+                          labels = c("Setosa", "Versicolor", "Virginica"))) |> 
+  ggplot(aes(x = Species, y = Sepal.Length)) +
+  geom_violin(aes(color = Species), trim = FALSE, show.legend = FALSE) + 
+  geom_jitter(aes(fill = Petal.Length), shape = 21, size = 3, alpha = 0.8) + 
+  geom_signif(comparisons = list(c("Setosa", "Versicolor"), 
+                                 c("Versicolor", "Virginica"), 
+                                 c("Setosa", "Virginica")), 
+              map_signif_level = T, 
+              y_position = c(7.8, 8.5, 9), 
+              tip_length = 0) +
+  scale_fill_viridis(name = "Petal length") +
+  scale_color_manual(values = c("setosa" = "#06d6a0", "versicolor" = "#118ab2", 
+                                "virginica" = "#073b4c")) +
+  ylab("Sepal length") + 
+  theme(axis.title = element_text(size = 12), 
+        axis.text.x = element_text(face = "italic"))
+```
+
+
+
+## Lets build a basic ggplot figure {.smaller}
+Now we'll removed the violin plot legend, change the color palette, labels
+```{r basicFig7.2, echo=FALSE}
+iris |> 
+  mutate(Species = factor(Species, levels = c("setosa", "versicolor", "virginica"), 
+                          labels = c("Setosa", "Versicolor", "Virginica"))) |> 
+  ggplot(aes(x = Species, y = Sepal.Length)) +
+  geom_violin(aes(color = Species), trim = FALSE, show.legend = FALSE) + 
+  geom_jitter(aes(fill = Petal.Length), shape = 21, size = 3, alpha = 0.8) + 
+  geom_signif(comparisons = list(c("Setosa", "Versicolor"), 
+                                 c("Versicolor", "Virginica"), 
+                                 c("Setosa", "Virginica")), 
+              map_signif_level = T, 
+              y_position = c(7.8, 8.5, 9), 
+              tip_length = 0) +
+  scale_fill_viridis(name = "Petal length") +
+  scale_color_manual(values = c("setosa" = "#06d6a0", "versicolor" = "#118ab2", 
+                                "virginica" = "#073b4c")) +
+  ylab("Sepal length") + 
+  theme(axis.title = element_text(size = 12), 
+        axis.text.x = element_text(face = "italic"))
+```
+
+
+
+## Basic figures: Survival plot<footnote>Code from <https://rkabacoff.github.io/datavis/Models.html#survival-plots></footnote> {.smaller}
+``` {r survivalPlot}
+data(lung)
+sfit <- survfit(Surv(time, status) ~  sex, data=lung)
+ggsurvplot(sfit, 
+           conf.int=TRUE, 
+           pval=TRUE,
+           legend.labs=c("Male", "Female"), 
+           legend.title="Sex",  
+           palette=c("cornflowerblue", "indianred3"), 
+           title="Kaplan-Meier Curve for lung cancer survival",
+           xlab = "Time (days)")
+```
+
+
+
+## Basic figures: Bubble chart<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#Bubble></footnote> {.smaller}
+``` {r bubbleChart}
+ggplot(mtcars, 
+       aes(x = wt, y = mpg, size = hp)) +
+  geom_point(alpha = .5, 
+             fill="cornflowerblue", 
+             color="black", 
+             shape=21) +
+  scale_size_continuous(range = c(1, 14)) +
+  labs(title = "Auto mileage by weight and horsepower",
+       subtitle = "Motor Trend US Magazine (1973-74 models)",
+       x = "Weight (1000 lbs)",
+       y = "Miles/(US) gallon",
+       size = "Gross horsepower") 
+```
+
+
+
+## Basic figures: Biplot<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#biplots></footnote> {.smaller}
+```{r Biplot}
+# fit a principal components model
+fit <- prcomp(x = mtcars, 
+              center = TRUE, 
+              scale = TRUE)
+
+# plot the results
+library(factoextra)
+fviz_pca(fit, 
+         repel = TRUE, 
+         labelsize = 3) + 
+  theme_bw() +
+  labs(title = "Biplot of mtcars data")
+```
+
+
+```{r, echo=FALSE}
+mtcars_table <- mtcars %>%
+  mutate(am = factor(am, labels = c("Auto", "Man")),
+         cyl = factor(cyl),
+         gear = factor(gear),
+         carb = factor(carb)) %>%
+  group_by(cyl, gear, carb, am) %>%
+  count()
+```
+  
+
+## Basic figures: Alluvial diagrams<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#alluvial-diagrams></footnote> {.smaller}
+```{r alluvial}
+ggplot(mtcars_table,
+       aes(axis1 = carb,
+           axis2 = cyl,
+           axis3 = gear,
+           axis4 = am,
+           y = n)) +
+  geom_alluvium(aes(fill = carb), color="black") +
+  geom_stratum(alpha=.8) +
+  geom_text(stat = "stratum", 
+            aes(label = after_stat(stratum))) + 
+  scale_x_discrete(limits = c("Carburetors", "Cylinders", 
+                              "Gears", "Transmission"),
+                   expand = c(.1, .1)) +
+  # scale_fill_brewer(palette="Paired") +
+  labs(title = "Mtcars data",
+       subtitle = "stratified by carb, cyl, gear, and am",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(legend.position = "none") 
+```
+
+
+
+## Basic figures: Sorted heat map<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#heatmaps></footnote> {.smaller}
+```{r heatmap}
+library(superheat)
+superheat(mtcars,
+          scale = TRUE,
+          left.label.text.size=3,
+          bottom.label.text.size=3,
+          bottom.label.size = .05,
+          row.dendrogram = TRUE )
+```
+
+
+## Basic figures: Interactive maps<footnote>Code from <https://rkabacoff.github.io/datavis/Maps.html#geocoding></footnote> {.smaller}
+```{r maps}       
+library(ggmap)
+library(mapview)
+library(sf)
+
+# subset the data
+homicide <- filter(crime, offense == "murder") %>%
+  select(date, offense, address, lon, lat)
+# view data
+head(homicide, 3)
+mymap <- st_as_sf(homicide, coords = c("lon", "lat"), crs = 4326)
+mapview(mymap)
+```
+
+
+
+## Basic figures: Barplots<footnote>Code from <https://r4ds.had.co.nz/data-visualisation.html#the-layered-grammar-of-graphics></footnote> {.smaller}
+```{r barplot1}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+```
+
+
+
+## Basic figures: Barplots<footnote>Code from <https://r4ds.had.co.nz/data-visualisation.html#the-layered-grammar-of-graphics></footnote> {.smaller}
+```{r barplot2}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+```
+
+
+  
+# Below from http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/#google_vignette
+# Box plots with jittered points
+# :::::::::::::::::::::::::::::::::::::::::::::::::::
+# Change outline colors by groups: dose
+# Use custom color palette
+# Add jitter points and change the shape by groups
+ p <- ggboxplot(ToothGrowth, x = "dose", y = "len",
+                color = "dose", palette =c("#00AFBB", "#E7B800", "#FC4E07"),
+                add = "jitter", shape = "dose")
+ p
+# Add p-values comparing groups
+ # Specify the comparisons you want
+my_comparisons <- list( c("0.5", "1"), c("1", "2"), c("0.5", "2") )
+p + stat_compare_means(comparisons = my_comparisons)+ # Add pairwise comparisons p-value
+  stat_compare_means(label.y = 50)                   # Add global p-value
+  
+# Violin plots with box plots inside
+# :::::::::::::::::::::::::::::::::::::::::::::::::::
+# Change fill color by groups: dose
+# add boxplot with white fill color
+ggviolin(ToothGrowth, x = "dose", y = "len", fill = "dose",
+         palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+         add = "boxplot", add.params = list(fill = "white"))+
+  stat_compare_means(comparisons = my_comparisons, label = "p.signif")+ # Add significance levels
+  stat_compare_means(label.y = 50)                                      # Add global the p-value 
+  
+
+dfm <- mtcars
+# Convert the cyl variable to a factor
+dfm$cyl <- as.factor(dfm$cyl)
+# Add the name colums
+dfm$name <- rownames(dfm)
+# Calculate the z-score of the mpg data
+dfm$mpg_z <- (dfm$mpg -mean(dfm$mpg))/sd(dfm$mpg)
+dfm$mpg_grp <- factor(ifelse(dfm$mpg_z < 0, "low", "high"), 
+                     levels = c("low", "high"))
+ggdotchart(dfm, x = "name", y = "mpg_z",
+           color = "cyl",                                # Color by groups
+           palette = c("#00AFBB", "#E7B800", "#FC4E07"), # Custom color palette
+           sorting = "descending",                       # Sort value in descending order
+           add = "segments",                             # Add segments from y = 0 to dots
+           add.params = list(color = "lightgray", size = 2), # Change segment color and size
+           group = "cyl",                                # Order by groups
+           dot.size = 6,                                 # Large dot size
+           label = round(dfm$mpg_z,1),                        # Add mpg values as dot labels
+           font.label = list(color = "white", size = 9, 
+                             vjust = 0.5),               # Adjust label parameters
+           ggtheme = theme_pubr()                        # ggplot2 theme
+           )+
+           geom_hline(yintercept = 0, linetype = 2, color = "lightgray")
+
+# Below from http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/83-create-and-customize-multi-panel-ggplots-easy-guide-to-facet/
+# Divide with "supp" vertical, "dose" horizontal
+p <- ggdensity(df, x = "len", fill = "dose", 
+               palette = "jco", 
+               ggtheme = theme_light(), legend = "top")
+facet(p, facet.by = c("supp", "dose"),
+       panel.labs = list(
+         supp = c("Orange Juice", "Vitamin C"),
+         dose = c("D0.5", "D1", "D2")
+         ),
+       panel.labs.background = list(color = "steelblue", fill = "steelblue", size = 0.5),
+       panel.labs.font = list(color = "white"),
+       panel.labs.font.x = list(angle = 45, color = "white")
+      )
+  
+  
+
+## Saving a figure
+
+```{r savingFigs}
+ggsave(file, plot, device = pdf, png, jpeg, etc.)
+?ggsave
+```
+
+## Colors and color palettes
+colorRampPalette
+viridis
+show_col
+
+
+## Manual colors in plots
+
+
+
+## Make your own figure
+* Clone my repository
+* Create a branch for your figure type
+* Write a function to create your figure
+* Test that it works
+* Save a sample figure and write a Readme file
+* Push your function code, figure, and Readme 
+
+
+
+## Fun with Patchwork
+
+
+
+## Extra fun with Patchwork
+
+
+
+## Automate the making of the Patchwork figure
