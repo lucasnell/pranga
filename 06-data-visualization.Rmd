@@ -668,7 +668,7 @@ facet(p, facet.by = c("supp", "dose"),
   
 
 ## Basic figures: Faceted plot<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/83-create-and-customize-multi-panel-ggplots-easy-guide-to-facet/></footnote> {.smaller}
-```{r facetedPlot2, eval=FALSE}
+```{r facetedPlot2}
 df = ToothGrowth |> 
   mutate(dose = as.factor(dose))
 p <- ggdensity(df, x = "len", fill = "dose", 
