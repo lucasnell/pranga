@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Day 7 - Creating reports and documenting dependencies</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+  <meta name="date" content="2023-12-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Day 7 - Creating reports and documenting dependencies',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+                      },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Lucas A. Nell and Maggie L. Warren' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
+  <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
+  <script src="site_libs/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/prettify.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/hammer.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-controller.js"></script>
+  <script src="site_libs/ioslides-13.5.1/js/slide-deck.js"></script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    summary {
+      display: list-item;
+    }
+
+    details > summary > p:only-child {
+      display: inline;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+/* https://github.com/ropensci/plotly/pull/524#issuecomment-468142578 */
+slide:not(.current) .plotly.html-widget{
+  display: block;
+}
+
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+            pre > code.sourceCode { white-space: pre; position: relative; }
+            pre > code.sourceCode > span { line-height: 1.25; }
+            pre > code.sourceCode > span:empty { height: 1.2em; }
+            .sourceCode { overflow: visible; }
+            code.sourceCode > span { color: inherit; text-decoration: inherit; }
+            div.sourceCode { margin: 1em 0; }
+            pre.sourceCode { margin: 0; }
+            @media screen {
+            div.sourceCode { overflow: auto; }
+            }
+            @media print {
+            pre > code.sourceCode { white-space: pre-wrap; }
+            pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+            }
+            pre.numberSource code
+              { counter-reset: source-line 0; }
+            pre.numberSource code > span
+              { position: relative; left: -4em; counter-increment: source-line; }
+            pre.numberSource code > span > a:first-child::before
+              { content: counter(source-line);
+                position: relative; left: -1em; text-align: right; vertical-align: baseline;
+                border: none; display: inline-block;
+                -webkit-touch-callout: none; -webkit-user-select: none;
+                -khtml-user-select: none; -moz-user-select: none;
+                -ms-user-select: none; user-select: none;
+                padding: 0 4px; width: 4em;
+                color: #aaaaaa;
+              }
+            pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+            div.sourceCode
+              {   }
+            @media screen {
+            pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+            }
+            code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+            code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+            code span.at { color: #7d9029; } /* Attribute */
+            code span.bn { color: #40a070; } /* BaseN */
+            code span.bu { color: #008000; } /* BuiltIn */
+            code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+            code span.ch { color: #4070a0; } /* Char */
+            code span.cn { color: #880000; } /* Constant */
+            code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+            code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+            code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+            code span.dt { color: #902000; } /* DataType */
+            code span.dv { color: #40a070; } /* DecVal */
+            code span.er { color: #ff0000; font-weight: bold; } /* Error */
+            code span.ex { } /* Extension */
+            code span.fl { color: #40a070; } /* Float */
+            code span.fu { color: #06287e; } /* Function */
+            code span.im { color: #008000; font-weight: bold; } /* Import */
+            code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+            code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+            code span.op { color: #666666; } /* Operator */
+            code span.ot { color: #007020; } /* Other */
+            code span.pp { color: #bc7a00; } /* Preprocessor */
+            code span.sc { color: #4070a0; } /* SpecialChar */
+            code span.ss { color: #bb6688; } /* SpecialString */
+            code span.st { color: #4070a0; } /* String */
+            code span.va { color: #19177c; } /* Variable */
+            code span.vs { color: #4070a0; } /* VerbatimString */
+            code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+        
+  </style>
+
+  <link rel="stylesheet" href="classes-styles.css" type="text/css" />
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+            <p style="margin-top: 6px; margin-left: -2px;">2023-12-04</p>
+          </hgroup>
+  </slide>
+
+<!-- This is required for footnotes: -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('slide:not(.backdrop):not(.title-slide)').append('<div class=\"footnotes\">');
+
+  $('footnote').each(function(index) {
+    var text  = $(this).html();
+    var fnNum = (index+1).toString();
+    $(this).html('<sup class="footnote-number">  ' + fnNum + '</sup>');
+
+    var footnote   = fnNum + '. ' + text + '<br/>';
+    var oldContent = $(this).parents('slide').children('div.footnotes').html();
+    var newContent = oldContent + footnote;
+    $(this).parents('slide').children('div.footnotes').html(newContent);
+  });
+});
+</script>
+
+<slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Documenting dependencies</h2></hgroup><article  id="documenting-dependencies">
+
+</article></slide><slide class=""><hgroup><h2>Documenting dependencies</h2></hgroup><article  id="documenting-dependencies-1">
+
+<ul>
+<li>Critical for others to be able to reproduce your results</li>
+<li>R itself is pretty stable, but many packages are not especially years (and many version) later</li>
+<li>We’ll describe three increasingly complex (and more complete) ways of allowing others to access your exact dependencies:</li>
+</ul>
+
+<ol>
+<li>List packages</li>
+<li>Create a package library for your project</li>
+<li>Use a container</li>
+</ol>
+
+</article></slide><slide class=""><hgroup><h2>1. List packages</h2></hgroup><article  id="list-packages" class="smallcode">
+
+<pre class = 'prettyprint lang-r'>devtools::session_info()</pre>
+
+<pre >─ Session info ────────────────────────────────────────────────────────────────────────────────────────────────
+ setting  value
+ version  R version 4.3.1 (2023-06-16)
+ os       macOS Sonoma 14.1.1
+ system   aarch64, darwin20
+ ui       RStudio
+ language (EN)
+ collate  en_US.UTF-8
+ ctype    en_US.UTF-8
+ tz       America/Los_Angeles
+ date     2023-12-03
+ rstudio  2023.06.0+421 Mountain Hydrangea (desktop)
+ pandoc   3.1.9 @ /opt/homebrew/bin/ (via rmarkdown)
+
+─ Packages ────────────────────────────────────────────────────────────────────────────────────────────────────
+ package     * version date (UTC) lib source
+ cachem        1.0.8   2023-05-01 [2] CRAN (R 4.3.0)
+ ...
+ xtable        1.8-4   2019-04-21 [2] CRAN (R 4.3.0)
+ yaml          2.3.7   2023-01-23 [2] CRAN (R 4.3.0)
+
+ [1] /Users/username/Library/R/arm64/4.3/library
+ [2] /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library
+
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────</pre>
+
+</article></slide><slide class=""><hgroup><h2>2. Create a package library for your project</h2></hgroup><article  id="create-a-package-library-for-your-project">
+
+<div class="columns-2">
+<h3>Package <code>renv</code></h3>
+
+<p><br></p>
+
+<p><img src="https://rstudio.github.io/renv/articles/renv.png" height="300"></p>
+
+<p class="forceBreak">
+
+</p>
+
+<p>To get started (it automatically discovered loaded packages):</p>
+
+<pre class = 'prettyprint lang-r'>renv::init()</pre>
+
+<p>To save metadata on all packages and versions:</p>
+
+<pre class = 'prettyprint lang-r'>renv::snapshot()</pre>
+
+<p>To reproduce environment that you’ve saved:</p>
+
+<pre class = 'prettyprint lang-r'>renv::restore()</pre></div>
+
+</article></slide><slide class=""><hgroup><h2>3. Use a container</h2></hgroup><article  id="use-a-container">
+
+<!-- <div class="columns-2"> -->
+
+<p><img src="https://cdn-media-1.freecodecamp.org/images/4ONl-2xcwZXUBC3VFRjgGYPUO0SDakgpy1Na" width="600" style="float:right; margin-left:0px;"></p>
+
+<ul>
+<li>Docker and Singularity are popular options</li>
+<li>Reproduce your entire operating system, including all installed software</li>
+<li>Can be useful for software that is difficult to install or in environments that limit your ability to install software, like computer clusters</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>3. Use a container (cont.)</h2></hgroup><article  id="use-a-container-cont." class="smallcode">
+
+<p>You can use an existing image. Many programs create them for users, check out <a href='https://hub.docker.com' title=''>https://hub.docker.com</a></p>
+
+<p>Or make your own. Example: <a href='https://shorturl.at/pGT25' title=''>https://shorturl.at/pGT25</a></p>
+
+<pre class = 'prettyprint lang-bash'># start with a bare-bones ubuntu with mamba installed:
+FROM condaforge/mambaforge:4.11.0-0
+
+# install some basics:
+RUN apt-get clean &amp;&amp; \
+    apt-get update -y &amp;&amp; \
+    apt-get install -y build-essential &amp;&amp; \
+    apt-get install -y locales wget rsync unzip nano sudo pv cmake \
+        ocaml-nox zlib1g-dev libbz2-dev liblzma-dev libboost-all-dev \
+        libcurl4-openssl-dev
+
+# add a conda environment with a bunch of packages:
+COPY env-main.yml .
+RUN mamba env create -q -f env-main.yml &amp;&amp; \
+    rm env-main.yml &amp;&amp; \
+    conda clean --all -y
+
+# and so on, as much as you need</pre>
+
+</article></slide><slide class=""><hgroup><h2>What method seems most appealing for your projects?</h2></hgroup><article  id="what-method-seems-most-appealing-for-your-projects">
+
+</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Creating reports</h2></hgroup><article  id="creating-reports">
+
+</article></slide><slide class=""><hgroup><h2>Reports - What and why?</h2></hgroup><article  id="reports---what-and-why">
+
+<ul>
+<li>A mix of text, tables, figures, equations, etc. — alongside the code that created them.</li>
+<li>Can be used to share results to a few collaborators or as a final manuscript document (although smaller documents are more typical).</li>
+<li>By having code next to results, your analyses are easier to validate</li>
+</ul>
+
+<p>We’re focusing on notebooks using RMarkdown, but Jupyter notebooks in python are also great.</p>
+
+</article></slide><slide class=""><hgroup><h2>R Markdown</h2></hgroup><article  id="r-markdown">
+
+<ul>
+<li>Markdown<footnote><a href='https://www.markdownguide.org/basic-syntax/' title=''>https://www.markdownguide.org/basic-syntax/</a></footnote> plus R (or other) code</li>
+<li>The code can be actually run with the output shown in the final document</li>
+<li>File extension is <code>.Rmd</code>, and output can be many options</li>
+<li>See cheatsheet on Canvas or here: <a href='https://rstudio.github.io/cheatsheets/rmarkdown.pdf' title=''>https://rstudio.github.io/cheatsheets/rmarkdown.pdf</a></li>
+</ul>
+
+<p><img src="img/rmarkdown.svg" height="250"><footnote><a href='https://www.britishecologicalsociety.org/publications/better-science/' title=''>https://www.britishecologicalsociety.org/publications/better-science/</a></footnote></p>
+
+</article></slide><slide class=""><hgroup><h2>YAML header</h2></hgroup><article  id="yaml-header">
+
+<pre >--
+title: &quot;My report&quot;
+author: &quot;Your Name&quot;
+date: &quot;Today&quot;
+output: pdf_document
+---</pre>
+
+<p>Controls the output formatting and basic info about your report</p>
+
+</article></slide><slide class=""><hgroup><h2>Code chunks</h2></hgroup><article  id="code-chunks">
+
+<h3>Can be both blocks and inline!</h3>
+
+<pre class = 'prettyprint lang-default'>```{r chunk-name}
+set.seed(1)
+x &lt;- rnorm(100)
+```
+The mean is `r mean(x)`</pre>
+
+<p><br></p>
+
+<p>The mean is 0.1088874</p>
+
+</article></slide><slide class=""><hgroup><h2>Setup code chunk</h2></hgroup><article  id="setup-code-chunk" class="smaller">
+
+<p>Added by default when creating a new Rmd file in RStudio</p>
+
+<pre class = 'prettyprint lang-default'>```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```</pre>
+
+<p>Sets default options for code chunks, including…<footnote><a href='https://bookdown.org/yihui/rmarkdown/r-code.html' title=''>https://bookdown.org/yihui/rmarkdown/r-code.html</a></footnote></p>
+
+<ul>
+<li><code>eval</code>: Whether to evaluate a code chunk.</li>
+<li><code>echo</code>: Whether to echo the source code in the output document.</li>
+<li><code>warning</code>, <code>message</code>, and <code>error</code>: Whether to show warnings, messages, and errors in the output document.</li>
+<li><code>include</code>: Whether to include anything from a code chunk in the output document.</li>
+<li><code>fig.width</code> and <code>fig.height</code>: The (graphical device) size of R plots in inches.</li>
+</ul>
+
+<p>More listed at <a href='https://yihui.name/knitr/options' title=''>https://yihui.name/knitr/options</a></p>
+
+</article></slide><slide class=""><hgroup><h2>Figures</h2></hgroup><article  id="figures">
+
+<pre class = 'prettyprint lang-default'>This is a cool plot I made:
+```{r chunk-name}
+plot(x, type = &quot;l&quot;)
+```</pre>
+
+<p>This is a cool plot I made:</p>
+
+<p><img src="07-reports-depends_files/figure-html/code-chunk-figures-1.png" width="720" /></p>
+
+</article></slide><slide class=""><hgroup><h2>Tables</h2></hgroup><article  id="tables" class="smaller smallcode">
+
+<pre class = 'prettyprint lang-default'>```{r iris-table} 
+iris |&gt;
+  group_by(Species) |&gt;
+  summarize(sepal_length = mean(Sepal.Length), 
+            sepal_width = mean(Sepal.Width)) |&gt;
+  knitr::kable(caption = &quot;Mean sepal width and length for three species of _Iris_.&quot;)
+
+```</pre>
+
+<table class = 'rmdtable'>
+<caption>Mean sepal width and length for three species of <em>Iris</em>.</caption>
+<tr class="header">
+<th align="left">Species</th>
+<th align="right">sepal_length</th>
+<th align="right">sepal_width</th>
+</tr>
+<tr class="odd">
+<td align="left">setosa</td>
+<td align="right">5.006</td>
+<td align="right">3.428</td>
+</tr>
+<tr class="even">
+<td align="left">versicolor</td>
+<td align="right">5.936</td>
+<td align="right">2.770</td>
+</tr>
+<tr class="odd">
+<td align="left">virginica</td>
+<td align="right">6.588</td>
+<td align="right">2.974</td>
+</tr>
+</table>
+
+</article></slide><slide class=""><hgroup><h2>Cross-referencing and citations</h2></hgroup><article  id="cross-referencing-and-citations">
+
+<h3>Cross-referencing</h3>
+
+<pre >As you can see in table \@ref(iris-table)...</pre>
+
+<h3>Citations</h3>
+
+<p>Add to your YAML header:</p>
+
+<pre >bibliography: references.bib
+csl: refstyle.csl</pre>
+
+<ul>
+<li><code>references.bib</code> is a BibTeX file with all your references</li>
+<li><code>refstyle.csl</code> is a file specifying the citation style (see <a href='https://www.zotero.org/styles' title=''>https://www.zotero.org/styles</a>).</li>
+</ul>
+
+</article></slide><slide class=""><hgroup><h2>Let’s create reports for your projects</h2></hgroup><article  id="lets-create-reports-for-your-projects">
+
+<ol>
+<li>File &gt; New File &gt; R Markdown…</li>
+<li>Insert name and title, select PDF, hit OK</li>
+</ol>
+
+<p>Work on your own for a bit: Don’t try to include everything now; just outline what you want to include</p>
+
+<p>Then pair up and discuss, see if there are ways to improve each other’s documents</p>
+
+</article></slide><slide class=""><hgroup><h2>More information</h2></hgroup><article  id="more-information">
+
+<p><em>R Markdown: The Definitive Guide</em> <a href='https://bookdown.org/yihui/rmarkdown/' title=''>https://bookdown.org/yihui/rmarkdown/</a></p>
+
+<p><em>Report writing for data science in R</em> <a href='http://leanpub.com/reportwriting' title=''>http://leanpub.com/reportwriting</a></p>
+
+<p><code>bookdown</code><em>: Authoring Books and Technical Documents with R Markdown</em> <a href='https://bookdown.org/yihui/bookdown/' title=''>https://bookdown.org/yihui/bookdown/</a></p>
+
+<p><em>A Guide to Reproducible Code in Ecology and Evolution</em> <a href='https://www.britishecologicalsociety.org/publications/better-science/' title=''>https://www.britishecologicalsociety.org/publications/better-science/</a></p>
+
+<p><a href='https://rmarkdown.rstudio.com/' title=''>https://rmarkdown.rstudio.com/</a></p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+    if (window.Shiny) {
+      // Initialize slides when this script appears on the page, since it
+      // indicates that the <slides> markup has been fully loaded.
+      window.loadDeck();
+    }
+  })();
+</script>
+
+</body>
+</html>
