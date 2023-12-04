@@ -590,7 +590,7 @@ apply(matrix(1:6, 2), 1, sum)
 * Especially useful when one iteration's result depends on the previous iteration.
 * Changes existing object(s).
 
-```{r for_loops, echo = FALSE}
+```{r for_loops, echo = FALSE, cache = TRUE}
 set.seed(3)
 ```
 ```{r for_loops2}
@@ -600,7 +600,7 @@ for (t in 2:length(x)) {
   x[t] <- x[t-1] + rnorm(1)
 }
 ```
-```{r for_loops3, echo = FALSE, fig.width=8, fig.height=3}
+```{r for_loops3, echo = FALSE, fig.width=8, fig.height=3, cache = TRUE}
 tibble(t = 1:100, x = x) |> 
     ggplot(aes(t, x)) +
     geom_line(color = "dodgerblue", linewidth = 0.75)
