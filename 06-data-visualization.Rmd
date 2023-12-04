@@ -26,6 +26,7 @@ suppressPackageStartupMessages({
     library(survival)
     library(survminer)
     library(ggalluvial)
+    library(stringr)
 })
 ```
 ```{r source-html, results="asis", echo = FALSE}
@@ -36,7 +37,10 @@ cat(readLines("class-preamble.html"), sep = "\n")
 ## Data Visualization packages to install
 Install the GGally, ggpubr, and ggsignif packages
 ```{r pckgs, eval=FALSE}
-install.packages(c("GGally", "ggpubr", "ggsignif", "viridis", "scales", "viridisLite", "survival", "survminer", "ggalluvial"))
+install.packages(c("GGally", "ggpubr", "ggsignif", 
+                   "viridis", "scales", "viridisLite", 
+                   "survival", "survminer", "ggalluvial", 
+                   "stringr"))
 library(GGally)
 library(ggpubr)
 library(ggsignif)
@@ -46,11 +50,12 @@ library(viridisLite)
 library(survival)
 library(survminer)
 library(ggalluvial)
+library(stringr)
 ```
 
 
 
-## Exploring the data {.smallcode .centered}
+## Exploring the data {.smallcode}
 ```{r ggpairs, fig.width=10}
 ggpairs(iris, aes(color = Species, fill = Species), progress = F)
 ```
@@ -63,7 +68,7 @@ ggpairs(iris, aes(color = Species, fill = Species), progress = F)
 <figcaption class="figure_caption">Image from <https://r.qcbs.ca/workshop03/book-en/the-basics-of-visualizing-data.html#working-through-layers></figcaption>
 
 
-## Anatomy of a ggplot figure {.centered}
+## Anatomy of a ggplot figure
 ```{r eval=FALSE}
 ggplot(data = <DATA>) + 
   <GEOM_FUNCTION>(
@@ -77,111 +82,97 @@ ggplot(data = <DATA>) +
 
 
 
-## Lets build a basic ggplot figure {.smallcode}
-Let's use the iris dataset.
+## Lets build a basic ggplot figure |Let's use the iris dataset. {.smallcode}
+
 ```{r basicFig1}
 head(iris)
 ```
 
 
 
-## Lets build a basic ggplot figure {.smallcode}
-Now we can add the aesthetics. 
-```{r basicFig2.1, eval=FALSE, size='footnotesize'}
+## Lets build a basic ggplot figure | Now we can add the aesthetics. {.smallcode}
+<div class="columns-2">
+```{r basicFig2.1, echo=FALSE, fig.width=4.5}
 iris |> 
   ggplot(aes(x = Species, y = Sepal.Length))
 ```
-
-
-
-## Lets build a basic ggplot figure {.centered}
-Now we can add the aesthetics. 
-```{r basicFig2.2, echo=FALSE}
+ 
+```{r basicFig2.2, eval=FALSE}
 iris |> 
   ggplot(aes(x = Species, y = Sepal.Length))
 ```
+</div>
 
 
-
-
-## Lets build a basic ggplot figure {.smallcode}
-We can visualize the distribution with a violin plot
-```{r basicFig3.1, eval=FALSE}
+## Lets build a basic ggplot figure | We can visualize the distribution with a violin plot {.smallcode}
+<div class="columns-2">
+```{r basicFig3.1, echo=FALSE, fig.width=4.5}
 iris |> 
   ggplot(aes(x = Species, y = Sepal.Length)) + 
   geom_violin(trim = FALSE)
 ```
 
-
-
-## Lets build a basic ggplot figure {.centered}
-We can visualize the distribution with a violin plot
-```{r basicFig3.2, echo=FALSE}
+```{r basicFig3.2, eval=FALSE}
 iris |> 
   ggplot(aes(x = Species, y = Sepal.Length)) + 
   geom_violin(trim = FALSE)
 ```
+</div>
 
 
-
-## Lets build a basic ggplot figure {.smallcode}
-Lets add the data on top
-```{r basicFig4.1, eval=FALSE}
+## Lets build a basic ggplot figure | Lets add the data on top {.smallcode}
+<div class="columns-2">
+```{r basicFig4.1, echo=FALSE, fig.width=4.5}
 iris |> 
   ggplot(aes(x = Species, y = Sepal.Length)) +
   geom_violin(trim = FALSE) + 
   geom_jitter()
 ```
 
-
-
-## Lets build a basic ggplot figure {.centered}
-```{r basicFig4.2, echo=FALSE}
+```{r basicFig4.2, eval=FALSE}
 iris |> 
   ggplot(aes(x = Species, y = Sepal.Length)) +
   geom_violin(trim = FALSE) + 
   geom_jitter()
 ```
+</div>
 
 
-
-## Lets build a basic ggplot figure {.smallcode}
-Add some statistics
-```{r basicFig5.1, eval=FALSE}
+## Lets build a basic ggplot figure | Add some statistics {.smallcode}
+<div class="columns-2">
+```{r basicFig5.1, echo=FALSE, fig.width=4.5}
 iris |> 
   ggplot(aes(x = Species, y = Sepal.Length)) +
   geom_violin(trim = FALSE) + 
   geom_jitter() + 
-  geom_signif(comparisons = list(c("setosa", "versicolor"), 
-                                 c("versicolor", "virginica"), 
-                                 c("setosa", "virginica")), 
+  geom_signif(comparisons = 
+                list(c("setosa", "versicolor"), 
+                     c("versicolor", "virginica"), 
+                     c("setosa", "virginica")), 
               map_signif_level = T, 
               y_position = c(7.8, 8.5, 9), 
               tip_length = 0)
 ```
 
-
-
-## Lets build a basic ggplot figure {.centered}
-```{r basicFig5.2, echo=FALSE}
+```{r basicFig5.2, eval=FALSE}
 iris |> 
   ggplot(aes(x = Species, y = Sepal.Length)) +
   geom_violin(trim = FALSE) + 
   geom_jitter() + 
-  geom_signif(comparisons = list(c("setosa", "versicolor"), 
-                                 c("versicolor", "virginica"), 
-                                 c("setosa", "virginica")), 
+  geom_signif(comparisons = 
+                list(c("setosa", "versicolor"), 
+                     c("versicolor", "virginica"), 
+                     c("setosa", "virginica")), 
               map_signif_level = T, 
               y_position = c(7.8, 8.5, 9), 
               tip_length = 0)
 ```
+</div>
 
 
-
-## Lets build a basic ggplot figure {.smallcode}
-Let's make it more aesthetically pleasing. 
-Change the y label and add color to violin plot and data
-```{r basicFig6.1, eval=FALSE}
+## Lets build a basic ggplot figure | Change the y label and add color to violin plot and data {.smallcode}
+<div class="columns-2">
+```{r basicFig6.1, echo=FALSE, fig.width=4.5}
 iris |> 
   ggplot(aes(x = Species, y = Sepal.Length)) +
   geom_violin(aes(color = Species), trim = FALSE, alpha = 0.8) + 
@@ -195,79 +186,78 @@ iris |>
   ylab("Sepal length")
 ```
 
-
-
-## Lets build a basic ggplot figure {.centered}
-Let's make it more aesthetically pleasing. 
-Change the y label and add color to violin plot and data
-```{r basicFig6.2, echo=FALSE}
+```{r basicFig6.2, eval=FALSE}
 iris |> 
   ggplot(aes(x = Species, y = Sepal.Length)) +
   geom_violin(aes(color = Species), trim = FALSE, alpha = 0.8) + 
   geom_jitter(aes(fill = Petal.Length), shape = 21) + 
-  geom_signif(comparisons = list(c("setosa", "versicolor"), 
-                                 c("versicolor", "virginica"), 
-                                 c("setosa", "virginica")), 
+  geom_signif(comparisons = 
+                list(c("setosa", "versicolor"), 
+                     c("versicolor", "virginica"), 
+                     c("setosa", "virginica")), 
               map_signif_level = T, 
               y_position = c(7.8, 8.5, 9), 
               tip_length = 0) +
   ylab("Sepal length")
 ```
+</div>
 
 
-
-## Lets build a basic ggplot figure {.smallcode}
-Now we'll removed the violin plot legend, change the color palette, labels
-```{r basicFig7.1, eval=FALSE}
+## Lets build a basic ggplot figure | Now we'll removed the violin plot legend, change the color palette, labels {.smallcode}
+<div class="columns-2">
+```{r basicFig7.1, echo=FALSE, fig.width=4.5}
 iris |> 
-  mutate(Species = factor(Species, levels = c("setosa", "versicolor", "virginica"), 
-                          labels = c("Setosa", "Versicolor", "Virginica"))) |> 
+  mutate(Species = str_to_title(Species)) |>  
   ggplot(aes(x = Species, y = Sepal.Length)) +
-  geom_violin(aes(color = Species), trim = FALSE, show.legend = FALSE) + 
-  geom_jitter(aes(fill = Petal.Length), shape = 21, size = 3, alpha = 0.8) + 
-  geom_signif(comparisons = list(c("Setosa", "Versicolor"), 
-                                 c("Versicolor", "Virginica"), 
-                                 c("Setosa", "Virginica")), 
+  geom_violin(aes(color = Species), trim = FALSE, 
+              show.legend = FALSE) + 
+  geom_jitter(aes(fill = Petal.Length), shape = 21, size = 3, 
+              alpha = 0.8) + 
+  geom_signif(comparisons = 
+                list(c("Setosa", "Versicolor"), 
+                     c("Versicolor", "Virginica"), 
+                     c("Setosa", "Virginica")),
               map_signif_level = T, 
               y_position = c(7.8, 8.5, 9), 
               tip_length = 0) +
   scale_fill_viridis(name = "Petal length") +
-  scale_color_manual(values = c("setosa" = "#06d6a0", "versicolor" = "#118ab2", 
+  scale_color_manual(values = c("setosa" = "#06d6a0", 
+                                "versicolor" = "#118ab2", 
                                 "virginica" = "#073b4c")) +
   ylab("Sepal length") + 
   theme(axis.title = element_text(size = 12), 
         axis.text.x = element_text(face = "italic"))
 ```
 
-
-
-## Lets build a basic ggplot figure {.centered}
-Now we'll removed the violin plot legend, change the color palette, labels
-```{r basicFig7.2, echo=FALSE}
+```{r basicFig7.2, eval=FALSE}
 iris |> 
-  mutate(Species = factor(Species, levels = c("setosa", "versicolor", "virginica"), 
-                          labels = c("Setosa", "Versicolor", "Virginica"))) |> 
+  mutate(Species = str_to_title(Species)) |>  
   ggplot(aes(x = Species, y = Sepal.Length)) +
-  geom_violin(aes(color = Species), trim = FALSE, show.legend = FALSE) + 
-  geom_jitter(aes(fill = Petal.Length), shape = 21, size = 3, alpha = 0.8) + 
-  geom_signif(comparisons = list(c("Setosa", "Versicolor"), 
-                                 c("Versicolor", "Virginica"), 
-                                 c("Setosa", "Virginica")), 
+  geom_violin(aes(color = Species), trim = FALSE, 
+              show.legend = FALSE) + 
+  geom_jitter(aes(fill = Petal.Length), shape = 21, size = 3, 
+              alpha = 0.8) + 
+  geom_signif(comparisons = 
+                list(c("Setosa", "Versicolor"), 
+                     c("Versicolor", "Virginica"), 
+                     c("Setosa", "Virginica")),
               map_signif_level = T, 
               y_position = c(7.8, 8.5, 9), 
               tip_length = 0) +
   scale_fill_viridis(name = "Petal length") +
-  scale_color_manual(values = c("setosa" = "#06d6a0", "versicolor" = "#118ab2", 
+  scale_color_manual(values = c("setosa" = "#06d6a0", 
+                                "versicolor" = "#118ab2", 
                                 "virginica" = "#073b4c")) +
   ylab("Sepal length") + 
   theme(axis.title = element_text(size = 12), 
         axis.text.x = element_text(face = "italic"))
 ```
-
+</div>
 
 
 ## Basic figures: Survival plot<footnote>Code from <https://rkabacoff.github.io/datavis/Models.html#survival-plots></footnote> {.smallcode}
-``` {r survivalPlot, eval=FALSE}
+<div class="columns-2">
+``` {r survivalPlot, echo=FALSE, fig.width=4.5}
 data(lung)
 sfit <- survfit(Surv(time, status) ~  sex, data=lung)
 ggsurvplot(sfit, 
@@ -276,14 +266,11 @@ ggsurvplot(sfit,
            legend.labs=c("Male", "Female"), 
            legend.title="Sex",  
            palette=c("cornflowerblue", "indianred3"), 
-           title="Kaplan-Meier Curve for lung cancer survival",
+           title="Kaplan-Meier Curve for lung\ncancer survival",
            xlab = "Time (days)")
 ```
 
-
-
-## Basic figures: Survival plot<footnote>Code from <https://rkabacoff.github.io/datavis/Models.html#survival-plots></footnote> {.smallcode}
-``` {r survivalPlot2, echo=FALSE}
+``` {r survivalPlot2, eval=FALSE}
 data(lung)
 sfit <- survfit(Surv(time, status) ~  sex, data=lung)
 ggsurvplot(sfit, 
@@ -292,14 +279,16 @@ ggsurvplot(sfit,
            legend.labs=c("Male", "Female"), 
            legend.title="Sex",  
            palette=c("cornflowerblue", "indianred3"), 
-           title="Kaplan-Meier Curve for lung cancer survival",
+           title="Kaplan-Meier Curve for lung 
+           cancer survival",
            xlab = "Time (days)")
 ```
-
+</div>
 
 
 ## Basic figures: Bubble chart<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#Bubble></footnote> {.smaller}
-``` {r bubbleChart, eval=FALSE}
+<div class="columns-2">
+``` {r bubbleChart, echo=FALSE, fig.width=4.5, fig.height=5}
 ggplot(mtcars, 
        aes(x = wt, y = mpg, size = hp)) +
   geom_point(alpha = .5, 
@@ -314,10 +303,7 @@ ggplot(mtcars,
        size = "Gross horsepower") 
 ```
 
-
-
-## Basic figures: Bubble chart<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#Bubble></footnote> {.smaller}
-``` {r bubbleChart2, echo=FALSE}
+``` {r bubbleChart2, eval=FALSE}
 ggplot(mtcars, 
        aes(x = wt, y = mpg, size = hp)) +
   geom_point(alpha = .5, 
@@ -325,17 +311,20 @@ ggplot(mtcars,
              color="black", 
              shape=21) +
   scale_size_continuous(range = c(1, 14)) +
-  labs(title = "Auto mileage by weight and horsepower",
-       subtitle = "Motor Trend US Magazine (1973-74 models)",
+  labs(title = "Auto mileage by weight 
+       and horsepower",
+       subtitle = "Motor Trend US Magazine 
+       (1973-74 models)",
        x = "Weight (1000 lbs)",
        y = "Miles/(US) gallon",
        size = "Gross horsepower") 
 ```
-
+</div>
 
 
 ## Basic figures: Biplot<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#biplots></footnote> {.smaller}
-```{r Biplot, eval=FALSE}
+<div class="columns-2">
+```{r Biplot, echo=FALSE, fig.width=4.5, fig.height=5}
 # fit a principal components model
 fit <- prcomp(x = mtcars, 
               center = TRUE, 
@@ -350,9 +339,7 @@ fviz_pca(fit,
   labs(title = "Biplot of mtcars data")
 ```
 
-
-## Basic figures: Biplot<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#biplots></footnote> {.smaller}
-```{r Biplot2, echo=FALSE}
+```{r Biplot2, eval=FALSE}
 # fit a principal components model
 fit <- prcomp(x = mtcars, 
               center = TRUE, 
@@ -366,7 +353,7 @@ fviz_pca(fit,
   theme_bw() +
   labs(title = "Biplot of mtcars data")
 ```
-
+</div>
 
 
 ## Basic figures: Alluvial diagrams<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#alluvial-diagrams></footnote> {.smaller}
@@ -383,7 +370,8 @@ mtcars_table <- mtcars %>%
   
 
 ## Basic figures: Alluvial diagrams<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#alluvial-diagrams></footnote> {.smaller}
-```{r alluvial2, eval=FALSE}
+<div class="columns-2">
+```{r alluvial2, echo=FALSE, fig.width=4.5, fig.height=5}
 ggplot(mtcars_table,
        aes(axis1 = carb,
            axis2 = cyl,
@@ -405,10 +393,7 @@ ggplot(mtcars_table,
   theme(legend.position = "none") 
 ```
 
-
-
-## Basic figures: Alluvial diagrams<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#alluvial-diagrams></footnote> {.smaller}
-```{r alluvial3, echo=FALSE}
+```{r alluvial3, eval=FALSE}
 ggplot(mtcars_table,
        aes(axis1 = carb,
            axis2 = cyl,
@@ -419,21 +404,24 @@ ggplot(mtcars_table,
   geom_stratum(alpha=.8) +
   geom_text(stat = "stratum", 
             aes(label = after_stat(stratum))) + 
-  scale_x_discrete(limits = c("Carburetors", "Cylinders", 
+  scale_x_discrete(limits = 
+                     c("Carburetors", "Cylinders",
                               "Gears", "Transmission"),
                    expand = c(.1, .1)) +
   # scale_fill_brewer(palette="Paired") +
   labs(title = "Mtcars data",
-       subtitle = "stratified by carb, cyl, gear, and am",
+       subtitle = "stratified by carb, cyl, 
+       gear, and am",
        y = "Frequency") +
   theme_minimal() +
   theme(legend.position = "none") 
 ```
-
+</div>
 
 
 ## Basic figures: Sorted heat map<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#heatmaps></footnote> {.smaller}
-```{r heatmap, eval=FALSE}
+<div class="columns-2">
+```{r heatmap, echo=FALSE, fig.width=5, fig.height=5}
 library(superheat)
 superheat(mtcars,
           scale = TRUE,
@@ -443,9 +431,7 @@ superheat(mtcars,
           row.dendrogram = TRUE )
 ```
 
-
-## Basic figures: Sorted heat map<footnote>Code from <https://rkabacoff.github.io/datavis/Other.html#heatmaps></footnote> {.smaller}
-```{r heatmap2, echo=FALSE}
+```{r heatmap2, eval=FALSE}
 library(superheat)
 superheat(mtcars,
           scale = TRUE,
@@ -454,11 +440,12 @@ superheat(mtcars,
           bottom.label.size = .05,
           row.dendrogram = TRUE )
 ```
-
+</div>
 
 
 ## Basic figures: Interactive maps<footnote>Code from <https://rkabacoff.github.io/datavis/Maps.html#geocoding></footnote> {.smaller}
-```{r maps, eval=FALSE}       
+<div class="columns-2">
+```{r maps, echo=FALSE, fig.width=4.5, fig.height=5}       
 library(ggmap)
 library(mapview)
 library(sf)
@@ -466,85 +453,81 @@ library(sf)
 # subset the data
 homicide <- filter(crime, offense == "murder") %>%
   select(date, offense, address, lon, lat)
-# view data
-head(homicide, 3)
 mymap <- st_as_sf(homicide, coords = c("lon", "lat"), crs = 4326)
 mapview(mymap)
 ```
 
-
-
-## Basic figures: Interactive maps<footnote>Code from <https://rkabacoff.github.io/datavis/Maps.html#geocoding></footnote> {.smaller}
-```{r maps2, echo=FALSE}       
+```{r maps2, eval=FALSE}       
 library(ggmap)
 library(mapview)
 library(sf)
 
 # subset the data
-homicide <- filter(crime, offense == "murder") %>%
+homicide <- filter(crime, 
+                   offense == "murder") %>%
   select(date, offense, address, lon, lat)
 # view data
 head(homicide, 3)
-mymap <- st_as_sf(homicide, coords = c("lon", "lat"), crs = 4326)
+mymap <- st_as_sf(homicide, coords = c("lon", "lat"), 
+                  crs = 4326)
 mapview(mymap)
 ```
-
+</div>
 
 
 ## Basic figures: Barplots<footnote>Code from <https://r4ds.had.co.nz/data-visualisation.html#the-layered-grammar-of-graphics></footnote> {.smaller}
-```{r barplot1, eval=FALSE}
+<div class="columns-2">
+```{r barplot1, echo=FALSE, fig.width=4.5, fig.height=5}
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
 ```
 
-
-
-## Basic figures: Barplots<footnote>Code from <https://r4ds.had.co.nz/data-visualisation.html#the-layered-grammar-of-graphics></footnote> {.smaller}
-```{r barplot2, echo=FALSE}
+```{r barplot2, eval=FALSE}
 ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+  geom_bar(mapping = aes(x = cut, fill = clarity), 
+           position = "fill")
 ```
-
+</div>
 
 
 ## Basic figures: Barplots<footnote>Code from <https://r4ds.had.co.nz/data-visualisation.html#the-layered-grammar-of-graphics></footnote> {.smaller}
-```{r barplot3, eval=FALSE}
-ggplot(data = diamonds) + 
-  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
-```
-
-
-
-## Basic figures: Barplots<footnote>Code from <https://r4ds.had.co.nz/data-visualisation.html#the-layered-grammar-of-graphics></footnote> {.smaller}
-```{r barplot4, echo=FALSE}
+<div class="columns-2">
+```{r barplot3, echo=FALSE, fig.width=4.5, fig.height=5}
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
 ```
 
+```{r barplot4, eval=FALSE}
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), 
+           position = "dodge")
+```
+</div>
 
 
 ## Basic figures: Boxplots<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/#google_vignette></footnote> {.smaller} 
-```{r boxplot, eval=FALSE}
+<div class="columns-2">
+```{r boxplot, echo=FALSE, fig.width=4.5, fig.height=5}
 p = ggboxplot(ToothGrowth, x = "dose", y = "len",
-      color = "dose", palette =c("#00AFBB", "#E7B800", "#FC4E07"),
+      color = "dose", 
+      palette = c("#00AFBB", "#E7B800", "#FC4E07"),
       add = "jitter", shape = "dose")
 p
 ```
 
-
-
-## Basic figures: Boxplots<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/#google_vignette></footnote> {.smaller} 
-```{r boxplot2, echo=FALSE}
+```{r boxplot2, eval=FALSE}
 p = ggboxplot(ToothGrowth, x = "dose", y = "len",
-      color = "dose", palette =c("#00AFBB", "#E7B800", "#FC4E07"),
+      color = "dose", 
+      palette =c("#00AFBB", "#E7B800", "#FC4E07"),
       add = "jitter", shape = "dose")
 p
 ```
-
+</div>
 
 
 ## Basic figures: Boxplots<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/#google_vignette></footnote> {.smaller}
-```{r boxplotStats, eval=FALSE}
+<div class="columns-2">
+```{r boxplotStats, echo=FALSE, fig.width=4.5, fig.height=5}
 # Add p-values comparing groups
  # Specify the comparisons you want
 my_comparisons <- list( c("0.5", "1"), c("1", "2"), c("0.5", "2") )
@@ -552,39 +535,46 @@ p + stat_compare_means(comparisons = my_comparisons)+ # Add pairwise comparisons
   stat_compare_means(label.y = 50)                   # Add global p-value
 ```
 
-
-
-## Basic figures: Boxplots<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/#google_vignette></footnote> {.smaller}
-```{r boxplotStats2, echo=FALSE}
+```{r boxplotStats2, eval=FALSE}
 # Add p-values comparing groups
  # Specify the comparisons you want
-my_comparisons <- list( c("0.5", "1"), c("1", "2"), c("0.5", "2") )
-p + stat_compare_means(comparisons = my_comparisons)+ # Add pairwise comparisons p-value
-  stat_compare_means(label.y = 50)                   # Add global p-value
+my_comparisons <- list( c("0.5", "1"), 
+                        c("1", "2"), 
+                        c("0.5", "2") )
+# Add pairwise comparisons p-value
+p + stat_compare_means(comparisons = 
+                         my_comparisons) + 
+  # Add global p-value
+  stat_compare_means(label.y = 50)                   
 ```
-
+</div>
 
 
 ## Basic figures: Violin plot with box plot inside<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/#google_vignette></footnote> {.smaller} 
-```{r violinBox, eval=FALSE}
-ggviolin(ToothGrowth, x = "dose", y = "len", fill = "dose",
+<div class="columns-2">
+```{r violinBox, echo=FALSE, fig.width=4.5, fig.height=5}
+ggviolin(ToothGrowth, x = "dose", y = "len", 
+         fill = "dose",
          palette = c("#00AFBB", "#E7B800", "#FC4E07"),
          add = "boxplot", add.params = list(fill = "white"))+
-  stat_compare_means(comparisons = my_comparisons, label = "p.signif")+ # Add significance levels
+  stat_compare_means(comparisons = my_comparisons, 
+                     label = "p.signif")+ # Add significance levels
   stat_compare_means(label.y = 50)                                      # Add global the p-value 
 ```
 
-
-
-## Basic figures: Violin plot with box plot inside<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/#google_vignette></footnote> {.smaller} 
-```{r violinBox2, echo=FALSE}
-ggviolin(ToothGrowth, x = "dose", y = "len", fill = "dose",
+```{r violinBox2, eval=FALSE}
+ggviolin(ToothGrowth, x = "dose", y = "len", 
+         fill = "dose",
          palette = c("#00AFBB", "#E7B800", "#FC4E07"),
-         add = "boxplot", add.params = list(fill = "white"))+
-  stat_compare_means(comparisons = my_comparisons, label = "p.signif")+ # Add significance levels
-  stat_compare_means(label.y = 50)                                      # Add global the p-value 
+         add = "boxplot", 
+         add.params = list(fill = "white")) +
+  # Add significance levels
+  stat_compare_means(comparisons = my_comparisons, 
+                     label = "p.signif") + 
+  # Add global the p-value
+  stat_compare_means(label.y = 50)                                       
 ```
-
+</div>
 
 
 ## Basic figures: Dot chart<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/#google_vignette></footnote> {.smallcode}
@@ -609,47 +599,68 @@ dfm$mpg_grp <- factor(ifelse(dfm$mpg_z < 0, "low", "high"),
 
 
 ## Basic figures: Dot chart<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/#google_vignette></footnote> {.smallcode}
-```{r dotChart2, eval=FALSE}
+<div class="columns-2">
+```{r dotChart2, echo=FALSE, fig.width=4.5, fig.height=5}
 ggdotchart(dfm, x = "name", y = "mpg_z",
-           color = "cyl",                                # Color by groups
-           palette = c("#00AFBB", "#E7B800", "#FC4E07"), # Custom color palette
-           sorting = "descending",                       # Sort value in descending order
-           add = "segments",                             # Add segments from y = 0 to dots
-           add.params = list(color = "lightgray", size = 2), # Change segment color and size
-           group = "cyl",                                # Order by groups
-           dot.size = 6,                                 # Large dot size
-           label = round(dfm$mpg_z,1),                        # Add mpg values as dot labels
+           # Color by groups
+           color = "cyl",             
+           # Custom color palette
+           palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+           # Sort value in descending order
+           sorting = "descending", 
+           # Add segments from y = 0 to dots
+           add = "segments",
+           # Change segment color and size
+           add.params = list(color = "lightgray", size = 2),
+            # Order by groups
+           group = "cyl",   
+           # Large dot size
+           dot.size = 6, 
+           # Add mpg values as dot labels
+           label = round(dfm$mpg_z,1),   
+           # Adjust label parameters
            font.label = list(color = "white", size = 9, 
-                             vjust = 0.5),               # Adjust label parameters
-           ggtheme = theme_pubr()                        # ggplot2 theme
-           )+
-           geom_hline(yintercept = 0, linetype = 2, color = "lightgray")
+                             vjust = 0.5),      
+           # ggplot2 theme
+           ggtheme = theme_pubr()                        
+           ) +
+           geom_hline(yintercept = 0, linetype = 2, 
+                      color = "lightgray")
 ```
 
-
-
-## Basic figures: Dot chart<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/#google_vignette></footnote> {.smallcode}
-```{r dotChart3, echo=FALSE}
+```{r dotChart3, eval=FALSE}
 ggdotchart(dfm, x = "name", y = "mpg_z",
-           color = "cyl",                                # Color by groups
-           palette = c("#00AFBB", "#E7B800", "#FC4E07"), # Custom color palette
-           sorting = "descending",                       # Sort value in descending order
-           add = "segments",                             # Add segments from y = 0 to dots
-           add.params = list(color = "lightgray", size = 2), # Change segment color and size
-           group = "cyl",                                # Order by groups
-           dot.size = 6,                                 # Large dot size
-           label = round(dfm$mpg_z,1),                        # Add mpg values as dot labels
+           # Color by groups
+           color = "cyl",             
+           # Custom color palette
+           palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+           # Sort value in descending order
+           sorting = "descending", 
+           # Add segments from y = 0 to dots
+           add = "segments",
+           # Change segment color and size
+           add.params = list(color = "lightgray", size = 2),
+            # Order by groups
+           group = "cyl",   
+           # Large dot size
+           dot.size = 6, 
+           # Add mpg values as dot labels
+           label = round(dfm$mpg_z,1),   
+           # Adjust label parameters
            font.label = list(color = "white", size = 9, 
-                             vjust = 0.5),               # Adjust label parameters
-           ggtheme = theme_pubr()                        # ggplot2 theme
-           )+
-           geom_hline(yintercept = 0, linetype = 2, color = "lightgray")
+                             vjust = 0.5),      
+           # ggplot2 theme
+           ggtheme = theme_pubr()                        
+           ) +
+           geom_hline(yintercept = 0, linetype = 2, 
+                      color = "lightgray")
 ```
-
+</div>
 
 
 ## Basic figures: Faceted plot<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/83-create-and-customize-multi-panel-ggplots-easy-guide-to-facet/></footnote> {.smaller}
-```{r facetedPlot, eval=FALSE}
+<div class="columns-2">
+```{r facetedPlot, echo=FALSE, fig.width=4.5, fig.height=5}
 df = ToothGrowth |> 
   mutate(dose = as.factor(dose))
 p <- ggdensity(df, x = "len", fill = "dose", 
@@ -666,26 +677,27 @@ facet(p, facet.by = c("supp", "dose"),
       )
 ```
 
-  
-
-## Basic figures: Faceted plot<footnote>Code from <http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/83-create-and-customize-multi-panel-ggplots-easy-guide-to-facet/></footnote> {.smaller}
-```{r facetedPlot2}
+```{r facetedPlot2, eval=FALSE}
 df = ToothGrowth |> 
   mutate(dose = as.factor(dose))
 p <- ggdensity(df, x = "len", fill = "dose", 
                palette = "jco", 
-               ggtheme = theme_light(), legend = "top")
+               ggtheme = theme_light(), 
+               legend = "top")
 facet(p, facet.by = c("supp", "dose"),
        panel.labs = list(
          supp = c("Orange Juice", "Vitamin C"),
          dose = c("D0.5", "D1", "D2")
          ),
-       panel.labs.background = list(color = "steelblue", fill = "steelblue", size = 0.5),
+       panel.labs.background = list(color = "steelblue", 
+                                    fill = "steelblue", 
+                                    size = 0.5),
        panel.labs.font = list(color = "white"),
-       panel.labs.font.x = list(angle = 45, color = "white")
+       panel.labs.font.x = list(angle = 45, 
+                                color = "white")
       )
 ```
-
+</div>
 
 
 ## Saving a figure
@@ -697,13 +709,11 @@ ggsave(file, plot, device = c("pdf", "png", "jpeg", etc.))
 
 
 ## Saving a figure {.centered}
-<img src="img/ggsave_help.jpg" height="400">
+<img src="img/ggsave_help.jpg" height="500">
 
 
 
-## Colors and color palettes
-
-# colorRampPalette
+## Colors and color palettes | colorRampPalette
 ```{r colorRamp}
 pal = colorRampPalette(c("#000033", "blue", "#FFFFFF", "red", "#9B2226"))(11)
 scales::show_col(pal)
@@ -711,9 +721,7 @@ scales::show_col(pal)
 
 
 
-## Colors and color palettes
-
-viridis and viridisLite
+## Colors and color palettes | viridis and viridisLite
 <img src="img/viridis_pal.jpg" height="400">
 <figcaption class="figure_caption">Image from <https://www.thinkingondata.com/something-about-viridis-library/></figcaption>
 
@@ -734,6 +742,7 @@ show_col(pal2)
 * CSS Drive Color Palette Generator <http://www.cssdrive.com/imagepalette/>
 * Coolors <https://coolors.co/>
 * BrandColors <http://brandcolors.net/>
+* MoMAColors <https://github.com/BlakeRMills/MoMAColors>
 
 
 
@@ -743,15 +752,28 @@ show_col(pal2)
 
 
 
-## Manual colors in plots {.centered}
-Certain shapes can have a different fill and outline color
-<img src="img/point-symbols.png" height="400">
+## Manual colors in plots | Certain shapes can have a different fill and outline color {.centered}
+
+<img src="img/points-symbols.png" height="400">
 <figcaption class="figure_caption">Image from <http://www.sthda.com/english/wiki/ggplot2-point-shapes></figcaption>
 
 
-## Revisiting our basic ggplot figure build {.centered}
-Let's write a function that makes this visualization for us
-```{r basicFigAgain, echo=FALSE}
+
+## Visualization function
+What are the different parts?
+
+* Data wrangling - factoring parameters of interest
+* Mapping aesthetics
+* Variables for fill and color
+* List of comparisons for stats
+* Heights for stats bars
+* List of values for colors
+* Name changes - what delimeter are we using
+
+
+
+## Revisiting our basic ggplot figure build | Let's write a function that makes this visualization for us {.smallcode}
+```{r basicFigAgain, eval=FALSE}
 iris |> 
   mutate(Species = factor(Species, levels = c("setosa", "versicolor", "virginica"), 
                           labels = c("Setosa", "Versicolor", "Virginica"))) |> 
@@ -774,97 +796,9 @@ iris |>
 
 
 
-## Visualization function
-What are the different parts?
-
-* Data wrangling - factoring parameters of interest
-* Mapping aesthetics
-* Variables for fill and color
-* List of comparisons for stats
-* Heights for stats bars
-* List of values for colors
-* Name changes - what delimeter are we using
-
-
-
-## Visualization function {.smallcode}
-Data wrangling
-```{r dataWrang, fig.height=2}
-parameterFactoring = function(dataset, parameters, ...) {
-  new_data = dataset
-  for(param in parameters) {
-    new_data = new_data |> 
-      mutate(param = factor(get(param), ...))
-  }
-  return(new_data)
-}
-iris2 = parameterFactoring(iris, "Species", levels = c("setosa", "versicolor", "virginica"), 
-                          labels = c("Setosa", "Versicolor", "Virginica"))
-str(iris2)
-```
-
-
-
-## Visualization function {.smallcode}
-``` {r figurePlot, fig.height=2}
-baseFig = function(dataset, x_param, y_param, z_param = NULL, color_list, ...) {
-  p = dataset |> 
-        ggplot(aes(x = get(x_param), y = get(y_param))) +
-        geom_violin(aes(color = get(x_param), trim = FALSE, show.legend = FALSE)) +
-        scale_color_manual(values = color_list)
-  return(p)
-}
-f2 = baseFig(dataset = iris2, x_param = "param", y_param = "Sepal.Length", z_param = "Petal.Length", 
-       color_list = c("setosa" = "#06d6a0", "versicolor" = "#118ab2", 
-                                "virginica" = "#073b4c"))
-f2
-```
-
-
-
-## Visualization function {.smallcode}
-``` {r dataLayer, fig.height=2}
-pointsOverlay = function(plot, z_param = NULL, ...) {
-  if(!is.null(z_param)) {
-    p = plot + geom_jitter(aes(fill = get(z_param)), ...) + 
-      scale_fill_viridis(name = gsub("\\.", " ", z_param))
-  } else {
-    p = plot + geom_jitter(...)
-  }
-  return(p)
-}
-f3 = pointsOverlay(plot = f2, z_param = "Petal.Length", shape = 21, size = 3, alpha = 0.8)
-f3
-```
-
-
-
-## Visualization function {.smallcode}
-``` {r addStats, fig.height=2}
-addStats = function(plot, dataset, comparisons) {
-  minY = max(layer_scales(plot)$y$range$range)
-  yPositions = rep(minY, 3) + c(0.3, 0.6, 0.9)
-  p = plot + 
-    geom_signif(comparisons = comparisons, 
-                map_signif_level = TRUE, 
-                y_position = yPositions, 
-                tip_length = 0)
-}
-
-f4 = addStats(plot = f3, dataset = iris2, comparisons = list(c("Setosa", "Versicolor"), 
-                                 c("Versicolor", "Virginica"), 
-                                 c("Setosa", "Virginica")))
-f4
-```
-
-
-
-## Make your own figure
+## Automate building the figure
 * Clone <https://github.com/mlwarren20/FunWithFunctionsAndPlots.git>
-* Create a branch for your figure type
-* Write a function to create your figure
-* Test that it works
-* Save a sample figure and write a Readme file
-* Push your function code, figure, and Readme 
-
-
+* Create a branch for your function
+* Create a directory that will contain your function and Readme
+* Create a Readme for your function in your new directory
+* Push the R code and Readme directory for your function
