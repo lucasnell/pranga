@@ -1,0 +1,345 @@
+---
+title: "Day 7 - Creating reports and documenting dependencies"
+author: "Lucas A. Nell and Maggie L. Warren"
+date: "2023-12-04"
+output:
+  ioslides_presentation:
+    incremental: false
+    widescreen: true
+    smaller: false
+    css: classes-styles.css
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, comment = "")
+suppressPackageStartupMessages({
+    library(tidyverse)
+})
+set.seed(1)
+theme_set(theme_minimal() +
+    theme(axis.line = element_line(linewidth = 1), 
+          panel.grid = element_blank(), 
+          axis.title = element_text(size = 14),
+          axis.text = element_text(size = 12),
+          axis.ticks = element_line(color = "black")))
+```
+```{r source-html, results="asis", echo = FALSE}
+# Sourcing file that includes extra html for our class lectures:
+cat(readLines("class-preamble.html"), sep = "\n")
+```
+
+
+# Documenting dependencies
+
+
+## Documenting dependencies
+
+- Critical for others to be able to reproduce your results
+- R itself is pretty stable, but many packages are not especially years
+  (and many version) later
+- We'll describe three increasingly complex (and more complete) ways of 
+  allowing others to access your exact dependencies:
+
+1. List packages
+2. Create a package library for your project
+3. Use a container
+
+
+
+## 1. List packages {.smallcode}
+
+
+```{r show-session_info, eval = FALSE}
+devtools::session_info()
+```
+
+
+```
+─ Session info ────────────────────────────────────────────────────────────────────────────────────────────────
+ setting  value
+ version  R version 4.3.1 (2023-06-16)
+ os       macOS Sonoma 14.1.1
+ system   aarch64, darwin20
+ ui       RStudio
+ language (EN)
+ collate  en_US.UTF-8
+ ctype    en_US.UTF-8
+ tz       America/Los_Angeles
+ date     2023-12-03
+ rstudio  2023.06.0+421 Mountain Hydrangea (desktop)
+ pandoc   3.1.9 @ /opt/homebrew/bin/ (via rmarkdown)
+
+─ Packages ────────────────────────────────────────────────────────────────────────────────────────────────────
+ package     * version date (UTC) lib source
+ cachem        1.0.8   2023-05-01 [2] CRAN (R 4.3.0)
+ ...
+ xtable        1.8-4   2019-04-21 [2] CRAN (R 4.3.0)
+ yaml          2.3.7   2023-01-23 [2] CRAN (R 4.3.0)
+
+ [1] /Users/username/Library/R/arm64/4.3/library
+ [2] /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/library
+
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────
+```
+
+## 2. Create a package library for your project
+
+<div class="columns-2">
+
+### Package `renv`
+
+<br> 
+
+<img src="https://rstudio.github.io/renv/articles/renv.png" height="300">
+
+<p class="forceBreak"></p>
+
+To get started (it automatically discovered loaded packages):
+
+```{r renv-example-init, eval = FALSE}
+renv::init()
+```
+
+
+To save metadata on all packages and versions:
+
+```{r renv-example-snapshot, eval = FALSE}
+renv::snapshot()
+```
+
+
+To reproduce environment that you've saved:
+
+```{r renv-example-restore, eval = FALSE}
+renv::restore()
+```
+
+</div>
+
+
+## 3. Use a container
+
+<!-- <div class="columns-2"> -->
+
+<img src="https://cdn-media-1.freecodecamp.org/images/4ONl-2xcwZXUBC3VFRjgGYPUO0SDakgpy1Na" width="600" style="float:right; margin-left:0px;">
+
+
+- Docker and Singularity are popular options
+- Reproduce your entire operating system, including all installed software
+- Can be useful for software that is difficult to install or 
+  in environments that limit your ability to install software,
+  like computer clusters
+
+
+## 3. Use a container (cont.) {.smallcode}
+
+You can use an existing image. Many programs create them for users, check out
+<https://hub.docker.com>
+
+Or make your own. Example: <https://shorturl.at/pGT25>
+
+```{bash dockerfile, eval = FALSE}
+# start with a bare-bones ubuntu with mamba installed:
+FROM condaforge/mambaforge:4.11.0-0
+
+# install some basics:
+RUN apt-get clean && \
+    apt-get update -y && \
+    apt-get install -y build-essential && \
+    apt-get install -y locales wget rsync unzip nano sudo pv cmake \
+        ocaml-nox zlib1g-dev libbz2-dev liblzma-dev libboost-all-dev \
+        libcurl4-openssl-dev
+
+# add a conda environment with a bunch of packages:
+COPY env-main.yml .
+RUN mamba env create -q -f env-main.yml && \
+    rm env-main.yml && \
+    conda clean --all -y
+
+# and so on, as much as you need
+```
+
+
+## What method seems most appealing for your projects?
+
+
+
+# Creating reports
+
+## Reports - What and why?
+
+- A mix of text, tables, figures, equations, etc. --- alongside the code 
+  that created them.
+- Can be used to share results to a few collaborators or as a final manuscript
+  document (although smaller documents are more typical).
+- By having code next to results, your analyses are easier to validate
+
+
+We're focusing on notebooks using RMarkdown, but Jupyter notebooks in
+python are also great.
+
+
+
+
+## R Markdown
+
+- Markdown<footnote><https://www.markdownguide.org/basic-syntax/></footnote> plus R
+  (or other) code
+- The code can be actually run with the output shown in the final document
+- File extension is `.Rmd`, and output can be many options
+- See cheatsheet on Canvas or here: <https://rstudio.github.io/cheatsheets/rmarkdown.pdf>
+
+<img src="img/rmarkdown.svg" height="250"><footnote><https://www.britishecologicalsociety.org/publications/better-science/></footnote>
+
+
+## YAML header
+
+```
+--
+title: "My report"
+author: "Your Name"
+date: "Today"
+output: pdf_document
+---
+```
+
+Controls the output formatting and basic info about your report
+
+
+
+## Code chunks
+
+### Can be both blocks and inline!
+
+````{verbatim}
+```{r chunk-name}
+set.seed(1)
+x <- rnorm(100)
+```
+The mean is `r mean(x)`
+````
+<br>
+
+```{r code-chunk-example, echo = FALSE}
+set.seed(1)
+x <- rnorm(100)
+```
+
+The mean is `r mean(x)`
+
+
+
+## Setup code chunk {.smaller}
+
+Added by default when creating a new Rmd file in RStudio
+
+
+````{verbatim}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+````
+
+Sets default options for code chunks, including...<footnote><https://bookdown.org/yihui/rmarkdown/r-code.html></footnote>
+
+- `eval`: Whether to evaluate a code chunk.
+- `echo`: Whether to echo the source code in the output document.
+- `warning`, `message`, and `error`: Whether to show warnings, messages, and 
+  errors in the output document.
+- `include`: Whether to include anything from a code chunk in the
+  output document.
+- `fig.width` and `fig.height`: The (graphical device) size of R plots in inches.
+
+
+More listed at <https://yihui.name/knitr/options>
+
+
+
+## Figures
+
+````{verbatim}
+This is a cool plot I made:
+```{r chunk-name}
+plot(x, type = "l")
+```
+````
+
+This is a cool plot I made:
+
+```{r code-chunk-figures, eval = TRUE, echo = FALSE, fig.height = 3.4}
+par(mai = c(0.8,0.8,0,0))
+plot(x, type = "l")
+```
+
+
+## Tables {.smaller .smallcode}
+
+````{verbatim}
+```{r iris-table} 
+iris |>
+  group_by(Species) |>
+  summarize(sepal_length = mean(Sepal.Length), 
+            sepal_width = mean(Sepal.Width)) |>
+  knitr::kable(caption = "Mean sepal width and length for three species of _Iris_.")
+
+```
+````
+
+```{r iris-table, echo = FALSE} 
+iris |>
+  group_by(Species) |>
+  summarize(sepal_length = mean(Sepal.Length), 
+            sepal_width = mean(Sepal.Width)) |>
+  knitr::kable(caption = "Mean sepal width and length for three species of _Iris_.")
+```
+
+## Cross-referencing and citations
+
+### Cross-referencing
+
+```
+As you can see in table \@ref(iris-table)...
+```
+
+
+### Citations
+
+Add to your YAML header:
+
+```
+bibliography: references.bib
+csl: refstyle.csl
+```
+
+- `references.bib` is a BibTeX file with all your references
+- `refstyle.csl` is a file specifying the citation style 
+  (see <https://www.zotero.org/styles>).
+
+
+
+## Let's create reports for your projects
+
+
+1. File > New File > R Markdown...
+2. Insert name and title, select PDF, hit OK
+
+Work on your own for a bit: Don't try to include everything now; just outline what you want to include
+
+Then pair up and discuss, see if there are ways to improve each other's documents
+
+
+
+## More information
+
+*R Markdown: The Definitive Guide* <https://bookdown.org/yihui/rmarkdown/>
+
+*Report writing for data science in R* <http://leanpub.com/reportwriting>
+
+`bookdown`*: Authoring Books and Technical Documents with R Markdown* <https://bookdown.org/yihui/bookdown/>
+
+*A Guide to Reproducible Code in Ecology and Evolution*
+<https://www.britishecologicalsociety.org/publications/better-science/>
+
+<https://rmarkdown.rstudio.com/>
