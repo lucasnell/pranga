@@ -46,3 +46,9 @@ po/*~
 rsconnect/
 
 .DS_Store
+
+# folders for cached build files:
+04-R-functional_cache/
+04-R-functional_files/
+06-data-visualization_cache/
+06-data-visualization_files/

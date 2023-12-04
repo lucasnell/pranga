@@ -31,5 +31,6 @@ navbar:
         - text: "---------"
         - text: "Week 3"
         - text: "Class 7"
+          href: 07-reports-depends.html
         - text: "Class 8"
         - text: "Class 9"

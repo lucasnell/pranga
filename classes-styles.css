@@ -38,3 +38,7 @@ figure{
     margin-bottom: 5px;
 }
 
+/* Make ### headers bold  */
+h3 {
+  font-weight: bold;
+}
