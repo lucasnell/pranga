@@ -593,7 +593,7 @@ apply(matrix(1:6, 2), 1, sum)
 ```{r for_loops, echo = FALSE, cache = TRUE}
 set.seed(3)
 ```
-```{r for_loops2}
+```{r for_loops2, cache = TRUE}
 x <- numeric(100)
 x[1] <- 10
 for (t in 2:length(x)) {
