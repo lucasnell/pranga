@@ -1384,6 +1384,10 @@ color: #666;
 footnote::before {
 content: "note: ";
 }
+
+#TOC footnote {
+display: none;
+}
 </style>
 
 
@@ -2027,7 +2031,7 @@ class(form_str)</code></pre>
 <pre class="r"><code>form &lt;- as.formula(form_str)
 form</code></pre>
 <pre><code>mpg ~ factor(cyl)
-&lt;environment: 0x8e494b700&gt;</code></pre>
+&lt;environment: 0x7c8fd9c08&gt;</code></pre>
 <pre class="r"><code>class(form)</code></pre>
 <pre><code>[1] &quot;formula&quot;</code></pre>
 </div>
@@ -2035,7 +2039,7 @@ form</code></pre>
 <h2 class="smallcode build">Insert formula into <code>lm</code></h2>
 <pre class="r"><code>form</code></pre>
 <pre><code>mpg ~ factor(cyl)
-&lt;environment: 0x8e494b700&gt;</code></pre>
+&lt;environment: 0x7c8fd9c08&gt;</code></pre>
 <pre class="r"><code># create object equivalent to
 lm(mpg ~ factor(cyl), mtcars)</code></pre>
 <pre><code>

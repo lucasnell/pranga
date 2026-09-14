@@ -14,3 +14,10 @@ footnote {
 footnote::before {
   content: "note: ";
 }
+
+/* tocify (the toc_float sidebar) clones each heading's inner HTML verbatim
+   into its TOC entry, footnote and all -- keep it out of the sidebar even
+   though it's shown under the heading itself in the body. */
+#TOC footnote {
+  display: none;
+}
