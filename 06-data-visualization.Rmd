@@ -10,6 +10,8 @@ output:
     css: classes-styles.css
 editor_options: 
   chunk_output_type: console
+params:
+  is_slides: true
 ---
 
 ```{r setup, include=FALSE}
@@ -29,7 +31,7 @@ suppressPackageStartupMessages({
     library(stringr)
 })
 ```
-```{r source-html, results="asis", echo = FALSE}
+```{r source-html, results="asis", echo = FALSE, eval = params$is_slides}
 # Sourcing file that includes extra html for our class lectures:
 cat(readLines("class-preamble.html"), sep = "\n")
 ```

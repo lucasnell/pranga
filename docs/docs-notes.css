@@ -1,0 +1,16 @@
+/* Extra styling for the scrollable "doc" version of each lecture, rendered
+   as html_document from the same source as the ioslides deck. The <footnote>
+   tag and its footnote-numbering JS in class-preamble.html only do anything
+   inside ioslides' <slide> markup, so outside a slide deck the raw footnote
+   text would otherwise print inline (even inside headings). This breaks it
+   onto its own muted line instead. */
+footnote {
+  display: block;
+  margin-top: 0.2em;
+  font-size: 0.65em;
+  font-weight: normal;
+  color: #666;
+}
+footnote::before {
+  content: "note: ";
+}

@@ -41,7 +41,7 @@
     };
   </script>
 
-  <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
   <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
   <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
   <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
@@ -97,8 +97,9 @@ slide:not(.current) .plotly.html-widget{
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+            html { -webkit-text-size-adjust: 100%; }
             pre > code.sourceCode { white-space: pre; position: relative; }
-            pre > code.sourceCode > span { line-height: 1.25; }
+            pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
             pre > code.sourceCode > span:empty { height: 1.2em; }
             .sourceCode { overflow: visible; }
             code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -252,11 +253,13 @@ $(document).ready(function() {
 
 <pre class = 'prettyprint lang-r'>lm_mpg &lt;- lm(mpg ~ factor(cyll), mtcars)</pre>
 
-<pre >Error in eval(predvars, data, env): object &#39;cyll&#39; not found</pre>
+<pre >Error:
+! object &#39;cyll&#39; not found</pre>
 
 <pre class = 'prettyprint lang-r'>lm_hp &lt;- lm(hp ~ factor(cyl), mrcars)</pre>
 
-<pre >Error in eval(mf, parent.frame()): object &#39;mrcars&#39; not found</pre>
+<pre >Error:
+! object &#39;mrcars&#39; not found</pre>
 
 <pre class = 'prettyprint lang-r'>lm_disp &lt;- lm(mpg ~ factor(cyl), mtcars)</pre>
 
@@ -344,7 +347,8 @@ subtract(x = z)</pre>
 
 <pre class = 'prettyprint lang-r'>subtract()</pre>
 
-<pre >Error in subtract(): argument &quot;x&quot; is missing, with no default</pre>
+<pre >Error in `subtract()`:
+! argument &quot;x&quot; is missing, with no default</pre>
 
 </article></slide><slide class=""><hgroup><h2>Vectorization in R</h2></hgroup><article  id="vectorization-in-r">
 
@@ -369,7 +373,8 @@ x + y</pre>
 <pre class = 'prettyprint lang-r'>x &lt;- numeric(2)
 x[[1]] &lt;- matrix(0, 0, 0)</pre>
 
-<pre >Error in x[[1]] &lt;- matrix(0, 0, 0): replacement has length zero</pre>
+<pre >Error in `x[[1]] &lt;- matrix(0, 0, 0)`:
+! replacement has length zero</pre>
 
 <pre class = 'prettyprint lang-r'>x &lt;- as.list(numeric(3))
 x[[1]] &lt;- matrix(0, 0, 0)
@@ -420,8 +425,6 @@ data frame with 0 columns and 0 rows
 </article></slide><slide class=""><hgroup><h2><code>map</code> with extra argument(s)</h2></hgroup><article  id="map-with-extra-arguments">
 
 <div class="columns-2">
-
-
 <!-- map with extra arg -->
 
 <p><img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/map-arg.png?raw=true" height="250"></p>
@@ -786,7 +789,7 @@ for (t in 2:length(x)) {
   x[t] &lt;- x[t-1] + rnorm(1)
 }</pre>
 
-<p><img src="04-R-functional_files/figure-html/for_loops3-1.png" width="768" /></p></article></slide>
+<p><img src="04-R-functional_files/figure-html/for_loops3-1.png" alt="" width="768" /></p></div></article></slide>
 
 
   <slide class="backdrop"></slide>
