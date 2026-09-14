@@ -10,12 +10,14 @@ output:
     css: classes-styles.css
 editor_options: 
   chunk_output_type: console
+params:
+  is_slides: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-```{r source-html, results="asis", echo = FALSE}
+```{r source-html, results="asis", echo = FALSE, eval = params$is_slides}
 # Sourcing file that includes extra html for our class lectures:
 cat(readLines("class-preamble.html"), sep = "\n")
 ```
@@ -34,7 +36,7 @@ cat(readLines("class-preamble.html"), sep = "\n")
 
 
 
-## What is metadata? 
+## What is metadata?
 
 * It is data about your data
 
@@ -44,8 +46,13 @@ cat(readLines("class-preamble.html"), sep = "\n")
 
 
 
-
-## What is metadata? {.centered}
+```{r toc-fold-1, echo=FALSE, results='asis'}
+# This slide is a same-titled continuation of the previous one (an
+# illustrative image), so in the doc version it isn't given its own
+# (redundant) heading -- the image just continues to flow under
+# "What is metadata?" above.
+if (params$is_slides) cat("## What is metadata? {.centered}\n")
+```
 
 <img src="img/FAIR.jpg" height="300">
 <figcaption class="figure_caption">Image created by SangyaPundir</figcaption>
@@ -91,8 +98,12 @@ cat(readLines("class-preamble.html"), sep = "\n")
 ### **What kinds of data do (will) you have for your project?**
 
 
-
-## Activity: Identify what metadata you need
+```{r toc-fold-2, echo=FALSE, results='asis'}
+# Same reasoning as toc-fold-1: these are same-titled continuation
+# slides (steps of one activity), not distinct topics, so they're
+# folded into the single "Activity" heading above for the doc version.
+if (params$is_slides) cat("## Activity: Identify what metadata you need\n")
+```
 
 * Dryad - https://datadryad.org/stash/requirements; https://datadryad.org/stash/best_practices
 
@@ -101,43 +112,61 @@ cat(readLines("class-preamble.html"), sep = "\n")
 * GenBank - https://www.ncbi.nlm.nih.gov/genbank/submit_types/
 
 
-
-## Activity: Identify what metadata you need
+```{r toc-fold-3, echo=FALSE, results='asis'}
+if (params$is_slides) cat("## Activity: Identify what metadata you need\n")
+```
 
 * What types of metadata do you need?
 
 
 
-## Common spreadsheet errors 
+```{r toc-fold-4, echo=FALSE, results='asis'}
+# The 11 "Common spreadsheet errors" slides below are a build sequence
+# sharing one slide title on purpose (each pairs a content slide with
+# a same-titled illustrative-image slide right after it). Flattened
+# into a doc, 11 identical headings in a row is just noise, so the doc
+# version gets one parent heading (here) plus a distinct, real ### for
+# each sub-topic instead -- the slide deck is unaffected either way.
+cat(if (params$is_slides) "## Common spreadsheet errors\n" else "## Common spreadsheet errors\n\n### Multiple tables\n")
+```
 
 * Using multiple tables
 
 
-
-## Common spreadsheet errors {.centered}
+```{r toc-fold-5, echo=FALSE, results='asis'}
+if (params$is_slides) cat("## Common spreadsheet errors {.centered}\n")
+```
 
 <img src="img/multiple_tables.png" height="400">
 <figcaption class="figure_caption">Image from <https://stackoverflow.com/questions/23289882/how-to-add-multiple-tables-conversion-from-excel-xls-file-to-xml-c-sharp></figcaption>
 
 
-
-## Common spreadsheet errors 
+```{r toc-fold-6, echo=FALSE, results='asis'}
+cat(if (params$is_slides) "## Common spreadsheet errors\n" else "### Multiple tabs\n")
+```
 
 * Using multiple tabs
     * Sometimes these can be missed
     * Difficult to use in code
-    
 
 
-## Common spreadsheet errors {.centered} 
+```{r toc-fold-7, echo=FALSE, results='asis'}
+if (params$is_slides) cat("## Common spreadsheet errors {.centered}\n")
+```
 
 <img src="img/multiple_tabs.png" height="400" class="center">
 <figcaption class="figure_caption">Image from <https://blog.datawrapper.de/prepare-and-clean-up-data-for-data-visualization/></figcaption>
 
 
 
-
-## Common spreadsheet errors
+```{r toc-fold-8, echo=FALSE, results='asis'}
+# This one's doc version is fully folded (no replacement heading of its
+# own) -- the ### subheadings just below it already give the doc two
+# perfectly good, distinct entries ("Not filling in zeros" /
+# "Using problematic null values") nested under "Common spreadsheet
+# errors" from toc-fold-4 above.
+if (params$is_slides) cat("## Common spreadsheet errors\n")
+```
 
 ### Not filling in zeros
     * Difference between a zero and a blank cell
@@ -145,43 +174,49 @@ cat(readLines("class-preamble.html"), sep = "\n")
 ### Using problematic null values
 
 
-
-## Common spreadsheet errors {.centered}
+```{r toc-fold-9, echo=FALSE, results='asis'}
+if (params$is_slides) cat("## Common spreadsheet errors {.centered}\n")
+```
 
 <img src="img/null_values_table.jpeg" height="400" class="center">
 <figcaption class="figure_caption">Image from White et al. 2013, *PeerJ Preprints*</figcaption>
 
 
+```{r toc-fold-10, echo=FALSE, results='asis'}
+if (params$is_slides) cat("## Common spreadsheet errors\n")
+```
 
-## Common spreadsheet errors
-
-### Using formatting to convey information organizing data
+### Using formatting to convey information: highlighting
 
 * Highlighting cells
 
 
-
-## Common spreadsheet errors {.centered}
+```{r toc-fold-11, echo=FALSE, results='asis'}
+if (params$is_slides) cat("## Common spreadsheet errors {.centered}\n")
+```
 
 <img src="img/highlighted_cells.png" height="400" class="center">
 <figcaption class="figure_caption">Image from <https://carpentries-incubator.github.io/fair-bio-practice/07-data-in-excel/index.html></figcaption>
 
 
+```{r toc-fold-12, echo=FALSE, results='asis'}
+if (params$is_slides) cat("## Common spreadsheet errors\n")
+```
 
-## Common spreadsheet errors
-
-### Using formatting to convey information organizing data
+### Using formatting to convey information: merging cells
 * Merging cells
 
 
-
-## Common spreadsheet errors {.centered}
+```{r toc-fold-13, echo=FALSE, results='asis'}
+if (params$is_slides) cat("## Common spreadsheet errors {.centered}\n")
+```
 
 <img src="img/merging_cells.jpeg" height="400" class="center">
 
 
-
-## Common spreadsheet errors
+```{r toc-fold-14, echo=FALSE, results='asis'}
+cat(if (params$is_slides) "## Common spreadsheet errors\n" else "### Other common errors\n")
+```
 
 * Placing comments or units in cells
     * E.g. 0.123g

@@ -48,8 +48,13 @@ h2 {
 <div class="row">
 
 <div class="column">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Parambassis_ranga_2.jpg/640px-Parambassis_ranga_2.jpg" class="responsive" >
+<img src="img/parambassis_ranga.jpg" class="responsive" alt="Parambassis ranga">
 <!-- style="float:left; margin-right:20px;" -->
+<figcaption class="figure_caption">
+Photo by <a href="http://opencage.net/pics/large_19278.asp">opencage</a>,
+<a href="https://creativecommons.org/licenses/by-sa/2.5/">CC BY-SA 2.5</a>,
+via <a href="https://commons.wikimedia.org/wiki/File:Parambassis_ranga_2.jpg">Wikimedia Commons</a>
+</figcaption>
 </div>
 
 <div class="column">
@@ -61,12 +66,13 @@ We thought *P. ranga* would be a great mascot because the course we're teaching
 is aimed at helping students improve their scientific reproducibility 
 and transparency.
 
-For course details, check out the [`Syllabus`](syllabus.html), and 
+For course details, check out the [`Syllabus`](syllabus.html), and
 as our presentations are generated for class, we'll have them under the
-`Lessons` tab above.
+`Lesson Slides` tab above (or `Lesson Notes` for a version you can read
+straight through without clicking through slides).
 These presentations are for reference after each class and won't necessarily
 be finalized until the associated class starts.
-Note also that class presentations don't always behave when viewed on 
+Note also that class presentations don't always behave when viewed on
 mobile devices.
 
 </div>

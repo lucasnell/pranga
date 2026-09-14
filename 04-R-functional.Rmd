@@ -10,6 +10,8 @@ output:
     css: classes-styles.css
 editor_options: 
   chunk_output_type: console
+params:
+  is_slides: true
 ---
 
 ```{r setup, include=FALSE}
@@ -25,7 +27,7 @@ theme_set(theme_minimal() +
           axis.text = element_text(size = 12),
           axis.ticks = element_line(color = "black")))
 ```
-```{r source-html, results="asis", echo = FALSE}
+```{r source-html, results="asis", echo = FALSE, eval = params$is_slides}
 # Sourcing file that includes extra html for our class lectures:
 cat(readLines("class-preamble.html"), sep = "\n")
 ```
@@ -266,7 +268,7 @@ x
 <!-- pmap with extra arg -->
 <img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/pmap-arg.png?raw=true" height="200">
 
-</cioidiv>
+</div>
 
 
 ## Types of `map` functions {.smallcode .smaller .build}
@@ -562,7 +564,7 @@ clean_df(file_names)
 -->
 
 
-# `map` alternatives
+<!-- # `map` alternatives -->
 
 
 

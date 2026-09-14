@@ -10,6 +10,8 @@ output:
     css: classes-styles.css
 editor_options: 
   chunk_output_type: console
+params:
+  is_slides: true
 ---
 
 ```{r setup, include=FALSE}
@@ -25,7 +27,7 @@ theme_set(theme_minimal() +
           axis.text = element_text(size = 12),
           axis.ticks = element_line(color = "black")))
 ```
-```{r source-html, results="asis", echo = FALSE}
+```{r source-html, results="asis", echo = FALSE, eval = params$is_slides}
 # Sourcing file that includes extra html for our class lectures:
 cat(readLines("class-preamble.html"), sep = "\n")
 ```
@@ -132,7 +134,7 @@ clean_df(file_names)
 
 
 
-# Before we proceed...
+<!-- # Before we proceed... -->
 
 ## Let's create a global `.gitignore` file!<footnote>https://stackoverflow.com/a/7335487</footnote> {.smaller .smallcode}
 
@@ -181,7 +183,7 @@ Then save!
 
 
 
-# Now back to functional coding
+<!-- # Now back to functional coding -->
 
 
 ## Defensive programming {.build}

@@ -41,7 +41,7 @@
     };
   </script>
 
-  <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
   <link href="site_libs/ioslides-13.5.1/fonts/fonts.css" rel="stylesheet" />
   <link href="site_libs/ioslides-13.5.1/theme/css/default.css" rel="stylesheet" />
   <link href="site_libs/ioslides-13.5.1/theme/css/phone.css" rel="stylesheet" />
@@ -97,8 +97,9 @@ slide:not(.current) .plotly.html-widget{
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+            html { -webkit-text-size-adjust: 100%; }
             pre > code.sourceCode { white-space: pre; position: relative; }
-            pre > code.sourceCode > span { line-height: 1.25; }
+            pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
             pre > code.sourceCode > span:empty { height: 1.2em; }
             .sourceCode { overflow: visible; }
             code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -283,7 +284,7 @@ clean_df(file_names)</pre>
 11    30     322  11.5    68     5    19
 12    11      44   9.7    62     5    20</pre>
 
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Before we proceed…</h2></hgroup><article  id="before-we-proceed">
+<!-- # Before we proceed... -->
 
 </article></slide><slide class=""><hgroup><h2>Let’s create a global <code>.gitignore</code> file!<footnote><a href='https://stackoverflow.com/a/7335487' title=''>https://stackoverflow.com/a/7335487</a></footnote></h2></hgroup><article  id="lets-create-a-global-.gitignore-filehttpsstackoverflow.coma7335487" class="smaller smallcode">
 
@@ -320,7 +321,7 @@ open ~/.gitignore</pre>
 
 <p>Then save!</p>
 
-</article></slide><slide class="segue dark nobackground level1"><hgroup class = 'auto-fadein'><h2>Now back to functional coding</h2></hgroup><article  id="now-back-to-functional-coding">
+<!-- # Now back to functional coding -->
 
 </article></slide><slide class=""><hgroup><h2>Defensive programming</h2></hgroup><article  id="defensive-programming" class="build">
 
@@ -341,7 +342,8 @@ open ~/.gitignore</pre>
 }
 subtract(&quot;x&quot;, 6)</pre>
 
-<pre >Error in x - y: non-numeric argument to binary operator</pre>
+<pre >Error in `x - y`:
+! non-numeric argument to binary operator</pre>
 
 <p><br> <strong>Not very useful for debugging</strong></p>
 
@@ -358,7 +360,8 @@ subtract(&quot;x&quot;, 6)</pre>
 }
 subtract(&quot;x&quot;, 6)</pre>
 
-<pre >Error in subtract(&quot;x&quot;, 6): both x and y must be numeric</pre>
+<pre >Error in `subtract()`:
+! both x and y must be numeric</pre>
 
 </article></slide><slide class=""><hgroup><h2>An example of insidious R helpfulness</h2></hgroup><article  id="an-example-of-insidious-r-helpfulness" class="build">
 
@@ -386,7 +389,8 @@ subtract(&quot;x&quot;, 6)</pre>
 }
 subtract(1:6, 6:5)</pre>
 
-<pre >Error in subtract(1:6, 6:5): x and y must have the same length</pre>
+<pre >Error in `subtract()`:
+! x and y must have the same length</pre>
 
 </article></slide><slide class=""><hgroup><h2>Sourcing files</h2></hgroup><article  id="sourcing-files" class="smaller smallcode">
 

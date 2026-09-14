@@ -10,7 +10,7 @@ navbar:
     - text: "Syllabus"
       icon: fa-book-open
       href: syllabus.html
-    - text: "Lessons"
+    - text: "Lesson Slides"
       icon: fa-person-chalkboard
       menu:
         - text: "Week 1"
@@ -34,3 +34,25 @@ navbar:
           href: 07-reports-depends.html
         - text: "Class 8"
         - text: "Class 9"
+    - text: "Lesson Notes"
+      icon: fa-file-lines
+      menu:
+        - text: "Week 1"
+        - text: "Class 1"
+          href: 01-github-doc.html
+        - text: "Class 2"
+          href: 02-file_management_and_workflow-doc.html
+        - text: "Class 3"
+          href: 03-metadata-doc.html
+        - text: "---------"
+        - text: "Week 2"
+        - text: "Class 4"
+          href: 04-R-functional-doc.html
+        - text: "Class 5"
+          href: 05-super-functional-doc.html
+        - text: "Class 6"
+          href: 06-data-visualization-doc.html
+        - text: "---------"
+        - text: "Week 3"
+        - text: "Class 7"
+          href: 07-reports-depends-doc.html
