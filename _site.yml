@@ -10,7 +10,7 @@ navbar:
     - text: "Syllabus"
       icon: fa-book-open
       href: syllabus.html
-    - text: "Lessons"
+    - text: "Lesson Slides"
       icon: fa-person-chalkboard
       menu:
         - text: "Week 1"

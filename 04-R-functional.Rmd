@@ -268,7 +268,7 @@ x
 <!-- pmap with extra arg -->
 <img src="https://github.com/hadley/adv-r/blob/14bdb11a93a0995b6de4c0c07f99f630ba279f57/diagrams/functionals/pmap-arg.png?raw=true" height="200">
 
-</cioidiv>
+</div>
 
 
 ## Types of `map` functions {.smallcode .smaller .build}
@@ -564,7 +564,7 @@ clean_df(file_names)
 -->
 
 
-# `map` alternatives
+<!-- # `map` alternatives -->
 
 
 

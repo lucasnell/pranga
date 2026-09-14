@@ -134,7 +134,7 @@ clean_df(file_names)
 
 
 
-# Before we proceed...
+<!-- # Before we proceed... -->
 
 ## Let's create a global `.gitignore` file!<footnote>https://stackoverflow.com/a/7335487</footnote> {.smaller .smallcode}
 
@@ -183,7 +183,7 @@ Then save!
 
 
 
-# Now back to functional coding
+<!-- # Now back to functional coding -->
 
 
 ## Defensive programming {.build}

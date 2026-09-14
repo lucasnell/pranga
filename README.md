@@ -18,6 +18,9 @@ rmarkdown::render_site()   # slide decks + index/syllabus/lessons, per _site.yml
 Rscript render-notes.R     # the *-doc.html "lesson notes" versions
 ```
 
-Run both, in that order, any time `_site.yml`'s navbar changes (the second
-script doesn't touch the navbar itself, but its pages need the same
-`docs/site_libs` assets `render_site()` just refreshed).
+Always run both, in that order, even for a change that seems unrelated to
+the lesson-notes pages (e.g. editing `index.Rmd`). `rmarkdown::render_site()`
+deletes any file already in `docs/` that it doesn't recognize as one of its
+own outputs -- which includes every `*-doc.html` page -- so it silently
+wipes all seven lesson-notes pages on every run, not just when the navbar
+changes. `Rscript render-notes.R` regenerates them again afterward.

@@ -33,7 +33,7 @@ cat(readLines("class-preamble.html"), sep = "\n")
 ```
 
 
-# Documenting dependencies
+<!-- # Documenting dependencies -->
 
 
 ## Documenting dependencies
@@ -168,7 +168,7 @@ RUN mamba env create -q -f env-main.yml && \
 
 
 
-# Creating reports
+<!-- # Creating reports -->
 
 ## Reports - What and why?
 
